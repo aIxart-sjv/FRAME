@@ -11,6 +11,8 @@ function baseSession(overrides: Partial<FrameSession>): FrameSession {
     selectFile: vi.fn(),
     inputScale: 'raw_digital_number',
     setInputScale: vi.fn(),
+    model: 'lite',
+    setModel: vi.fn(),
     uploadStatus: 'idle',
     uploadResult: null,
     uploadError: null,

@@ -18,6 +18,7 @@ export const jobResultFixture: SRResultResponse = {
   status: 'completed',
   upload_id: 'upload-abc123',
   model_name: 'SEN2SRLite/NonReference_RGBN_x4',
+  model_id: 'lite',
   input_shape: [4, 128, 128],
   output_shape: [4, 512, 512],
   resolution: {
@@ -29,7 +30,7 @@ export const jobResultFixture: SRResultResponse = {
   bands: ['B04', 'B03', 'B02', 'B08'],
   crs: 'EPSG:32630',
   uncertainty: {
-    label: 'relative model-stability uncertainty',
+    label: 'TTA stability — reconstruction-variation diagnostic',
     scalar_summary: 2.1e-5,
     scalar_summary_definition: 'Mean per-pixel standard deviation across the TTA ensemble, averaged over bands. A relative model-stability proxy, not a calibrated confidence value.',
     overall_distribution: { mean: 1.9e-5, median: 1.5e-11, std: 1.1e-4, p90: 4.2e-8, p95: 7.6e-5, min: 4.2e-12, max: 4.8e-3, n_pixels: 262144 },
@@ -37,7 +38,7 @@ export const jobResultFixture: SRResultResponse = {
     seed: 42,
     transform_names: ['identity', 'hflip', 'vflip', 'rot90', 'rot180', 'rot270'],
     disclaimer:
-      'This is a relative, architecture-conditioned model-stability proxy from test-time perturbation ensembling. It is NOT a calibrated probability of error, NOT a confidence interval, and NOT a physically rigorous uncertainty bound. It is also NOT the upstream LAM explainability tool (sen2sr/xai/lam.py) -- LAM answers a different question (which input pixels influence the output) via a different mechanism (gradients on blurred input copies) and is not exposed by this API.',
+      "This is a relative, architecture-conditioned model-stability diagnostic: how much the reconstruction varies under test-time perturbation ensembling (TTA). It is NOT a calibrated probability of error, NOT a confidence interval, and NOT a physically rigorous uncertainty bound. In FRAME's own validation on registration-checked reference data (docs/RELIABILITY.md) it was only weakly associated with reconstruction error, about as much as image texture alone, and was not shown to identify high-error regions reliably; treat it as something to inspect, not as a reliability score. It is also NOT the upstream LAM explainability tool (sen2sr/xai/lam.py) -- LAM answers a different question (which input pixels influence the output) via a different mechanism (gradients on blurred input copies) and is not exposed by this API.",
   },
   self_consistency: {
     downsample_rmse: 1.5e-5,
@@ -59,7 +60,7 @@ export const jobResultFixture: SRResultResponse = {
   },
   scientific_caveats: [
     "Sentinel-2's finest native band resolution is 10 m -- it has never observed the ground at 2.5 m. The SR-derived product is a learned statistical inference resampled onto a 2.5 m pixel grid, not a directly observed 2.5 m measurement.",
-    'This is a relative, architecture-conditioned model-stability proxy from test-time perturbation ensembling. It is NOT a calibrated probability of error, NOT a confidence interval, and NOT a physically rigorous uncertainty bound.',
+    "This is a relative, architecture-conditioned model-stability diagnostic: how much the reconstruction varies under test-time perturbation ensembling (TTA). It is NOT a calibrated probability of error, NOT a confidence interval, and NOT a physically rigorous uncertainty bound. In FRAME's own validation on registration-checked reference data (docs/RELIABILITY.md) it was only weakly associated with reconstruction error, about as much as image texture alone, and was not shown to identify high-error regions reliably; treat it as something to inspect, not as a reliability score. It is also NOT the upstream LAM explainability tool (sen2sr/xai/lam.py) -- LAM answers a different question (which input pixels influence the output) via a different mechanism (gradients on blurred input copies) and is not exposed by this API.",
     "Self-consistency diagnostics measure agreement with the model's own LR input, not ground-truth accuracy.",
   ],
   artifacts: {

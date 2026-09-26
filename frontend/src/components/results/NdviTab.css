@@ -39,7 +39,7 @@
 
 .ndvi-tab__canvas {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: auto; /* keep the canvas's own width:height (the scene may be rectangular) */
   display: block;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -63,4 +63,12 @@
   .ndvi-tab__grid {
     grid-template-columns: 1fr;
   }
+}
+
+.ndvi-tab__caveats-intro {
+  margin: 0;
+  max-width: 78ch;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary, var(--text-tertiary));
 }

@@ -1,0 +1,208 @@
+{
+  "baselines": {
+    "bicubic": {
+      "loss": {
+        "reconstruction": 0.009401751682162285,
+        "total": 0.009401751682162285
+      },
+      "metrics": {
+        "ergas": 4.749961361710258,
+        "psnr_db": 33.10630559178404,
+        "rmse": 0.022114886786405896,
+        "sam_degrees": 2.537930727005005,
+        "ssim": 0.9127935171127319
+      },
+      "n_patches": 1,
+      "skipped_patches": 0
+    }
+  },
+  "checkpoint": {
+    "directory": "checkpoint",
+    "final": "step_002000.pt"
+  },
+  "config_digest": "da9fe2683846ca1cce4bf49e16de45983b7ce5abc5bd09db65bdae35a8fad149",
+  "dataset": {
+    "datasets": [
+      "synthetic_smoke"
+    ],
+    "hr_bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "ignored_records": {},
+    "lr_bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "lr_patch": 32,
+    "manifest": "../manifests/synthetic_2x1_seed1.jsonl",
+    "manifest_digest": "c27cc7aa04d1f58a42490bab0d42186db61bb213e707d4435c09360319b945a5",
+    "n_manifest_records": 2,
+    "n_train_pairs": 1,
+    "n_train_patches_per_epoch": 16,
+    "n_val_pairs": 1,
+    "n_val_patches": 1,
+    "pair_types": [
+      "synthetic"
+    ],
+    "qc": {
+      "ok": true,
+      "warnings": {}
+    },
+    "scale_factor": 4,
+    "train_regions": [
+      "R01"
+    ],
+    "train_scenes": [
+      "R01_S00"
+    ],
+    "train_split": "train",
+    "val_lr_patch": 128,
+    "val_regions": [
+      "R00"
+    ],
+    "val_scenes": [
+      "R00_S00"
+    ],
+    "val_split": "val"
+  },
+  "environment": {
+    "cpu_count": 20,
+    "cuda_available": true,
+    "cudnn": "92400",
+    "gpu": {
+      "compute_capability": "8.6",
+      "driver_cuda": "13.0",
+      "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+      "total_memory_mib": 3759
+    },
+    "machine": "x86_64",
+    "numpy": "2.4.6",
+    "packages": {
+      "mlstac": "0.4.9",
+      "opensr-test": "1.3.3",
+      "rasterio": "1.4.4",
+      "safetensors": "0.8.0",
+      "scikit-image": "0.26.0",
+      "triton": "3.8.0"
+    },
+    "platform": "Linux-7.1.5-arch1-2-x86_64-with-glibc2.44",
+    "python": "3.11.9",
+    "ram_gib": 15.2,
+    "requested_device": "auto",
+    "torch": "2.14.0+cu130"
+  },
+  "finished_utc": "2026-09-24T17:16:29+00:00",
+  "git": {
+    "dirty": true,
+    "revision": "eb3769559525ea81e902422253f8950c36b075a5"
+  },
+  "initial_validation": {
+    "loss": {
+      "reconstruction": 0.009401751682162285,
+      "total": 0.009401751682162285
+    },
+    "metrics": {
+      "ergas": 4.749961361710258,
+      "psnr_db": 33.10630559178404,
+      "rmse": 0.022114886786405896,
+      "sam_degrees": 2.537930727005005,
+      "ssim": 0.9127935171127319
+    },
+    "n_patches": 1,
+    "skipped_patches": 0,
+    "step": 0,
+    "type": "val"
+  },
+  "manifest_digest": "c27cc7aa04d1f58a42490bab0d42186db61bb213e707d4435c09360319b945a5",
+  "model": {
+    "name": "tiny_cnn",
+    "parameters": {
+      "megabytes": 0.1809,
+      "total": 47424,
+      "trainable": 47424
+    },
+    "params": {
+      "depth": 4,
+      "width": 32
+    },
+    "pretrained": false
+  },
+  "name": "overfit_one_scene",
+  "resume_signature": "27fed563d9d1c281452d010b23bb074cd56a7774790c4c2129d3cbe4d6f222b7",
+  "seed": 0,
+  "status": "completed",
+  "train_evaluation": {
+    "baselines": {
+      "bicubic": {
+        "loss": {
+          "reconstruction": 0.008796126581728458,
+          "total": 0.008796126581728458
+        },
+        "metrics": {
+          "ergas": 4.77944237924141,
+          "psnr_db": 33.73834212066321,
+          "rmse": 0.020562830421219182,
+          "sam_degrees": 2.124584436416626,
+          "ssim": 0.917958676815033
+        },
+        "n_patches": 1,
+        "skipped_patches": 0
+      }
+    },
+    "model": {
+      "loss": {
+        "reconstruction": 0.005541454069316387,
+        "total": 0.005541454069316387
+      },
+      "metrics": {
+        "ergas": 2.7304597597576055,
+        "psnr_db": 37.747835727610315,
+        "rmse": 0.012960095853795314,
+        "sam_degrees": 1.3688607215881348,
+        "ssim": 0.9599015116691589
+      },
+      "n_patches": 1,
+      "skipped_patches": 0
+    }
+  },
+  "training": {
+    "device": "cuda",
+    "effective_batch_size": 1,
+    "epochs_completed": 125.0,
+    "final_train_loss": 0.004993520677089691,
+    "mean_step_seconds": 0.0031,
+    "micro_steps": 2000,
+    "notes": [],
+    "peak_vram_mib": 18.24853515625,
+    "precision": {
+      "effective": "off",
+      "note": null,
+      "requested": "off"
+    },
+    "resumed_from_step": null,
+    "steps": 2000,
+    "train_seconds": 6.1907
+  },
+  "validation": {
+    "loss": {
+      "reconstruction": 0.00603601336479187,
+      "total": 0.00603601336479187
+    },
+    "metrics": {
+      "ergas": 2.840916786512563,
+      "psnr_db": 36.72353833698392,
+      "rmse": 0.014582201098266065,
+      "sam_degrees": 1.7991981506347656,
+      "ssim": 0.956518292427063
+    },
+    "n_patches": 1,
+    "skipped_patches": 0,
+    "step": 2000,
+    "type": "val"
+  }
+}

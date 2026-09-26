@@ -1,0 +1,248 @@
+{
+  "baselines": {
+    "bicubic": {
+      "loss": {
+        "reconstruction": 0.00945792580023408,
+        "total": 0.00945792580023408
+      },
+      "metrics": {
+        "ergas": 4.001328379939083,
+        "psnr_db": 33.26729199148512,
+        "rmse": 0.02173050807864106,
+        "sam_degrees": 2.4672489166259766,
+        "ssim": 0.9126394391059875
+      },
+      "n_patches": 2,
+      "skipped_patches": 0
+    },
+    "lite": {
+      "loss": {
+        "reconstruction": 0.008222218602895737,
+        "total": 0.008222218602895737
+      },
+      "metrics": {
+        "ergas": 3.1659584938188283,
+        "psnr_db": 34.845545370432596,
+        "rmse": 0.018118830055222,
+        "sam_degrees": 2.160699248313904,
+        "ssim": 0.9326736927032471
+      },
+      "n_patches": 2,
+      "skipped_patches": 0
+    }
+  },
+  "checkpoint": {
+    "directory": "checkpoint",
+    "final": "step_000600.pt"
+  },
+  "config_digest": "47f1f03b83bd14138f50fb6bd93e5d8b515fe296c6d3a846616dd9cf79944db4",
+  "dataset": {
+    "datasets": [
+      "synthetic_smoke"
+    ],
+    "hr_bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "ignored_records": {
+      "test": 2
+    },
+    "lr_bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "lr_patch": 32,
+    "manifest": "../manifests/synthetic_5x2_seed0.jsonl",
+    "manifest_digest": "01bb0e2d18892c71bdf5228c9cb544b7e406eb49ee1bf9917519b1a2622949e1",
+    "n_manifest_records": 10,
+    "n_train_pairs": 6,
+    "n_train_patches_per_epoch": 48,
+    "n_val_pairs": 2,
+    "n_val_patches": 2,
+    "pair_types": [
+      "synthetic"
+    ],
+    "qc": {
+      "ok": true,
+      "warnings": {}
+    },
+    "scale_factor": 4,
+    "train_regions": [
+      "R01",
+      "R02",
+      "R04"
+    ],
+    "train_scenes": [
+      "R01_S00",
+      "R01_S01",
+      "R02_S00",
+      "R02_S01",
+      "R04_S00",
+      "R04_S01"
+    ],
+    "train_split": "train",
+    "val_lr_patch": 128,
+    "val_regions": [
+      "R03"
+    ],
+    "val_scenes": [
+      "R03_S00",
+      "R03_S01"
+    ],
+    "val_split": "val"
+  },
+  "environment": {
+    "cpu_count": 20,
+    "cuda_available": true,
+    "cudnn": "92400",
+    "gpu": {
+      "compute_capability": "8.6",
+      "driver_cuda": "13.0",
+      "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+      "total_memory_mib": 3759
+    },
+    "machine": "x86_64",
+    "numpy": "2.4.6",
+    "packages": {
+      "mlstac": "0.4.9",
+      "opensr-test": "1.3.3",
+      "rasterio": "1.4.4",
+      "safetensors": "0.8.0",
+      "scikit-image": "0.26.0",
+      "triton": "3.8.0"
+    },
+    "platform": "Linux-7.1.5-arch1-2-x86_64-with-glibc2.44",
+    "python": "3.11.9",
+    "ram_gib": 15.2,
+    "requested_device": "auto",
+    "torch": "2.14.0+cu130"
+  },
+  "finished_utc": "2026-09-24T17:15:52+00:00",
+  "git": {
+    "dirty": true,
+    "revision": "eb3769559525ea81e902422253f8950c36b075a5"
+  },
+  "initial_validation": {
+    "loss": {
+      "reconstruction": 0.00945792580023408,
+      "total": 0.00945792580023408
+    },
+    "metrics": {
+      "ergas": 4.001328379939083,
+      "psnr_db": 33.26729199148512,
+      "rmse": 0.02173050807864106,
+      "sam_degrees": 2.4672489166259766,
+      "ssim": 0.9126394391059875
+    },
+    "n_patches": 2,
+    "skipped_patches": 0,
+    "step": 0,
+    "type": "val"
+  },
+  "manifest_digest": "01bb0e2d18892c71bdf5228c9cb544b7e406eb49ee1bf9917519b1a2622949e1",
+  "model": {
+    "name": "tiny_cnn",
+    "parameters": {
+      "megabytes": 0.1809,
+      "total": 47424,
+      "trainable": 47424
+    },
+    "params": {
+      "depth": 4,
+      "width": 32
+    },
+    "pretrained": false
+  },
+  "name": "smoke_tiny_cnn",
+  "resume_signature": "03daf81d89b302c70fc01085ac4a2f8eff519a2b525598b97b56b467641d58bf",
+  "seed": 0,
+  "status": "completed",
+  "train_evaluation": {
+    "baselines": {
+      "bicubic": {
+        "loss": {
+          "reconstruction": 0.009299758666505417,
+          "total": 0.009299758666505417
+        },
+        "metrics": {
+          "ergas": 4.110670853793759,
+          "psnr_db": 33.28460552728861,
+          "rmse": 0.021687653185251735,
+          "sam_degrees": 2.3929354747136435,
+          "ssim": 0.9149585664272308
+        },
+        "n_patches": 6,
+        "skipped_patches": 0
+      },
+      "lite": {
+        "loss": {
+          "reconstruction": 0.008115450929229459,
+          "total": 0.008115450929229459
+        },
+        "metrics": {
+          "ergas": 3.296680800664568,
+          "psnr_db": 34.81362929061883,
+          "rmse": 0.01819038732303448,
+          "sam_degrees": 2.137738565603892,
+          "ssim": 0.9340665340423584
+        },
+        "n_patches": 6,
+        "skipped_patches": 0
+      }
+    },
+    "model": {
+      "loss": {
+        "reconstruction": 0.006342988150815169,
+        "total": 0.006342988150815169
+      },
+      "metrics": {
+        "ergas": 2.5704037427779967,
+        "psnr_db": 36.49686129331909,
+        "rmse": 0.014996602126586439,
+        "sam_degrees": 1.730073908964793,
+        "ssim": 0.9523625473181406
+      },
+      "n_patches": 6,
+      "skipped_patches": 0
+    }
+  },
+  "training": {
+    "device": "cuda",
+    "effective_batch_size": 8,
+    "epochs_completed": 100.0,
+    "final_train_loss": 0.007686006370931864,
+    "mean_step_seconds": 0.00834,
+    "micro_steps": 1200,
+    "notes": [],
+    "peak_vram_mib": 24.2109375,
+    "precision": {
+      "effective": "off",
+      "note": null,
+      "requested": "off"
+    },
+    "resumed_from_step": null,
+    "steps": 600,
+    "train_seconds": 5.0045
+  },
+  "validation": {
+    "loss": {
+      "reconstruction": 0.006415341282263398,
+      "total": 0.006415341282263398
+    },
+    "metrics": {
+      "ergas": 2.4865924074147876,
+      "psnr_db": 36.5548821111766,
+      "rmse": 0.01487408659240223,
+      "sam_degrees": 1.7288143634796143,
+      "ssim": 0.9516140222549438
+    },
+    "n_patches": 2,
+    "skipped_patches": 0,
+    "step": 600,
+    "type": "val"
+  }
+}

@@ -80,7 +80,10 @@ def test_real_pipeline_end_to_end_against_baseline_0_scene(tmp_path, monkeypatch
     monkeypatch.setattr(config, "WORKSPACE_DIR", tmp_path / "workspace")
     model_service.clear_cache()
 
-    raw_dn = torch.load(BASELINE_INPUT_TENSOR, weights_only=True).numpy()  # (4, 128, 128), raw digital numbers
+    # The saved Baseline 0 tensor is ALREADY reflectance (0-1; experiments/end_to_end/README.md). This test used to declare it
+    # "raw_digital_number", which divided it by 10000 into a near-black scene that the pipeline processed without complaint and
+    # the shape-only assertions below could not notice. Phase 8's content validation refuses that declaration; it is declared correctly here.
+    raw_dn = torch.load(BASELINE_INPUT_TENSOR, weights_only=True).numpy()  # (4, 128, 128), reflectance fractions
     metadata = RasterMetadata(
         crs=CRS,
         transform=TRANSFORM,
@@ -104,7 +107,7 @@ def test_real_pipeline_end_to_end_against_baseline_0_scene(tmp_path, monkeypatch
         upload_response = client.post(
             "/upload",
             files={"file": ("baseline_0_scene.tif", f, "image/tiff")},
-            data={"input_scale": "raw_digital_number"},
+            data={"input_scale": "reflectance"},
         )
     assert upload_response.status_code == 200, upload_response.text
     upload_body = upload_response.json()
@@ -119,13 +122,20 @@ def test_real_pipeline_end_to_end_against_baseline_0_scene(tmp_path, monkeypatch
     assert result["input_shape"] == [4, 128, 128]
     assert result["output_shape"] == [4, 512, 512]
     assert result["resolution"]["description"] == "SR-derived product — 2.5 m pixel grid"
-    assert result["uncertainty"]["label"] == "relative model-stability uncertainty"
+    assert result["uncertainty"]["label"] == "TTA stability — reconstruction-variation diagnostic"
     assert result["uncertainty"]["seed"] == 42
     assert result["uncertainty"]["n"] >= 1
     assert result["crs"] == CRS
     assert len(result["scientific_caveats"]) >= 1
 
     job_id = result["job_id"]
+
+    # The output must be on the input's reflectance scale (a wrong /10000 would leave it ~1e-5): the mean of the SR raster stays within a factor of two of the input's.
+    from frame.geospatial import read_geotiff
+
+    sr_array, _ = read_geotiff(result["artifacts"]["sr_geotiff"], require_crs=True)
+    assert 0.5 * float(raw_dn.mean()) < float(sr_array.mean()) < 2.0 * float(raw_dn.mean())
+    assert result["metadata"]["preprocessing_mask_coverage"] == 1.0
 
     sr_download = client.get(f"/sr/download/{job_id}")
     assert sr_download.status_code == 200

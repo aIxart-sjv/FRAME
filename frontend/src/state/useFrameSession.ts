@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import * as api from '../api/client'
 import { ApiError } from '../api/types'
-import type { NDVIAnalysisResponse, SRResultResponse, UploadResponse } from '../api/types'
+import type { ModelId, NDVIAnalysisResponse, SRResultResponse, UploadResponse } from '../api/types'
 
 export type AsyncStatus = 'idle' | 'pending' | 'success' | 'error'
 
@@ -27,6 +27,10 @@ export interface FrameSession {
 
   inputScale: InputScale
   setInputScale: (scale: InputScale) => void
+
+  /** Which SR model the next run uses. Defaults to the Lite baseline. */
+  model: ModelId
+  setModel: (model: ModelId) => void
 
   uploadStatus: AsyncStatus
   uploadResult: UploadResponse | null
@@ -62,6 +66,7 @@ export interface FrameSession {
 export function useFrameSession(): FrameSession {
   const [file, setFile] = useState<File | null>(null)
   const [inputScale, setInputScaleState] = useState<InputScale>('raw_digital_number')
+  const [model, setModel] = useState<ModelId>('lite')
 
   const [uploadStatus, setUploadStatus] = useState<AsyncStatus>('idle')
   const [uploadResult, setUploadResult] = useState<UploadResponse | null>(null)
@@ -144,14 +149,14 @@ export function useFrameSession(): FrameSession {
     setJobStatus('pending')
     setJobError(null)
     try {
-      const job = await api.runSr(uploadResult.upload_id)
+      const job = await api.runSr(uploadResult.upload_id, undefined, model)
       setJobResult(job)
       setJobStatus('success')
     } catch (error) {
       setJobStatus('error')
       setJobError(messageFor(error))
     }
-  }, [uploadResult])
+  }, [uploadResult, model])
 
   const runNdviAnalysis = useCallback(async () => {
     if (!jobResult) return
@@ -179,6 +184,8 @@ export function useFrameSession(): FrameSession {
       selectFile,
       inputScale,
       setInputScale,
+      model,
+      setModel,
       uploadStatus,
       uploadResult,
       uploadError,
@@ -195,6 +202,6 @@ export function useFrameSession(): FrameSession {
       reset,
       hasResult,
     }),
-    [file, selectFile, inputScale, setInputScale, uploadStatus, uploadResult, uploadError, jobStatus, jobResult, jobError, analysisStatus, analysisResult, analysisError, activeTab, runFrame, runNdviAnalysis, reset, hasResult],
+    [file, selectFile, inputScale, setInputScale, model, uploadStatus, uploadResult, uploadError, jobStatus, jobResult, jobError, analysisStatus, analysisResult, analysisError, activeTab, runFrame, runNdviAnalysis, reset, hasResult],
   )
 }

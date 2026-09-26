@@ -5,7 +5,7 @@ import { renderSequentialHeatmap, renderUncertaintyOverlay } from '../../lib/ras
 import { BAND_INDEX } from '../../lib/geotiff'
 import { MetadataGrid } from '../ui/MetadataGrid'
 import { RasterLoadingState } from './RasterLoadingState'
-import { LAM_DISTINCTION, UNCERTAINTY_EXPLAINER, UNCERTAINTY_LABEL } from '../../constants/terminology'
+import { LAM_DISTINCTION, STABILITY_VALIDATION_NOTE, UNCERTAINTY_EXPLAINER, UNCERTAINTY_LABEL } from '../../constants/terminology'
 import type { SRResultResponse } from '../../api/types'
 import './UncertaintyTab.css'
 
@@ -49,19 +49,23 @@ export function UncertaintyTab({ jobResult }: UncertaintyTabProps) {
       <div className="uncertainty-tab__intro">
         <p className="uncertainty-tab__label">{UNCERTAINTY_LABEL}</p>
         <p className="uncertainty-tab__explainer">{UNCERTAINTY_EXPLAINER}</p>
+        <p className="uncertainty-tab__explainer">{STABILITY_VALIDATION_NOTE}</p>
       </div>
 
-      <div className="uncertainty-tab__toggle" role="group" aria-label="Uncertainty view mode">
+      <div className="uncertainty-tab__toggle" role="group" aria-label="Stability view mode">
         <button type="button" className={mode === 'map' ? 'is-active' : ''} onClick={() => setMode('map')}>
-          Uncertainty map
+          Stability map
         </button>
         <button type="button" className={mode === 'overlay' ? 'is-active' : ''} onClick={() => setMode('overlay')}>
           SR image + overlay
         </button>
       </div>
 
-      <RasterLoadingState states={mode === 'overlay' ? [sr, uncertainty] : [uncertainty]} label="the uncertainty raster">
-        <div className="uncertainty-tab__canvas-frame">
+      <RasterLoadingState states={mode === 'overlay' ? [sr, uncertainty] : [uncertainty]} label="the stability raster">
+        <div
+          className="uncertainty-tab__canvas-frame"
+          style={uncertainty.raster ? { aspectRatio: `${uncertainty.raster.width} / ${uncertainty.raster.height}` } : undefined}
+        >
           <canvas ref={canvasRef} className="uncertainty-tab__canvas" />
           {range && (
             <div className="uncertainty-tab__legend">

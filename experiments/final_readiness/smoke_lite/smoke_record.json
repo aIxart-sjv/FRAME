@@ -1,0 +1,243 @@
+{
+  "checks": [
+    {
+      "detail": "status 200, models ['lite', 'mamba']",
+      "name": "health_ok_and_lists_both_models",
+      "passed": true
+    },
+    {
+      "detail": "status 400",
+      "name": "refuses_a_file_that_is_not_a_geotiff",
+      "passed": true
+    },
+    {
+      "detail": "status 400",
+      "name": "refuses_reflectance_declared_as_digital_numbers",
+      "passed": true
+    },
+    {
+      "detail": "status 400",
+      "name": "refuses_a_scene_with_no_valid_pixel",
+      "passed": true
+    },
+    {
+      "detail": "status 200, 200x300 EPSG:32630",
+      "name": "accepts_the_rectangular_scene",
+      "passed": true
+    },
+    {
+      "detail": "status 200: ",
+      "name": "sr_run_succeeds",
+      "passed": true
+    },
+    {
+      "detail": "expected [4, 800, 1200], got [4, 800, 1200]",
+      "name": "output_shape_is_exactly_4x",
+      "passed": true
+    },
+    {
+      "detail": "[4, 800, 1200]",
+      "name": "geotiff_shape_matches",
+      "passed": true
+    },
+    {
+      "detail": "EPSG:32630",
+      "name": "crs_preserved",
+      "passed": true
+    },
+    {
+      "detail": "(2.5, 0.0, 720285.0, 0.0, -2.5, 4375125.0)",
+      "name": "origin_preserved_and_pixel_size_is_2.5_m",
+      "passed": true
+    },
+    {
+      "detail": "(720285.0, 4373125.0, 723285.0, 4375125.0)",
+      "name": "footprint_equals_the_input_footprint",
+      "passed": true
+    },
+    {
+      "detail": "bands ('B04', 'B03', 'B02', 'B08'), tag 'SEN2SRLite/NonReference_RGBN_x4'",
+      "name": "band_names_and_model_tag",
+      "passed": true
+    },
+    {
+      "detail": "[5, 800, 1200]",
+      "name": "stability_raster_on_the_same_grid",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "output_is_finite",
+      "passed": true
+    },
+    {
+      "detail": "0.998000 vs 0.998000",
+      "name": "nodata_block_reported_in_the_coverage",
+      "passed": true
+    },
+    {
+      "detail": "grid [2, 3] x6 tiles per pass, 36 model calls",
+      "name": "tiling_matches_the_plan",
+      "passed": true
+    },
+    {
+      "detail": "COMPUTABLE",
+      "name": "seam_diagnostic_was_computed",
+      "passed": true
+    },
+    {
+      "detail": "TTA stability \u2014 reconstruction-variation diagnostic",
+      "name": "stability_is_labelled_a_diagnostic_and_not_calibrated",
+      "passed": true
+    },
+    {
+      "detail": "bit-identical",
+      "name": "same_seed_same_scene_same_output",
+      "passed": true
+    },
+    {
+      "detail": "status 200, 15371000 bytes",
+      "name": "sr_download_serves_a_geotiff",
+      "passed": true
+    },
+    {
+      "detail": "status 200, 19211080 bytes",
+      "name": "stability_download_serves_a_geotiff",
+      "passed": true
+    },
+    {
+      "detail": "status 200",
+      "name": "ndvi_demonstration_runs_and_says_what_it_is",
+      "passed": true
+    }
+  ],
+  "expected_output_shape": [
+    4,
+    800,
+    1200
+  ],
+  "identical_repeat": true,
+  "n_checks": 22,
+  "n_failed": 0,
+  "note": "A smoke test, not scientific evidence: the scene is synthetic (smooth random fields) and the checks are pipeline invariants (sizes, georeferencing, provenance, refusals). It says nothing about the accuracy of any model.",
+  "produced_output_shape": [
+    4,
+    800,
+    1200
+  ],
+  "provenance": {
+    "code": {
+      "git": {
+        "dirty": true,
+        "revision": "eb3769559525ea81e902422253f8950c36b075a5"
+      }
+    },
+    "environment": {
+      "cpu_count": 20,
+      "cuda_available": true,
+      "cudnn": "92400",
+      "gpu": {
+        "compute_capability": "8.6",
+        "driver_cuda": "13.0",
+        "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+        "total_memory_mib": 3759
+      },
+      "machine": "x86_64",
+      "numpy": "2.4.6",
+      "packages": {
+        "mlstac": "0.4.9",
+        "opensr-test": "1.3.3",
+        "rasterio": "1.4.4",
+        "safetensors": "0.8.0",
+        "scikit-image": "0.26.0",
+        "triton": "3.8.0"
+      },
+      "platform": "Linux-7.1.5-arch1-2-x86_64-with-glibc2.44",
+      "python": "3.11.9",
+      "ram_gib": 15.2,
+      "requested_device": "auto",
+      "torch": "2.14.0+cu130"
+    },
+    "model": {
+      "artifact_files_sha256": {
+        "hard_constraint.safetensor": "fbad981519066387c413ead1d6af7ef3e0d2947c34147ba90163fc79ae539239",
+        "mlm.json": "59caa5c6af96a6fbebdbd771d93c91cc2d3a770302cd2f262b5409e77a40e3f7",
+        "model.safetensor": "479aa796d5068d0b1206118ccbca27bd3223df0214db1a9b31a1e18349ed1c7e"
+      },
+      "canonical_name": "SEN2SRLite/NonReference_RGBN_x4",
+      "device": "cuda",
+      "reported_by_api": "SEN2SRLite/NonReference_RGBN_x4",
+      "requested": "lite",
+      "runtime": null
+    },
+    "output_sha256": "763ea3c3029139322e4d1562da3a4a67e9198c1cbd76c5ff6a81d97089c11c12",
+    "scene_sha256": "2b94971f8beff44cec85503f50ee82366e5cb4ea2dfadc4d9dbc76ffc1cbc8a6",
+    "seed": 42,
+    "settings": {
+      "height": 200,
+      "model": "lite",
+      "overlap": 32,
+      "repeat": true,
+      "scene": "synthetic_smooth_fields_v1",
+      "seed": 42,
+      "width": 300
+    },
+    "settings_digest": "fac038fcf12b4f0e0ccfc1fd3439b4225ba8dcd9717f884a881865b9810feaad",
+    "smoke_version": "frame-smoke/1",
+    "tta": {
+      "n_members": 6,
+      "transforms": [
+        "identity",
+        "hflip",
+        "vflip",
+        "rot90",
+        "rot180",
+        "rot270"
+      ]
+    }
+  },
+  "status": "passed",
+  "tiling": {
+    "blend_mode": "linear",
+    "mean_tile_seconds": 0.0179,
+    "overlap": 32,
+    "padded_tiles": 4,
+    "padding_mode": "reflect",
+    "scale": 4,
+    "scene_passes": 6,
+    "scene_shape": [
+      200,
+      300
+    ],
+    "seam_diagnostic": {
+      "max_abs_difference": 0.043979644775390625,
+      "mean_abs_difference": 0.00023826728553007087,
+      "note": "Disagreement between adjacent tiles' predictions on their shared pixels, measured before blending. A tiling/seam consistency diagnostic, not an accuracy measure against any reference.",
+      "overlap_pixel_count": 2543616,
+      "pair_count": 42,
+      "rmse": 0.0008307637549964395,
+      "status": "COMPUTABLE"
+    },
+    "seam_diagnostic_definition": "Disagreement between adjacent tiles' predictions on their shared pixels, measured before blending. A tiling/seam consistency diagnostic, not an accuracy measure against any reference.",
+    "sr_shape": [
+      800,
+      1200
+    ],
+    "stride": 96,
+    "tile_count": 6,
+    "tile_grid": [
+      2,
+      3
+    ],
+    "tile_inferences": 36,
+    "tile_seconds_total": 0.643,
+    "tile_size": 128
+  },
+  "timings_seconds": {
+    "health_s": 0.0319,
+    "inference_reported_by_api": 0.9829,
+    "ndvi_s": 0.0335,
+    "sr_run_s": 2.4312,
+    "upload_s": 0.0153
+  }
+}

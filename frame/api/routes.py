@@ -24,6 +24,8 @@ from frame.api.errors import APIError, UnsupportedFileError
 from frame.api.services import model as model_service
 from frame.api.services import pipeline
 from frame.api.services.storage import JobStore
+from frame.models.selection import get_spec
+from frame.tiling import TilingConfig
 
 router = APIRouter()
 
@@ -42,10 +44,20 @@ def get_device() -> str:
     return model_service.resolve_device(config.DEVICE)
 
 
-def get_model_callable(device: str = Depends(get_device)) -> Callable:
-    """The cached, compiled SEN2SRLite model -- overridden with a small fake
-    callable in every non-integration test (see frame/tests/test_api.py)."""
-    return model_service.get_model(device)
+def get_sr_run_request(request: schemas.SRRunRequest) -> schemas.SRRunRequest:
+    """The parsed ``POST /sr/run`` body. It is a dependency (FastAPI caches it
+    per request) so the route and model selection share ONE body declaration;
+    declaring the model in both places would report every validation error twice."""
+    return request
+
+
+def get_model_callable(
+    request: schemas.SRRunRequest = Depends(get_sr_run_request), device: str = Depends(get_device)
+) -> Callable:
+    """The cached model callable for the model the request selected
+    (``request.model``: "lite" by default, or "mamba") -- overridden with a
+    small fake callable in every non-integration test (see frame/tests/test_api.py)."""
+    return model_service.get_model(device, model_name=request.model)
 
 
 SUPPORTED_UPLOAD_EXTENSIONS = (".tif", ".tiff")
@@ -62,7 +74,11 @@ def health() -> schemas.HealthResponse:
 
     frame_version = getattr(frame, "__version__", None)
     return schemas.HealthResponse(
-        status="ok", frame_version=frame_version, api_version=config.API_VERSION, model_name=config.MODEL_NAME
+        status="ok",
+        frame_version=frame_version,
+        api_version=config.API_VERSION,
+        model_name=config.MODEL_NAME,
+        available_models=[schemas.ModelAvailability(**entry) for entry in model_service.list_models(config.DEVICE)],
     )
 
 
@@ -113,7 +129,13 @@ def upload(
     with open(dest, "wb") as out:
         shutil.copyfileobj(file.file, out)
 
-    record = pipeline.process_upload(store, dest, filename=filename, input_scale=input_scale)
+    try:
+        record = pipeline.process_upload(
+            store, dest, filename=filename, input_scale=input_scale, max_input_pixels=config.MAX_INPUT_PIXELS
+        )
+    except Exception:
+        dest.unlink(missing_ok=True)  # do not keep a rejected upload on disk
+        raise
     return schemas.UploadResponse(
         upload_id=record.upload_id,
         filename=record.filename,
@@ -134,7 +156,7 @@ def upload(
 
 @router.post("/sr/run", response_model=schemas.SRResultResponse)
 def sr_run(
-    request: schemas.SRRunRequest,
+    request: schemas.SRRunRequest = Depends(get_sr_run_request),
     store: JobStore = Depends(get_store),
     model: Callable = Depends(get_model_callable),
     device: str = Depends(get_device),
@@ -142,7 +164,15 @@ def sr_run(
     config.ensure_workspace_dirs()
     seed = request.seed if request.seed is not None else config.UNCERTAINTY_SEED
     job = pipeline.run_sr_job(
-        store, request.upload_id, model=model, device=device, seed=seed, workspace_dir=config.WORKSPACE_DIR / "jobs"
+        store,
+        request.upload_id,
+        model=model,
+        device=device,
+        seed=seed,
+        workspace_dir=config.WORKSPACE_DIR / "jobs",
+        model_id=request.model,
+        model_name=get_spec(request.model).model_name,
+        tiling=TilingConfig(overlap=config.TILE_OVERLAP),
     )
     return schemas.SRResultResponse(**job.result)
 

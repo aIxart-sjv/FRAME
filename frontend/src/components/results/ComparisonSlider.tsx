@@ -40,7 +40,8 @@ export function ComparisonSlider({ nativeRaster, srRaster }: ComparisonSliderPro
 
   return (
     <div className="comparison-slider">
-      <div className="comparison-slider__frame">
+      {/* The frame takes the scene's own aspect ratio: scenes are no longer always square. */}
+      <div className="comparison-slider__frame" style={{ aspectRatio: `${srRaster.width} / ${srRaster.height}` }}>
         <canvas ref={nativeCanvasRef} className="comparison-slider__canvas comparison-slider__canvas--native" />
         <canvas
           ref={srCanvasRef}

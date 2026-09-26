@@ -24,6 +24,43 @@ _VALID_INPUT_SCALES = (RAW_DIGITAL_NUMBER, REFLECTANCE)
 
 SENTINEL2_L2A_REFLECTANCE_SCALE = 10_000.0
 
+#: Bounds of reflectance as a fraction, from the Sentinel-2 L2A encoding (not tuned): the largest a uint16
+#: DN can give is 65535 / 10000, the smallest a BOA_ADD_OFFSET-corrected DN can give is (0 - 1000) / 10000.
+#: Identical to `frame.models.config` (a test compares them; this package does not import that one).
+MIN_REFLECTANCE = -0.1
+MAX_REFLECTANCE = 65535.0 / 10000.0
+
+#: A scene declared as raw digital numbers whose largest valid value is at or below this is reflectance in disguise:
+#: L2A DNs are integers in the hundreds to thousands, and even a black scene stays far above 1.5.
+IMPLAUSIBLE_RAW_DN_MAX = 1.5
+
+
+def check_scale_consistency(array: np.ndarray, valid: np.ndarray, input_scale: str) -> None:
+    """Refuse a declaration the data contradicts. It never converts anything and never guesses the scale:
+    it only rejects the two impossible combinations, which would otherwise pass silently
+    (reflectance divided by 10000 is a black image; DNs read as reflectance are 10000 times too bright).
+
+    Only valid, finite values are looked at (``valid`` is the (H, W) validity mask, ``array`` the (bands, H, W) stack).
+    """
+    if input_scale not in _VALID_INPUT_SCALES:
+        raise InvalidInputScaleError(f"Unknown input_scale {input_scale!r}; expected one of {_VALID_INPUT_SCALES}.")
+    values = np.asarray(array)[:, np.asarray(valid, dtype=bool)]
+    values = values[np.isfinite(values)]
+    if values.size == 0:
+        return
+    lo, hi = float(values.min()), float(values.max())
+    if input_scale == RAW_DIGITAL_NUMBER and hi <= IMPLAUSIBLE_RAW_DN_MAX:
+        raise InvalidInputScaleError(
+            f"input_scale is 'raw_digital_number' but the largest valid value is {hi:.4g}: Sentinel-2 L2A digital numbers are integers "
+            "in the hundreds to thousands, so these values look like reflectance fractions. Dividing them by 10000 would produce a black image; "
+            "use input_scale='reflectance'."
+        )
+    if input_scale == REFLECTANCE and (hi > MAX_REFLECTANCE * (1 + 1e-6) or lo < MIN_REFLECTANCE):
+        raise InvalidInputScaleError(
+            f"input_scale is 'reflectance' but the valid values span [{lo:.4g}, {hi:.4g}], outside the L2A reflectance range "
+            f"[{MIN_REFLECTANCE}, {MAX_REFLECTANCE:.4f}]: these look like raw digital numbers; use input_scale='raw_digital_number'."
+        )
+
 
 def to_reflectance(array: np.ndarray, input_scale: str) -> np.ndarray:
     """Convert ``array`` to float32 surface-reflectance-like values in [0, 1].

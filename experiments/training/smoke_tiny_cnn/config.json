@@ -1,0 +1,79 @@
+{
+  "baselines": [
+    "bicubic",
+    "lite"
+  ],
+  "batch_size": 4,
+  "checkpoint_every": 200,
+  "data": {
+    "augment": true,
+    "data_root": null,
+    "datasets": [],
+    "hr_bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "lr_bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "lr_patch": 32,
+    "manifest": "../manifests/synthetic_5x2_seed0.jsonl",
+    "min_valid_fraction": 0.8,
+    "patches_per_pair": 8,
+    "require_region_disjoint": true,
+    "train_split": "train",
+    "val_lr_patch": 128,
+    "val_split": "val"
+  },
+  "deterministic": true,
+  "device": "auto",
+  "evaluate_train": true,
+  "grad_accum": 2,
+  "keep_last_checkpoints": 2,
+  "log_every": 10,
+  "loss": {
+    "charbonnier_eps": 0.001,
+    "consistency_weight": 0.0,
+    "reconstruction": "l1",
+    "spectral_weight": 0.0
+  },
+  "model": {
+    "name": "tiny_cnn",
+    "params": {
+      "depth": 4,
+      "width": 32
+    },
+    "pretrained": false
+  },
+  "name": "smoke_tiny_cnn",
+  "optim": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "grad_clip_norm": null,
+    "lr": 0.001,
+    "momentum": 0.9,
+    "name": "adamw",
+    "weight_decay": 0.0
+  },
+  "output_dir": ".",
+  "precision": {
+    "amp": "off"
+  },
+  "scheduler": {
+    "gamma": 0.5,
+    "min_lr_fraction": 0.05,
+    "name": "cosine",
+    "step_size": 100,
+    "warmup_steps": 10
+  },
+  "seed": 0,
+  "steps": 600,
+  "validate_every": 100
+}

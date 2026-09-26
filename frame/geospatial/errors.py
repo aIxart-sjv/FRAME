@@ -24,3 +24,9 @@ class InconsistentMetadataError(GeospatialError):
     what was expected (e.g. a recomputed footprint drifting from the
     declared bounds, or a GeoTIFF's band count not matching its band
     names)."""
+
+
+class UnreadableRasterError(GeospatialError):
+    """Raised when a file cannot be opened as a raster at all (not a GeoTIFF, truncated,
+    or absent). A caller-input problem, never an internal failure."""
+

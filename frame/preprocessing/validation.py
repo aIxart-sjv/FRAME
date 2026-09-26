@@ -15,14 +15,19 @@ import numpy as np
 from frame.preprocessing.errors import InvalidShapeError, UnsupportedBandsError, UnsupportedResolutionError
 
 
-def validate_shape(array: np.ndarray, expected_size: int | None = None) -> None:
+def validate_shape(array: np.ndarray, expected_size: int | None = None, *, require_square: bool = True) -> None:
     """Validate that ``array`` is a (bands, height, width) stack.
 
     Args:
         array: Candidate input array.
         expected_size: If given, height and width must both equal this
             value exactly (the model's proven native patch size). If
-            ``None``, only a square, non-empty (C, H, W) shape is required.
+            ``None``, only a non-empty (C, H, W) shape is required (square
+            unless ``require_square`` is False).
+        require_square: Require height == width (the default, and the only
+            behaviour before tiling existed). Pass False for scenes that will
+            go through the tile engine (frame.tiling), which accepts any
+            height and width.
     """
     if array.ndim != 3:
         raise InvalidShapeError(
@@ -34,12 +39,12 @@ def validate_shape(array: np.ndarray, expected_size: int | None = None) -> None:
     if height == 0 or width == 0 or array.shape[0] == 0:
         raise InvalidShapeError(f"Array has a zero-sized dimension: shape {array.shape}.")
 
-    if height != width:
+    if require_square and height != width:
         raise InvalidShapeError(
             f"Expected a square patch (height == width), got height={height}, width={width}."
         )
 
-    if expected_size is not None and height != expected_size:
+    if expected_size is not None and (height != expected_size or width != expected_size):
         raise InvalidShapeError(
             f"Expected a {expected_size}x{expected_size} patch, got {height}x{width}."
         )

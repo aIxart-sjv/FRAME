@@ -47,6 +47,17 @@ class ValidityMask:
         return cls(~all_bands_nodata)
 
     @classmethod
+    def from_nonfinite(cls, array: np.ndarray) -> "ValidityMask":
+        """A pixel is invalid iff ANY band is NaN or +/-Inf there.
+
+        Unlike nodata (which is a whole-pixel product-edge marker), a non-finite value in one
+        band already poisons every quantity computed from the pixel (NDVI, band ratios), and
+        `to_reflectance` zero-fills it -- so the pixel is not a genuine observation and must
+        not count towards the reported coverage.
+        """
+        return cls(np.all(np.isfinite(array), axis=0))
+
+    @classmethod
     def from_scl(cls, scl: np.ndarray, invalid_classes: Iterable[int] | None = None) -> "ValidityMask":
         """Build a mask from a Sentinel-2 L2A Scene Classification (SCL) band."""
         classes = DEFAULT_SCL_INVALID_CLASSES if invalid_classes is None else frozenset(invalid_classes)

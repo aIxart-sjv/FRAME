@@ -1,0 +1,122 @@
+{
+  "config": {
+    "batch_size": 1,
+    "grad_accum": 2,
+    "loss": "l1",
+    "lr": 1e-05,
+    "optimizer": "adamw",
+    "precision": "off (float32)",
+    "steps_first_session": 20,
+    "steps_total": 30
+  },
+  "data": {
+    "ignored_records": {
+      "test": 2
+    },
+    "lr_patch": 64,
+    "manifest_digest": "01bb0e2d18892c71bdf5228c9cb544b7e406eb49ee1bf9917519b1a2622949e1",
+    "synthetic": true,
+    "train_patches": 32,
+    "train_scenes": [
+      "R01_S00",
+      "R01_S01",
+      "R02_S00",
+      "R02_S01",
+      "R04_S00",
+      "R04_S01"
+    ],
+    "val_lr_patch": 128,
+    "val_patches": 2,
+    "val_scenes": [
+      "R03_S00",
+      "R03_S01"
+    ]
+  },
+  "environment": {
+    "cpu_count": 20,
+    "cuda_available": true,
+    "cudnn": "90100",
+    "gpu": {
+      "compute_capability": "8.6",
+      "driver_cuda": "11.8",
+      "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+      "total_memory_mib": 3759
+    },
+    "machine": "x86_64",
+    "numpy": "2.4.6",
+    "packages": {
+      "causal-conv1d": "1.5.2",
+      "mamba-ssm": "2.3.2.post1",
+      "safetensors": "0.8.0",
+      "triton": "3.5.0"
+    },
+    "platform": "Linux-7.1.5-arch1-2-x86_64-with-glibc2.44",
+    "python": "3.11.9",
+    "ram_gib": 15.2,
+    "requested_device": "cuda",
+    "torch": "2.6.0+cu118"
+  },
+  "model": {
+    "activation_checkpointing": true,
+    "name": "sen2sr_mamba",
+    "parameters": {
+      "megabytes": 52.4881,
+      "total": 13759444,
+      "trainable": 13759444
+    },
+    "pretrained": true
+  },
+  "results": {
+    "bicubic_on_same_patches": {
+      "loss": {
+        "reconstruction": 0.009457926265895367,
+        "total": 0.009457926265895367
+      },
+      "metrics": {
+        "psnr_db": 33.26729195463593,
+        "rmse": 0.0217305081717047
+      },
+      "n_patches": 2,
+      "skipped_patches": 0
+    },
+    "validation_after_finetuning": {
+      "loss": {
+        "reconstruction": 0.010719083715230227,
+        "total": 0.010719083715230227
+      },
+      "metrics": {
+        "psnr_db": 35.42698359889318,
+        "rmse": 0.01693154763248512
+      },
+      "n_patches": 2,
+      "skipped_patches": 0,
+      "step": 30,
+      "type": "val"
+    },
+    "validation_before_finetuning": {
+      "loss": {
+        "reconstruction": 0.03207492083311081,
+        "total": 0.03207492083311081
+      },
+      "metrics": {
+        "psnr_db": 28.53906042794023,
+        "rmse": 0.03743087914074879
+      },
+      "n_patches": 2,
+      "skipped_patches": 0,
+      "step": 0,
+      "type": "val"
+    }
+  },
+  "training": {
+    "checkpoint_mib": 159.0,
+    "first_loss": 0.010855433065444231,
+    "last_loss": 0.007770096184685826,
+    "mean_step_seconds_steady": 2.972,
+    "peak_vram_mib_first_session": 779.42041015625,
+    "peak_vram_mib_second_session": 779.42041015625,
+    "resumed_from_step": 20,
+    "steps_completed": 30
+  },
+  "what": "Tiny fine-tune of the pretrained SEN2SR-Mamba (no hard constraint) through frame.train on exported SYNTHETIC patches; a feasibility check, not a result."
+}

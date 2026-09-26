@@ -1,0 +1,637 @@
+{
+ "analysis": {
+  "pooled_regions_per_tile": 8192,
+  "retention_grid": [
+   1.0,
+   0.8,
+   0.6,
+   0.4
+  ]
+ },
+ "bootstrap": {
+  "alpha": 0.05,
+  "n_boot": 2000,
+  "seed": 0
+ },
+ "code": {
+  "git": {
+   "dirty": true,
+   "revision": "eb3769559525ea81e902422253f8950c36b075a5"
+  }
+ },
+ "config_digest": "cfc6c1a2c91b624f7b0f6ff5428624cd7201558bf877206bd6a9214c5e55d69a",
+ "datasets": {
+  "opensr_spain_crops": {
+   "counts": {
+    "gate_evaluated": 28,
+    "invalid": 0,
+    "total": 28,
+    "unreadable": 0
+   },
+   "evidence_class": "real_cross_sensor",
+   "gate": {
+    "by_evidence_level": {
+     "pixel_level_eligible": 21,
+     "uncertain": 7
+    },
+    "excluded_by_reason": {
+     "reference_alignment_uncertain": 7
+    }
+   },
+   "info": {
+    "hr_variant": "HRharm",
+    "n_in_subset": 28,
+    "subset": "spain_crops"
+   },
+   "invalid": [],
+   "kind": "opensr_test",
+   "manifest_digest": "8fda3d88b850d5748a5c00f53de7bcd584269f53557ca6f39d05b01993ba3789",
+   "regions": {
+    "16": {
+     "analysed": 20460,
+     "candidate": 28672,
+     "candidate_in_eligible_tiles": 21504,
+     "excluded_region_level": {
+      "alignment_crop_edge_cells": 1044,
+      "region_insufficient_valid_pixels": 0
+     },
+     "excluded_tile_level": {
+      "by_reason": {
+       "reference_alignment_uncertain": 7168
+      },
+      "regions": 7168
+     }
+    },
+    "4": {
+     "analysed": 339852,
+     "candidate": 458752,
+     "candidate_in_eligible_tiles": 344064,
+     "excluded_region_level": {
+      "alignment_crop_edge_cells": 4212,
+      "region_insufficient_valid_pixels": 0
+     },
+     "excluded_tile_level": {
+      "by_reason": {
+       "reference_alignment_uncertain": 114688
+      },
+      "regions": 114688
+     }
+    }
+   },
+   "reused_tiles": 21,
+   "role": "independent_benchmark",
+   "scene_units_all": [
+    "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0722-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1"
+   ],
+   "split": "test",
+   "units_eligible": [
+    "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0722-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1"
+   ],
+   "unreadable": []
+  },
+  "opensr_spain_urban": {
+   "counts": {
+    "gate_evaluated": 20,
+    "invalid": 0,
+    "total": 20,
+    "unreadable": 0
+   },
+   "evidence_class": "real_cross_sensor",
+   "gate": {
+    "by_evidence_level": {
+     "pixel_level_eligible": 13,
+     "uncertain": 7
+    },
+    "excluded_by_reason": {
+     "reference_alignment_uncertain": 7
+    }
+   },
+   "info": {
+    "hr_variant": "HRharm",
+    "n_in_subset": 20,
+    "subset": "spain_urban"
+   },
+   "invalid": [],
+   "kind": "opensr_test",
+   "manifest_digest": "1596f37c40c631a6a42bb898dfaea0251af956d30be887220c4c0cba45632314",
+   "regions": {
+    "16": {
+     "analysed": 12680,
+     "candidate": 20480,
+     "candidate_in_eligible_tiles": 13312,
+     "excluded_region_level": {
+      "alignment_crop_edge_cells": 632,
+      "region_insufficient_valid_pixels": 0
+     },
+     "excluded_tile_level": {
+      "by_reason": {
+       "reference_alignment_uncertain": 7168
+      },
+      "regions": 7168
+     }
+    },
+    "4": {
+     "analysed": 210440,
+     "candidate": 327680,
+     "candidate_in_eligible_tiles": 212992,
+     "excluded_region_level": {
+      "alignment_crop_edge_cells": 2552,
+      "region_insufficient_valid_pixels": 0
+     },
+     "excluded_tile_level": {
+      "by_reason": {
+       "reference_alignment_uncertain": 114688
+      },
+      "regions": 114688
+     }
+    }
+   },
+   "reused_tiles": 13,
+   "role": "independent_benchmark",
+   "scene_units_all": [
+    "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1"
+   ],
+   "split": "test",
+   "units_eligible": [
+    "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1"
+   ],
+   "unreadable": []
+  },
+  "opensr_spot": {
+   "counts": {
+    "gate_evaluated": 9,
+    "invalid": 0,
+    "total": 9,
+    "unreadable": 0
+   },
+   "evidence_class": "real_cross_sensor",
+   "gate": {
+    "by_evidence_level": {
+     "pixel_level_eligible": 6,
+     "uncertain": 3
+    },
+    "excluded_by_reason": {
+     "reference_alignment_uncertain": 3
+    }
+   },
+   "info": {
+    "hr_variant": "HRharm",
+    "n_in_subset": 9,
+    "subset": "spot"
+   },
+   "invalid": [],
+   "kind": "opensr_test",
+   "manifest_digest": "32495be456ae9ba3a65983714c0af7d6c7b2e6ba3422ab80901d7b409f5a7d7f",
+   "regions": {
+    "16": {
+     "analysed": 6049,
+     "candidate": 9216,
+     "candidate_in_eligible_tiles": 6144,
+     "excluded_region_level": {
+      "alignment_crop_edge_cells": 95,
+      "region_insufficient_valid_pixels": 0
+     },
+     "excluded_tile_level": {
+      "by_reason": {
+       "reference_alignment_uncertain": 3072
+      },
+      "regions": 3072
+     }
+    },
+    "4": {
+     "analysed": 97921,
+     "candidate": 147456,
+     "candidate_in_eligible_tiles": 98304,
+     "excluded_region_level": {
+      "alignment_crop_edge_cells": 383,
+      "region_insufficient_valid_pixels": 0
+     },
+     "excluded_tile_level": {
+      "by_reason": {
+       "reference_alignment_uncertain": 49152
+      },
+      "regions": 49152
+     }
+    }
+   },
+   "reused_tiles": 6,
+   "role": "independent_benchmark",
+   "scene_units_all": [
+    "spot_ROI_0037",
+    "spot_ROI_0050",
+    "spot_ROI_0117",
+    "spot_ROI_0803",
+    "spot_ROI_0967",
+    "spot_ROI_1647",
+    "spot_ROI_2603",
+    "spot_ROI_3126",
+    "spot_ROI_3171"
+   ],
+   "split": "test",
+   "units_eligible": [
+    "spot_ROI_0037",
+    "spot_ROI_0050",
+    "spot_ROI_0803",
+    "spot_ROI_1647",
+    "spot_ROI_2603",
+    "spot_ROI_3126"
+   ],
+   "unreadable": []
+  },
+  "sen2neon_random30": {
+   "counts": {
+    "gate_evaluated": 30,
+    "invalid": 0,
+    "total": 30,
+    "unreadable": 0
+   },
+   "evidence_class": "real_cross_sensor",
+   "gate": {
+    "by_evidence_level": {
+     "not_eligible": 3,
+     "pixel_level_eligible": 12,
+     "uncertain": 15
+    },
+    "excluded_by_reason": {
+     "reference_alignment_invalid": 3,
+     "reference_alignment_uncertain": 15
+    }
+   },
+   "info": {
+    "dataset_revisions": [
+     "9f076b4f652aa0253127d382dcb6e611250b2e67"
+    ],
+    "manifest": "../../evaluation/manifests/sen2neon_random30_seed0.jsonl"
+   },
+   "invalid": [],
+   "kind": "sen2neon",
+   "manifest_digest": "ab433be9ceada8a1b0bf5705b0caaab62bc8e666c0f144a57e4aeccd9821b436",
+   "regions": {
+    "16": {
+     "analysed": 43875,
+     "candidate": 122880,
+     "candidate_in_eligible_tiles": 49152,
+     "excluded_region_level": {
+      "alignment_crop_edge_cells": 764,
+      "region_insufficient_valid_pixels": 4513
+     },
+     "excluded_tile_level": {
+      "by_reason": {
+       "reference_alignment_invalid": 12288,
+       "reference_alignment_uncertain": 61440
+      },
+      "regions": 73728
+     }
+    },
+    "4": {
+     "analysed": 711979,
+     "candidate": 1966080,
+     "candidate_in_eligible_tiles": 786432,
+     "excluded_region_level": {
+      "alignment_crop_edge_cells": 3068,
+      "region_insufficient_valid_pixels": 71385
+     },
+     "excluded_tile_level": {
+      "by_reason": {
+       "reference_alignment_invalid": 196608,
+       "reference_alignment_uncertain": 983040
+      },
+      "regions": 1179648
+     }
+    }
+   },
+   "reused_tiles": 12,
+   "role": "independent_benchmark",
+   "scene_units_all": [
+    "2019_JERC_5",
+    "2019_SOAP_4",
+    "2020_RMNP_3",
+    "2020_YELL_3",
+    "2021_JORN_4",
+    "2021_OAES_5",
+    "2022_CLBJ_6",
+    "2022_GRSM_7",
+    "2022_JORN_5",
+    "2022_KONZ_7",
+    "2022_RMNP_4",
+    "2022_STEI_5",
+    "2022_UKFS_6",
+    "2022_WREF_5",
+    "2023_BONA_5",
+    "2023_JERC_7",
+    "2023_KONZ_8",
+    "2023_OAES_7",
+    "2023_RMNP_5",
+    "2023_TEAK_6",
+    "2023_YELL_5",
+    "2024_HEAL_6",
+    "2024_JERC_8",
+    "2024_KONZ_9",
+    "2024_NIWO_6",
+    "2024_OAES_8",
+    "2024_SRER_6",
+    "2024_UNDE_6"
+   ],
+   "split": "test",
+   "units_eligible": [
+    "2019_JERC_5",
+    "2021_JORN_4",
+    "2021_OAES_5",
+    "2022_GRSM_7",
+    "2022_JORN_5",
+    "2022_KONZ_7",
+    "2022_RMNP_4",
+    "2022_STEI_5",
+    "2022_UKFS_6",
+    "2022_WREF_5",
+    "2024_KONZ_9"
+   ],
+   "unreadable": []
+  }
+ },
+ "decision": {
+  "ndvi_threshold": 0.3,
+  "region_majority_fraction": 0.5,
+  "rule": "vegetation iff NDVI >= threshold",
+  "selection_policy": "predeclared_conventional_value_not_selected_or_tuned_on_results",
+  "sensitivity_thresholds": [
+   0.2,
+   0.4
+  ],
+  "threshold_policy_note": "0.3 is a conventional value; the requirements name no NDVI threshold. It was declared before any result and is neither selected nor tuned on results; the sensitivity thresholds are reported beside it."
+ },
+ "environment": {
+  "cpu_count": 20,
+  "cuda_available": true,
+  "cudnn": "92400",
+  "gpu": {
+   "compute_capability": "8.6",
+   "driver_cuda": "13.0",
+   "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+   "total_memory_mib": 3759
+  },
+  "machine": "x86_64",
+  "numpy": "2.4.6",
+  "packages": {
+   "mlstac": "0.4.9",
+   "opensr-test": "1.3.3",
+   "rasterio": "1.4.4",
+   "safetensors": "0.8.0",
+   "scikit-image": "0.26.0",
+   "triton": "3.8.0"
+  },
+  "platform": "Linux-7.1.5-arch1-2-x86_64-with-glibc2.44",
+  "python": "3.11.9",
+  "ram_gib": 15.2,
+  "requested_device": "cuda",
+  "torch": "2.14.0+cu130"
+ },
+ "finished_utc": "2026-09-25T16:56:34+00:00",
+ "indian_data": {
+  "reason": "no Indian HR reference and no Indian downstream labels exist in this repository; nothing Indian was evaluated or claimed",
+  "status": "india_downstream_validation_unavailable"
+ },
+ "metric_configuration": {
+  "hallucination_taus": [
+   0.005,
+   0.0025,
+   0.01
+  ],
+  "hf_sigma": 2.0,
+  "index_min_sum": 0.02,
+  "phase_upsample": 10,
+  "ratio_floor": 0.005,
+  "ssim_window": 7,
+  "version": "frame-eval-metrics/1"
+ },
+ "name": "downstream_v1",
+ "ndvi": {
+  "bands": {
+   "band_order_of_inputs": [
+    "B04",
+    "B03",
+    "B02",
+    "B08"
+   ],
+   "nir": "B08",
+   "red": "B04"
+  },
+  "formula": "NDVI = (NIR - Red) / (NIR + Red) = (B08 - B04) / (B08 + B04)",
+  "input_scaling": "reflectance fraction = stored DN / the dataset's reflectance_scale (10000); no BOA offset applied, no clipping by FRAME",
+  "settings": {
+   "denominator_epsilon": 1e-06,
+   "min_reflectance_sum": 0.02,
+   "nir_band": "B08",
+   "red_band": "B04"
+  },
+  "valid_pixel_rule": "HR pixel valid iff it is not all-band nodata (the dataset's rule) AND none of the evaluated bands equals the HR nodata value AND all evaluated values are finite; then restricted to the aligned overlap and to pixels where the reference's Red + NIR reflectance exceeds 0.02 and NDVI is computable (|NIR + Red| > 1e-06) for the reference, the LR, bicubic and every model (identical pixels for every system)"
+ },
+ "notes": [
+  "Stability is a relative model-stability proxy, not a calibrated uncertainty or confidence; nothing here changes that.",
+  "A thresholded NDVI proxy is not land cover: no land-cover labels are used or implied.",
+  "Regions of one scene are not independent observations: every inference is over scene units.",
+  "Only tiles whose reference passed the registration gate are analysed; excluded tiles are listed with machine-readable reasons.",
+  "No ranking of systems is made anywhere: values and paired differences are reported with their uncertainty when the unit count allows it."
+ ],
+ "overview": {
+  "opensr_spain_crops": {
+   "descriptive_only": false,
+   "n_tiles": 21,
+   "n_units": 5,
+   "status": "ok"
+  },
+  "opensr_spain_urban": {
+   "descriptive_only": true,
+   "n_tiles": 13,
+   "n_units": 4,
+   "status": "ok"
+  },
+  "opensr_spot": {
+   "descriptive_only": false,
+   "n_tiles": 6,
+   "n_units": 6,
+   "status": "ok"
+  },
+  "sen2neon_random30": {
+   "descriptive_only": false,
+   "n_tiles": 12,
+   "n_units": 11,
+   "status": "ok"
+  }
+ },
+ "reference_gate": {
+  "alignment": {
+   "apply_translation_correction": true,
+   "max_correction_hr_px": 4,
+   "method": "bicubic_baseline_cross_correlation",
+   "quadrant_tolerance_hr_px": 1.0,
+   "tolerance_hr_px": 0.5,
+   "uncertain_factor": 2.0
+  },
+  "eligibility": {
+   "max_nonfinite_fraction": 0.0,
+   "min_members": 2,
+   "min_valid_fraction": 0.5
+  },
+  "note": "the Phase 6 gate, unchanged",
+  "version": "frame-reliability-gate/1"
+ },
+ "regions": {
+  "definition": "Fixed square cells on the aligned HR grid (the cells frame.reliability uses): 4 x 4 HR px = 10 m, the footprint of one Sentinel-2 pixel (the requirements' '10 m pixel = 16 cells at 2.5 m'), and 16 x 16 HR px = 40 m; every region starts on a multiple of its size in prediction coordinates; a region needs at least the declared share of valid pixels",
+  "min_valid_fraction": 0.75,
+  "primary_scale_hr_px": 4,
+  "scales_hr_px": [
+   4,
+   16
+  ]
+ },
+ "run_id": "downstream_v1-20260925T164214Z",
+ "secondary_tasks": {
+  "landcover": "secondary_landcover_task_deferred_no_supported_reference",
+  "reason": "no dataset used here carries region-level land-cover labels or a defensible reference segmentation; the only label (NEON land-cover superclass) describes a whole tile"
+ },
+ "status": "completed",
+ "systems": {
+  "sen2sr_lite": {
+   "available": true,
+   "provenance": {
+    "device": "cuda",
+    "executable_architecture": "CNNSR",
+    "hard_constraint": true,
+    "input_bands": [
+     "B04",
+     "B03",
+     "B02",
+     "B08"
+    ],
+    "kind": "lite",
+    "model_name": "SEN2SRLite/NonReference_RGBN_x4",
+    "name": "sen2sr_lite",
+    "note": "the published inference system: CNN + clamp to >= 0 + low-frequency Fourier hard constraint (512x512 mask) inside every tile",
+    "parameters": 572336,
+    "tiling": {
+     "blend_mode": "linear",
+     "overlap": 32,
+     "padding_mode": "reflect",
+     "scale": 4,
+     "stride": 96,
+     "tile_size": 128
+    },
+    "value_convention": "reflectance fraction = stored DN / the dataset's reflectance_scale (10000); no BOA offset applied, no clipping by FRAME",
+    "weights": {
+     "hard_constraint.safetensor": "fbad981519066387c413ead1d6af7ef3e0d2947c34147ba90163fc79ae539239",
+     "mlm.json": "59caa5c6af96a6fbebdbd771d93c91cc2d3a770302cd2f262b5409e77a40e3f7",
+     "model.safetensor": "479aa796d5068d0b1206118ccbca27bd3223df0214db1a9b31a1e18349ed1c7e"
+    },
+    "weights_dir": "~/.cache/sen2sr_baseline/SEN2SRLite_RGBN"
+   }
+  },
+  "sen2sr_mamba": {
+   "available": true,
+   "provenance": {
+    "architecture": {
+     "attention_type": "sigmoid_02",
+     "depths": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "embed_dim": 96,
+     "img_size": [
+      128,
+      128
+     ],
+     "in_channels": 4,
+     "mlp_ratio": 4,
+     "num_heads": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "operation_attention": "sum",
+     "out_channels": 4,
+     "resi_connection": "1conv",
+     "upsampler": "pixelshuffle",
+     "upscale": 4
+    },
+    "device": "cpu",
+    "executable_architecture": "MambaSR",
+    "hard_constraint": true,
+    "input_bands": [
+     "B04",
+     "B03",
+     "B02",
+     "B08"
+    ],
+    "kind": "mamba",
+    "model_name": "SEN2SR/MambaSR_RGBN_x4",
+    "name": "sen2sr_mamba",
+    "note": "SEN2SR-Mamba RGBN through the isolated worker: MambaSR + clamp to >= 0 + low-frequency hard constraint, float32 (no autocast)",
+    "parameters": 13759444,
+    "tiling": {
+     "blend_mode": "linear",
+     "overlap": 32,
+     "padding_mode": "reflect",
+     "scale": 4,
+     "stride": 96,
+     "tile_size": 128
+    },
+    "value_convention": "reflectance fraction = stored DN / the dataset's reflectance_scale (10000); no BOA offset applied, no clipping by FRAME",
+    "weights": {
+     "hard_constraint_file": "sr_hard_constraint.safetensor",
+     "hard_constraint_sha256": "fbad981519066387c413ead1d6af7ef3e0d2947c34147ba90163fc79ae539239",
+     "weights_file": "sr_model.safetensor",
+     "weights_sha256": "11e551b03663e873c5dcd4f02ec3fc8cdfa41ef46677540295ee4c6686ddc854"
+    },
+    "worker_device": "cuda"
+   }
+  }
+ },
+ "systems_compared": [
+  "lr_native",
+  "bicubic",
+  "sen2sr_lite",
+  "sen2sr_mamba"
+ ],
+ "systems_unavailable": [],
+ "tiling": {
+  "blend_mode": "linear",
+  "overlap": 32,
+  "padding_mode": "reflect",
+  "scale": 4,
+  "stride": 96,
+  "tile_size": 128
+ },
+ "tta": {
+  "n_members": 6,
+  "seed": 42,
+  "transforms": [
+   "identity",
+   "hflip",
+   "vflip",
+   "rot90",
+   "rot180",
+   "rot270"
+  ]
+ }
+}

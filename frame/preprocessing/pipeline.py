@@ -18,9 +18,10 @@ from typing import Optional, Sequence, Tuple
 import numpy as np
 import torch
 
+from frame.preprocessing.errors import NoValidPixelsError
 from frame.preprocessing.masks import ValidityMask
 from frame.preprocessing.metadata import RasterMetadata, validate_metadata_matches_array
-from frame.preprocessing.reflectance import to_reflectance
+from frame.preprocessing.reflectance import check_scale_consistency, to_reflectance
 from frame.preprocessing.validation import reorder_bands, validate_bands, validate_resolution, validate_shape
 
 # The exact band set/order sen2sr's NonReference_RGBN_x4 path expects, per
@@ -56,11 +57,13 @@ def preprocess_rgbn(
     scl: Optional[np.ndarray] = None,
     scl_invalid_classes: Optional[frozenset] = None,
     patch_size: Optional[int] = PROVEN_PATCH_SIZE,
+    require_square: bool = True,
     crs: Optional[str] = None,
     transform: Optional[Tuple[float, float, float, float, float, float]] = None,
     bounds: Optional[Tuple[float, float, float, float]] = None,
     acquisition_timestamp: Optional[str] = None,
     require_geospatial: bool = False,
+    validate_content: bool = False,
 ) -> PreprocessedInput:
     """Validate and convert a raw RGBN band stack into model-ready form.
 
@@ -81,28 +84,43 @@ def preprocess_rgbn(
             (defaults to the standard ESA convention).
         patch_size: Required square patch size (defaults to the proven
             128x128 patch used by Baseline 0). Pass ``None`` to skip this
-            check (for future tiling-orchestration phases).
+            check (scenes destined for the tile engine, frame.tiling).
+        require_square: Whether height must equal width (default True, the
+            historical behaviour). Pass False, together with
+            ``patch_size=None``, for arbitrary-size rectangular scenes.
         crs, transform, bounds, acquisition_timestamp: Optional geospatial/
             provenance context to preserve in the output metadata.
         require_geospatial: If True, raise ``MissingMetadataError`` when
             ``crs``/``transform`` are not supplied.
+        validate_content: If True (opt-in; the historical behaviour is False), also reject
+            a scene with no valid pixel (``NoValidPixelsError``) and a declared ``input_scale``
+            the values contradict (``InvalidInputScaleError``; see
+            ``frame.preprocessing.reflectance.check_scale_consistency``). The API turns this on.
 
     Returns:
         A PreprocessedInput with a (4, H, W) float32 torch.Tensor in
         RGBN_BANDS order, a co-sized ValidityMask, and a RasterMetadata
         record.
     """
-    validate_shape(array, expected_size=patch_size)
+    validate_shape(array, expected_size=patch_size, require_square=require_square)
     validate_bands(list(band_names), list(RGBN_BANDS))
     validate_resolution(resolution_m, expected_resolution_m=RGBN_RESOLUTION_M)
 
     reordered = reorder_bands(array, list(band_names), list(RGBN_BANDS))
 
     mask = ValidityMask.all_valid(shape=reordered.shape[1:])
+    mask = mask.combine(ValidityMask.from_nonfinite(reordered))
     if nodata_value is not None:
         mask = mask.combine(ValidityMask.from_nodata(reordered, nodata_value=nodata_value))
     if scl is not None:
         mask = mask.combine(ValidityMask.from_scl(scl, invalid_classes=scl_invalid_classes))
+
+    if validate_content:
+        if not mask.array.any():
+            raise NoValidPixelsError(
+                "The scene has no valid pixel: every pixel is nodata, non-finite or masked, so there is nothing to super-resolve."
+            )
+        check_scale_consistency(reordered, mask.array, input_scale)
 
     reflectance = to_reflectance(reordered, input_scale=input_scale)
     tensor = torch.from_numpy(reflectance)

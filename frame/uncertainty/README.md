@@ -186,3 +186,13 @@ non-equivariant variant for exercising genuine positive variance) — no
 network, no real `SEN2SRLite` weights required to test this package's own
 logic. The geospatial integration test uses real `frame.geospatial`/
 `frame.preprocessing` code with synthetic metadata, also with no network.
+
+## Validation status (Phase 6)
+
+Whether this stability signal is informative about reconstruction error was tested in `frame/reliability/` (`docs/RELIABILITY.md`) on registration-checked evidence: it is positively but **weakly** associated with error within tiles (about as much as image texture is), it has not been shown to identify high-error regions better than trivial predictors,
+and it is **uncalibrated** (the ensemble spread is 16-32 times smaller than the actual error). The wording in this README and in the API disclaimers (a relative model-stability proxy, not calibrated uncertainty or confidence) stands. This package was audited for rectangular scenes and not modified.
+
+## Downstream status (Phase 7)
+
+Whether the stability tracks the mistakes of a downstream decision was tested in `frame/downstream/` (`docs/DOWNSTREAM.md`) for an NDVI-derived vegetation decision on the same registration-checked evidence: once texture (and added detail) is controlled it carries at most a **small** amount of information about the downstream error, in some datasets and models only, and it remains **uncalibrated**. Nothing here was changed; the wording above stands.
+

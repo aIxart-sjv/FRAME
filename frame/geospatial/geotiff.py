@@ -22,9 +22,10 @@ from typing import Tuple, Union
 
 import numpy as np
 import rasterio
+import rasterio.errors
 from rasterio.transform import Affine
 
-from frame.geospatial.errors import MissingCRSError
+from frame.geospatial.errors import MissingCRSError, UnreadableRasterError
 from frame.geospatial.metadata import validate_geospatial_completeness
 from frame.preprocessing.metadata import RasterMetadata
 
@@ -85,6 +86,23 @@ def write_geotiff(path: Union[str, Path], array: np.ndarray, metadata: RasterMet
         dst.update_tags(**tags)
 
 
+def _open(path: Union[str, Path]):
+    """``rasterio.open`` with an unreadable file reported as the named `UnreadableRasterError`
+    (a caller-input problem) instead of a raw library error. Only the file *name* is put in
+    the message: it may end up in an HTTP response, and the server's directory is not the caller's business."""
+    try:
+        return rasterio.open(path)
+    except rasterio.errors.RasterioIOError as exc:
+        raise UnreadableRasterError(f"{Path(path).name} could not be read as a GeoTIFF ({type(exc).__name__}).") from exc
+
+
+def peek_geotiff_size(path: Union[str, Path]) -> Tuple[int, int]:
+    """``(height, width)`` from the GeoTIFF header alone -- no pixel data is
+    read, so a size limit can be enforced before a large file is loaded."""
+    with _open(path) as dataset:
+        return dataset.height, dataset.width
+
+
 def read_geotiff(
     path: Union[str, Path], *, require_crs: bool = True
 ) -> Tuple[np.ndarray, RasterMetadata]:
@@ -99,12 +117,12 @@ def read_geotiff(
             geospatial validity is not optional. Pass False to inspect a
             file that may legitimately lack one.
     """
-    with rasterio.open(path) as src:
+    with _open(path) as src:
         array = src.read()
         crs = src.crs.to_string() if src.crs is not None else None
 
         if require_crs and crs is None:
-            raise MissingCRSError(f"{path} has no embedded CRS.")
+            raise MissingCRSError(f"{Path(path).name} has no embedded CRS.")
 
         transform: Tuple[float, float, float, float, float, float] = tuple(src.transform)[:6]
         bounds = tuple(src.bounds)  # (left, bottom, right, top) == (minx, miny, maxx, maxy)

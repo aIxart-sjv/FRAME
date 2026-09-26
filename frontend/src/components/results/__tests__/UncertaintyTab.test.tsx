@@ -13,9 +13,17 @@ vi.mock('../../../api/client', () => ({
 }))
 
 describe('UncertaintyTab', () => {
-  it('labels the signal exactly "relative model-stability uncertainty"', () => {
+  it('labels the signal a TTA stability / reconstruction-variation diagnostic', () => {
     render(<UncertaintyTab jobResult={jobResultFixture} />)
-    expect(screen.getByText('relative model-stability uncertainty')).toBeInTheDocument()
+    expect(screen.getByText('TTA stability — reconstruction-variation diagnostic')).toBeInTheDocument()
+  })
+
+  it('states what FRAME\'s own validation found: weakly informative, texture-like, not a reliability score', () => {
+    render(<UncertaintyTab jobResult={jobResultFixture} />)
+    const text = document.body.textContent ?? ''
+    expect(text).toMatch(/only weakly associated with reconstruction error/i)
+    expect(text).toMatch(/image texture alone/i)
+    expect(text).toMatch(/not as a reliability score/i)
   })
 
   it('never claims the uncertainty is a calibrated confidence value', () => {
@@ -32,7 +40,7 @@ describe('UncertaintyTab', () => {
 
   it('exposes a map/overlay toggle without a binary good/bad framing', () => {
     render(<UncertaintyTab jobResult={jobResultFixture} />)
-    expect(screen.getByRole('button', { name: 'Uncertainty map' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Stability map' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'SR image + overlay' })).toBeInTheDocument()
     expect(screen.queryByText(/good|bad|pass|fail/i)).not.toBeInTheDocument()
   })

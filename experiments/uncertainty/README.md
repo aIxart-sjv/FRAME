@@ -145,3 +145,15 @@ STAC endpoint for the imagery — both already cached from prior phases on
 this machine). GPU used automatically when available (measured: primary
 ensemble negligible VRAM, consistent with Baseline 0's own ~100 MiB-peak
 measurement for this model at this patch size).
+
+## Phase 6 (reliability validation): does the stability inform about error?
+
+`configs/reliability_v1.json` and `runs/` hold the Phase 6 experiment (`python -m frame.reliability`, `docs/RELIABILITY.md`): the same deployed TTA stability (six geometric views over the tile engine, Lite and Mamba) is
+correlated with reconstruction error against independent references, **only on tiles whose reference passed a registration gate**, with the excluded tiles listed by reason.
+`runs/reliability_v1/` is the full record (per-tile rows, provenance, correlations, risk-coverage, detection, calibration, README); `runs/scene_check_sen2sr_{lite,mamba}/` the rectangular multi-tile check. The finding, in one line:
+weak-to-moderate within-tile association that trivial predictors (texture, added detail) largely reproduce, no shown ability to flag high-error cells beyond them, and an **uncalibrated** spread (16-32 times smaller than the error).
+
+## Phase 7 (downstream utility)
+
+The same stability is related to the error of an NDVI-derived vegetation decision in `experiments/downstream/` (`python -m frame.downstream`, `docs/DOWNSTREAM.md`), on the same gate-eligible tiles. One line: at most a small association beyond texture, still uncalibrated.
+

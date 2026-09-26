@@ -1,0 +1,266 @@
+{
+ "opensr_spain_crops": {
+  "sen2sr_lite": {
+   "error": "cell mean absolute reflectance error at 4 HR px",
+   "raw": {
+    "coverage": {
+     "k1": {
+      "coverage": 0.028352262259738234,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 21,
+      "nominal": 0.6826894921370859
+     },
+     "k2": {
+      "coverage": 0.05656785939322145,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 21,
+      "nominal": 0.9544997361036416
+     }
+    },
+    "scale": {
+     "definition": "median over tiles of (median |error| / median spread) over (band, pixel) elements",
+     "mean_error_over_mean_spread": 24.66014730027457,
+     "median_error_over_median_spread": 23.19709798423211,
+     "n_tiles": 21
+    }
+   },
+   "recalibration": {
+    "reason": "5 scene unit(s): fewer than the 12 needed for a development/test split; recalibration needs held-out units",
+    "status": "not_assessable",
+    "verdict": "not_assessable"
+   },
+   "statement": "The raw TTA spread is not a calibrated uncertainty: it is far smaller than the error and covers a small fraction of it. Whether a monotone map from stability to expected error, fitted on development units, is calibrated on held-out test units is reported below; even where it is, it is calibrated for this dataset and error scale only and is not a probability of error, a confidence or a conformal guarantee.",
+   "verdict": "uncalibrated_stability_evidence"
+  },
+  "sen2sr_mamba": {
+   "error": "cell mean absolute reflectance error at 4 HR px",
+   "raw": {
+    "coverage": {
+     "k1": {
+      "coverage": 0.024191142383516488,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 21,
+      "nominal": 0.6826894921370859
+     },
+     "k2": {
+      "coverage": 0.04826095680925547,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 21,
+      "nominal": 0.9544997361036416
+     }
+    },
+    "scale": {
+     "definition": "median over tiles of (median |error| / median spread) over (band, pixel) elements",
+     "mean_error_over_mean_spread": 23.840747820840136,
+     "median_error_over_median_spread": 26.43409845593383,
+     "n_tiles": 21
+    }
+   },
+   "recalibration": {
+    "reason": "5 scene unit(s): fewer than the 12 needed for a development/test split; recalibration needs held-out units",
+    "status": "not_assessable",
+    "verdict": "not_assessable"
+   },
+   "statement": "The raw TTA spread is not a calibrated uncertainty: it is far smaller than the error and covers a small fraction of it. Whether a monotone map from stability to expected error, fitted on development units, is calibrated on held-out test units is reported below; even where it is, it is calibrated for this dataset and error scale only and is not a probability of error, a confidence or a conformal guarantee.",
+   "verdict": "uncalibrated_stability_evidence"
+  }
+ },
+ "opensr_spain_urban": {
+  "sen2sr_lite": {
+   "error": "cell mean absolute reflectance error at 4 HR px",
+   "raw": {
+    "coverage": {
+     "k1": {
+      "coverage": 0.03058416275625977,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 13,
+      "nominal": 0.6826894921370859
+     },
+     "k2": {
+      "coverage": 0.061108405411883254,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 13,
+      "nominal": 0.9544997361036416
+     }
+    },
+    "scale": {
+     "definition": "median over tiles of (median |error| / median spread) over (band, pixel) elements",
+     "mean_error_over_mean_spread": 23.14501869889253,
+     "median_error_over_median_spread": 19.64583718895026,
+     "n_tiles": 13
+    }
+   },
+   "recalibration": {
+    "reason": "4 scene unit(s): fewer than the 12 needed for a development/test split; recalibration needs held-out units",
+    "status": "not_assessable",
+    "verdict": "not_assessable"
+   },
+   "statement": "The raw TTA spread is not a calibrated uncertainty: it is far smaller than the error and covers a small fraction of it. Whether a monotone map from stability to expected error, fitted on development units, is calibrated on held-out test units is reported below; even where it is, it is calibrated for this dataset and error scale only and is not a probability of error, a confidence or a conformal guarantee.",
+   "verdict": "uncalibrated_stability_evidence"
+  },
+  "sen2sr_mamba": {
+   "error": "cell mean absolute reflectance error at 4 HR px",
+   "raw": {
+    "coverage": {
+     "k1": {
+      "coverage": 0.028691041347964942,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 13,
+      "nominal": 0.6826894921370859
+     },
+     "k2": {
+      "coverage": 0.05720047983250084,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 13,
+      "nominal": 0.9544997361036416
+     }
+    },
+    "scale": {
+     "definition": "median over tiles of (median |error| / median spread) over (band, pixel) elements",
+     "mean_error_over_mean_spread": 18.86444460838247,
+     "median_error_over_median_spread": 19.160271760146003,
+     "n_tiles": 13
+    }
+   },
+   "recalibration": {
+    "reason": "4 scene unit(s): fewer than the 12 needed for a development/test split; recalibration needs held-out units",
+    "status": "not_assessable",
+    "verdict": "not_assessable"
+   },
+   "statement": "The raw TTA spread is not a calibrated uncertainty: it is far smaller than the error and covers a small fraction of it. Whether a monotone map from stability to expected error, fitted on development units, is calibrated on held-out test units is reported below; even where it is, it is calibrated for this dataset and error scale only and is not a probability of error, a confidence or a conformal guarantee.",
+   "verdict": "uncalibrated_stability_evidence"
+  }
+ },
+ "opensr_spot": {
+  "sen2sr_lite": {
+   "error": "cell mean absolute reflectance error at 4 HR px",
+   "raw": {
+    "coverage": {
+     "k1": {
+      "coverage": 0.03552295540908365,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 6,
+      "nominal": 0.6826894921370859
+     },
+     "k2": {
+      "coverage": 0.07069668414444079,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 6,
+      "nominal": 0.9544997361036416
+     }
+    },
+    "scale": {
+     "definition": "median over tiles of (median |error| / median spread) over (band, pixel) elements",
+     "mean_error_over_mean_spread": 20.089494103541497,
+     "median_error_over_median_spread": 18.17492642459029,
+     "n_tiles": 6
+    }
+   },
+   "recalibration": {
+    "reason": "6 scene unit(s): fewer than the 12 needed for a development/test split; recalibration needs held-out units",
+    "status": "not_assessable",
+    "verdict": "not_assessable"
+   },
+   "statement": "The raw TTA spread is not a calibrated uncertainty: it is far smaller than the error and covers a small fraction of it. Whether a monotone map from stability to expected error, fitted on development units, is calibrated on held-out test units is reported below; even where it is, it is calibrated for this dataset and error scale only and is not a probability of error, a confidence or a conformal guarantee.",
+   "verdict": "uncalibrated_stability_evidence"
+  },
+  "sen2sr_mamba": {
+   "error": "cell mean absolute reflectance error at 4 HR px",
+   "raw": {
+    "coverage": {
+     "k1": {
+      "coverage": 0.0344572969759993,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 6,
+      "nominal": 0.6826894921370859
+     },
+     "k2": {
+      "coverage": 0.06862025711992842,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 6,
+      "nominal": 0.9544997361036416
+     }
+    },
+    "scale": {
+     "definition": "median over tiles of (median |error| / median spread) over (band, pixel) elements",
+     "mean_error_over_mean_spread": 16.913648828430105,
+     "median_error_over_median_spread": 15.70875551345811,
+     "n_tiles": 6
+    }
+   },
+   "recalibration": {
+    "reason": "6 scene unit(s): fewer than the 12 needed for a development/test split; recalibration needs held-out units",
+    "status": "not_assessable",
+    "verdict": "not_assessable"
+   },
+   "statement": "The raw TTA spread is not a calibrated uncertainty: it is far smaller than the error and covers a small fraction of it. Whether a monotone map from stability to expected error, fitted on development units, is calibrated on held-out test units is reported below; even where it is, it is calibrated for this dataset and error scale only and is not a probability of error, a confidence or a conformal guarantee.",
+   "verdict": "uncalibrated_stability_evidence"
+  }
+ },
+ "sen2neon_random30": {
+  "sen2sr_lite": {
+   "error": "cell mean absolute reflectance error at 4 HR px",
+   "raw": {
+    "coverage": {
+     "k1": {
+      "coverage": 0.03759423170932133,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 12,
+      "nominal": 0.6826894921370859
+     },
+     "k2": {
+      "coverage": 0.074781944092205,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 12,
+      "nominal": 0.9544997361036416
+     }
+    },
+    "scale": {
+     "definition": "median over tiles of (median |error| / median spread) over (band, pixel) elements",
+     "mean_error_over_mean_spread": 24.171084882009527,
+     "median_error_over_median_spread": 18.208390774748583,
+     "n_tiles": 12
+    }
+   },
+   "recalibration": {
+    "reason": "11 scene unit(s): fewer than the 12 needed for a development/test split; recalibration needs held-out units",
+    "status": "not_assessable",
+    "verdict": "not_assessable"
+   },
+   "statement": "The raw TTA spread is not a calibrated uncertainty: it is far smaller than the error and covers a small fraction of it. Whether a monotone map from stability to expected error, fitted on development units, is calibrated on held-out test units is reported below; even where it is, it is calibrated for this dataset and error scale only and is not a probability of error, a confidence or a conformal guarantee.",
+   "verdict": "uncalibrated_stability_evidence"
+  },
+  "sen2sr_mamba": {
+   "error": "cell mean absolute reflectance error at 4 HR px",
+   "raw": {
+    "coverage": {
+     "k1": {
+      "coverage": 0.040804051952561704,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 12,
+      "nominal": 0.6826894921370859
+     },
+     "k2": {
+      "coverage": 0.08016853848021237,
+      "definition": "share of (band, pixel) elements whose reference lies within mean +/- k*spread, weighted by elements",
+      "n_tiles": 12,
+      "nominal": 0.9544997361036416
+     }
+    },
+    "scale": {
+     "definition": "median over tiles of (median |error| / median spread) over (band, pixel) elements",
+     "mean_error_over_mean_spread": 18.81641127868512,
+     "median_error_over_median_spread": 31.9376786195711,
+     "n_tiles": 12
+    }
+   },
+   "recalibration": {
+    "reason": "11 scene unit(s): fewer than the 12 needed for a development/test split; recalibration needs held-out units",
+    "status": "not_assessable",
+    "verdict": "not_assessable"
+   },
+   "statement": "The raw TTA spread is not a calibrated uncertainty: it is far smaller than the error and covers a small fraction of it. Whether a monotone map from stability to expected error, fitted on development units, is calibrated on held-out test units is reported below; even where it is, it is calibrated for this dataset and error scale only and is not a probability of error, a confidence or a conformal guarantee.",
+   "verdict": "uncalibrated_stability_evidence"
+  }
+ }
+}

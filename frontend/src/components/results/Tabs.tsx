@@ -3,7 +3,7 @@ import './Tabs.css'
 
 const TABS: { key: ResultTab; label: string }[] = [
   { key: 'overview', label: 'Overview' },
-  { key: 'uncertainty', label: 'Uncertainty' },
+  { key: 'uncertainty', label: 'Stability' },
   { key: 'ndvi', label: 'NDVI' },
   { key: 'metadata', label: 'Metadata' },
 ]

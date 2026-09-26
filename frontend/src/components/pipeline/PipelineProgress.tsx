@@ -13,7 +13,7 @@ const UPLOAD_STEP: Step = { key: 'upload', label: 'Upload' }
 const RUN_STEPS: Step[] = [
   { key: 'preprocessing', label: 'Preprocessing' },
   { key: 'super-resolution', label: 'Super-resolution' },
-  { key: 'uncertainty', label: 'Uncertainty' },
+  { key: 'uncertainty', label: 'TTA stability' },
   { key: 'validation', label: 'Validation' },
 ]
 const READY_STEP: Step = { key: 'ready', label: 'Ready' }
@@ -82,10 +82,10 @@ export function PipelineProgress({ uploadStatus, jobStatus, jobResult, canRun, o
       <div className="pipeline-progress__footer">
         <p className="pipeline-progress__note">
           {jobStatus === 'pending'
-            ? 'Executing the FRAME pipeline (single synchronous request) — preprocessing, the frozen SR model, and the uncertainty ensemble run inside this one call.'
+            ? 'Processing scene… (single synchronous request) — larger scenes are split into tiles; preprocessing, the SR model, and the TTA stability ensemble all run inside this one call, so a large scene can take a while.'
             : jobStatus === 'success' && jobResult
               ? `Completed in ${Number(jobResult.metadata.inference_seconds ?? 0).toFixed(3)}s on ${String(jobResult.metadata.device ?? 'unknown device')}.`
-              : 'Preprocessing, super-resolution, uncertainty, and validation all execute inside one synchronous request — sub-step timing isn’t reported individually.'}
+              : 'Preprocessing, super-resolution, TTA stability, and validation all execute inside one synchronous request — sub-step timing isn’t reported individually.'}
         </p>
         <button type="button" className="pipeline-progress__run-button" disabled={!canRun || jobStatus === 'pending'} onClick={onRun}>
           {jobStatus === 'pending' ? 'Running…' : jobStatus === 'success' ? 'Run FRAME again' : 'Run FRAME'}

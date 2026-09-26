@@ -1,0 +1,2180 @@
+{
+ "alignment": {
+  "apply_translation_correction": true,
+  "max_correction_hr_px": 4,
+  "method": "bicubic_baseline_cross_correlation",
+  "quadrant_tolerance_hr_px": 1.0,
+  "tolerance_hr_px": 0.5,
+  "uncertain_factor": 2.0
+ },
+ "analysis_settings": {
+  "calibration_bins": 10,
+  "cell_sizes_hr_px": [
+   4,
+   16
+  ],
+  "coverage_grid": [
+   1.0,
+   0.9,
+   0.8,
+   0.7,
+   0.6,
+   0.5
+  ],
+  "dev_fraction": 0.5,
+  "displacement_sweep_hr_px": [
+   0,
+   1,
+   2,
+   4
+  ],
+  "high_error_quantile": 0.9,
+  "min_cell_valid_fraction": 0.75,
+  "min_units_for_split": 12,
+  "pooled_cells_per_tile": 8192,
+  "pooled_pixels_per_tile": 20000,
+  "split_seed": 0
+ },
+ "bootstrap": {
+  "alpha": 0.05,
+  "n_boot": 2000,
+  "seed": 0
+ },
+ "code": {
+  "git": {
+   "dirty": true,
+   "revision": "eb3769559525ea81e902422253f8950c36b075a5"
+  }
+ },
+ "comparison_available_for": [
+  "opensr_spain_crops",
+  "opensr_spain_urban",
+  "opensr_spot",
+  "sen2neon_random30"
+ ],
+ "config_digest": "7a529dce4ffa30616396bf9513975b52e7c28b4c63c6ae743fb90ed9e2417c25",
+ "cost": {
+  "opensr_spain_crops": {
+   "sen2sr_lite": {
+    "definition": "single pass = median member latency of one full tiled pass over the scene; TTA = all members; the first tile of the run (warm-up) is excluded from the medians",
+    "first_tile_tta_seconds": 0.17381572723388672,
+    "n_members": 6,
+    "n_tiles_timed": 20,
+    "single_pass_seconds_median": 0.01204293966293335,
+    "transforms": [
+     "identity",
+     "hflip",
+     "vflip",
+     "rot90",
+     "rot180",
+     "rot270"
+    ],
+    "tta_over_single_pass": 14.892713081609724,
+    "tta_seconds_median": 0.1793520450592041
+   },
+   "sen2sr_mamba": {
+    "definition": "single pass = median member latency of one full tiled pass over the scene; TTA = all members; the first tile of the run (warm-up) is excluded from the medians",
+    "first_tile_tta_seconds": 10.464477777481079,
+    "n_members": 6,
+    "n_tiles_timed": 20,
+    "single_pass_seconds_median": 1.7191611528396606,
+    "transforms": [
+     "identity",
+     "hflip",
+     "vflip",
+     "rot90",
+     "rot180",
+     "rot270"
+    ],
+    "tta_over_single_pass": 6.062962053047807,
+    "tta_seconds_median": 10.423208832740784
+   }
+  },
+  "opensr_spain_urban": {
+   "sen2sr_lite": {
+    "definition": "single pass = median member latency of one full tiled pass over the scene; TTA = all members; the first tile of the run (warm-up) is excluded from the medians",
+    "first_tile_tta_seconds": 0.189955472946167,
+    "n_members": 6,
+    "n_tiles_timed": 12,
+    "single_pass_seconds_median": 0.014747083187103271,
+    "transforms": [
+     "identity",
+     "hflip",
+     "vflip",
+     "rot90",
+     "rot180",
+     "rot270"
+    ],
+    "tta_over_single_pass": 12.443020835438434,
+    "tta_seconds_median": 0.18349826335906982
+   },
+   "sen2sr_mamba": {
+    "definition": "single pass = median member latency of one full tiled pass over the scene; TTA = all members; the first tile of the run (warm-up) is excluded from the medians",
+    "first_tile_tta_seconds": 9.846095561981201,
+    "n_members": 6,
+    "n_tiles_timed": 12,
+    "single_pass_seconds_median": 1.5584757924079895,
+    "transforms": [
+     "identity",
+     "hflip",
+     "vflip",
+     "rot90",
+     "rot180",
+     "rot270"
+    ],
+    "tta_over_single_pass": 6.071924973089529,
+    "tta_seconds_median": 9.462948083877563
+   }
+  },
+  "opensr_spot": {
+   "sen2sr_lite": {
+    "definition": "single pass = median member latency of one full tiled pass over the scene; TTA = all members; the first tile of the run (warm-up) is excluded from the medians",
+    "first_tile_tta_seconds": 0.1846930980682373,
+    "n_members": 6,
+    "n_tiles_timed": 5,
+    "single_pass_seconds_median": 0.013218283653259277,
+    "transforms": [
+     "identity",
+     "hflip",
+     "vflip",
+     "rot90",
+     "rot180",
+     "rot270"
+    ],
+    "tta_over_single_pass": 14.278654076819711,
+    "tta_seconds_median": 0.18873929977416992
+   },
+   "sen2sr_mamba": {
+    "definition": "single pass = median member latency of one full tiled pass over the scene; TTA = all members; the first tile of the run (warm-up) is excluded from the medians",
+    "first_tile_tta_seconds": 9.686934232711792,
+    "n_members": 6,
+    "n_tiles_timed": 5,
+    "single_pass_seconds_median": 1.708837866783142,
+    "transforms": [
+     "identity",
+     "hflip",
+     "vflip",
+     "rot90",
+     "rot180",
+     "rot270"
+    ],
+    "tta_over_single_pass": 5.945024165366855,
+    "tta_seconds_median": 10.159082412719727
+   }
+  },
+  "sen2neon_random30": {
+   "sen2sr_lite": {
+    "definition": "single pass = median member latency of one full tiled pass over the scene; TTA = all members; the first tile of the run (warm-up) is excluded from the medians",
+    "first_tile_tta_seconds": 0.9234676361083984,
+    "n_members": 6,
+    "n_tiles_timed": 11,
+    "single_pass_seconds_median": 0.09629738330841064,
+    "transforms": [
+     "identity",
+     "hflip",
+     "vflip",
+     "rot90",
+     "rot180",
+     "rot270"
+    ],
+    "tta_over_single_pass": 8.60008591224819,
+    "tta_seconds_median": 0.8281657695770264
+   },
+   "sen2sr_mamba": {
+    "definition": "single pass = median member latency of one full tiled pass over the scene; TTA = all members; the first tile of the run (warm-up) is excluded from the medians",
+    "first_tile_tta_seconds": 98.24010348320007,
+    "n_members": 6,
+    "n_tiles_timed": 11,
+    "single_pass_seconds_median": 14.788432359695435,
+    "transforms": [
+     "identity",
+     "hflip",
+     "vflip",
+     "rot90",
+     "rot180",
+     "rot270"
+    ],
+    "tta_over_single_pass": 6.008642275714577,
+    "tta_seconds_median": 88.85839986801147
+   }
+  }
+ },
+ "datasets": {
+  "opensr_spain_crops": {
+   "counts": {
+    "invalid": 0,
+    "reference_gate_evaluated": 28,
+    "total": 28,
+    "unreadable": 0
+   },
+   "evidence_class": "real_cross_sensor",
+   "gate": {
+    "by_evidence_level": {
+     "pixel_level_eligible": 21,
+     "uncertain": 7
+    },
+    "excluded_by_reason": {
+     "reference_alignment_uncertain": 7
+    }
+   },
+   "info": {
+    "hr_variant": "HRharm",
+    "n_in_subset": 28,
+    "subset": "spain_crops"
+   },
+   "invalid": [],
+   "kind": "opensr_test",
+   "manifest_digest": "8fda3d88b850d5748a5c00f53de7bcd584269f53557ca6f39d05b01993ba3789",
+   "per_system": {
+    "sen2sr_lite": {
+     "eligible": 21,
+     "excluded_after_gate": {},
+     "reused_evidence": 0
+    },
+    "sen2sr_mamba": {
+     "eligible": 21,
+     "excluded_after_gate": {},
+     "reused_evidence": 0
+    }
+   },
+   "role": "independent_benchmark",
+   "scene_units_all": [
+    "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0722-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1"
+   ],
+   "scene_units_eligible": [
+    "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0722-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1"
+   ],
+   "split": "test",
+   "tiles": [
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.44 HR px within 0.5, quadrant spread 0.44 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.4431838816201933,
+     "raw_displacement_hr_px": 1.2233035662825567,
+     "reason": null,
+     "residual_hr_px": 0.4401690213163227,
+     "sample_id": "opensr_test:spain_crops:ROI_00001",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      0,
+      -1
+     ],
+     "detail": "residual 0.47 HR px within 0.5, quadrant spread 0.36 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.35892984056710764,
+     "raw_displacement_hr_px": 0.7472778254687805,
+     "reason": null,
+     "residual_hr_px": 0.4653113286268571,
+     "sample_id": "opensr_test:spain_crops:ROI_00002",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "crops",
+     "correction_hr_px": [
+      0,
+      -1
+     ],
+     "detail": "residual 0.18 HR px (tolerance 0.5), quadrant spread 1.44 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.4436556008092678,
+     "raw_displacement_hr_px": 0.9066872126232371,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.1843364544828894,
+     "sample_id": "opensr_test:spain_crops:ROI_00003",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.18 HR px within 0.5, quadrant spread 0.34 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.33997489674446635,
+     "raw_displacement_hr_px": 1.5751320718035693,
+     "reason": null,
+     "residual_hr_px": 0.18022762676295842,
+     "sample_id": "opensr_test:spain_crops:ROI_00004",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.53 HR px (tolerance 0.5), quadrant spread 1.26 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.2584622569962476,
+     "raw_displacement_hr_px": 1.1820120065613293,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5254785752712802,
+     "sample_id": "opensr_test:spain_crops:ROI_00005",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      0
+     ],
+     "detail": "residual 0.33 HR px within 0.5, quadrant spread 0.65 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.6454074568372564,
+     "raw_displacement_hr_px": 0.7466325847262925,
+     "reason": null,
+     "residual_hr_px": 0.3338878721074127,
+     "sample_id": "opensr_test:spain_crops:ROI_00006",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.20 HR px within 0.5, quadrant spread 0.63 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.6337722151716735,
+     "raw_displacement_hr_px": 1.3360899973307296,
+     "reason": null,
+     "residual_hr_px": 0.20339870759418405,
+     "sample_id": "opensr_test:spain_crops:ROI_00007",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      0
+     ],
+     "detail": "residual 0.35 HR px within 0.5, quadrant spread 0.45 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.4509866817379116,
+     "raw_displacement_hr_px": 0.7931022350547999,
+     "reason": null,
+     "residual_hr_px": 0.3511675626429072,
+     "sample_id": "opensr_test:spain_crops:ROI_00008",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      2,
+      -3
+     ],
+     "detail": "residual 0.40 HR px within 0.5, quadrant spread 0.62 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.6171107837261683,
+     "raw_displacement_hr_px": 3.510709657646146,
+     "reason": null,
+     "residual_hr_px": 0.40191538041865515,
+     "sample_id": "opensr_test:spain_crops:ROI_00010",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      -2
+     ],
+     "detail": "residual 0.35 HR px within 0.5, quadrant spread 0.49 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.4896103326523518,
+     "raw_displacement_hr_px": 2.05983843273047,
+     "reason": null,
+     "residual_hr_px": 0.35131774003723504,
+     "sample_id": "opensr_test:spain_crops:ROI_00011",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "crops",
+     "correction_hr_px": [
+      0,
+      -3
+     ],
+     "detail": "residual 0.51 HR px (tolerance 0.5), quadrant spread 0.97 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.9696816970276512,
+     "raw_displacement_hr_px": 2.5274717293619915,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.509567366404903,
+     "sample_id": "opensr_test:spain_crops:ROI_00012",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      0,
+      -3
+     ],
+     "detail": "residual 0.47 HR px within 0.5, quadrant spread 0.85 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.8477654360413264,
+     "raw_displacement_hr_px": 3.005338889610437,
+     "reason": null,
+     "residual_hr_px": 0.4694574801184685,
+     "sample_id": "opensr_test:spain_crops:ROI_00013",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      -2
+     ],
+     "detail": "residual 0.29 HR px within 0.5, quadrant spread 0.49 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.4935575051518272,
+     "raw_displacement_hr_px": 1.9725626756960328,
+     "reason": null,
+     "residual_hr_px": 0.29358468861835885,
+     "sample_id": "opensr_test:spain_crops:ROI_00014",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      -2
+     ],
+     "detail": "residual 0.40 HR px within 0.5, quadrant spread 0.39 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.3862421183944445,
+     "raw_displacement_hr_px": 1.8262619298440406,
+     "reason": null,
+     "residual_hr_px": 0.395966585741151,
+     "sample_id": "opensr_test:spain_crops:ROI_00015",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      2,
+      -2
+     ],
+     "detail": "residual 0.07 HR px within 0.5, quadrant spread 0.73 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.7278875593226304,
+     "raw_displacement_hr_px": 2.7700702939001545,
+     "reason": null,
+     "residual_hr_px": 0.07491756415862313,
+     "sample_id": "opensr_test:spain_crops:ROI_00016",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      0,
+      -3
+     ],
+     "detail": "residual 0.35 HR px within 0.5, quadrant spread 0.49 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.4893924474122741,
+     "raw_displacement_hr_px": 2.957299950388511,
+     "reason": null,
+     "residual_hr_px": 0.3489501055764283,
+     "sample_id": "opensr_test:spain_crops:ROI_00017",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.31 HR px within 0.5, quadrant spread 0.35 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.35284273861624016,
+     "raw_displacement_hr_px": 1.6265683610040258,
+     "reason": null,
+     "residual_hr_px": 0.3086778040275645,
+     "sample_id": "opensr_test:spain_crops:ROI_00019",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0722-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      0,
+      -1
+     ],
+     "detail": "residual 0.08 HR px within 0.5, quadrant spread 0.25 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.25381814168923605,
+     "raw_displacement_hr_px": 0.9852761463310472,
+     "reason": null,
+     "residual_hr_px": 0.08059491487267459,
+     "sample_id": "opensr_test:spain_crops:ROI_00023",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      -3,
+      0
+     ],
+     "detail": "residual 0.37 HR px within 0.5, quadrant spread 0.11 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.10678882751358464,
+     "raw_displacement_hr_px": 2.6278397745414956,
+     "reason": null,
+     "residual_hr_px": 0.37443371198349085,
+     "sample_id": "opensr_test:spain_crops:ROI_00024",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "crops",
+     "correction_hr_px": [
+      -3,
+      1
+     ],
+     "detail": "residual 0.44 HR px (tolerance 0.5), quadrant spread 1.25 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.2488616683398381,
+     "raw_displacement_hr_px": 2.8546934036248333,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.44424338667478364,
+     "sample_id": "opensr_test:spain_crops:ROI_00025",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      -3,
+      0
+     ],
+     "detail": "residual 0.31 HR px within 0.5, quadrant spread 0.46 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.45863240616862444,
+     "raw_displacement_hr_px": 2.715582553354413,
+     "reason": null,
+     "residual_hr_px": 0.3128466779290376,
+     "sample_id": "opensr_test:spain_crops:ROI_00026",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      -3,
+      0
+     ],
+     "detail": "residual 0.44 HR px within 0.5, quadrant spread 0.79 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.7916232827362824,
+     "raw_displacement_hr_px": 2.9700997968418172,
+     "reason": null,
+     "residual_hr_px": 0.44375592260684016,
+     "sample_id": "opensr_test:spain_crops:ROI_00027",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      -3,
+      -1
+     ],
+     "detail": "residual 0.37 HR px within 0.5, quadrant spread 0.16 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.16342291286656693,
+     "raw_displacement_hr_px": 3.0125499044196506,
+     "reason": null,
+     "residual_hr_px": 0.370370838738945,
+     "sample_id": "opensr_test:spain_crops:ROI_00028",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      -3,
+      -1
+     ],
+     "detail": "residual 0.31 HR px within 0.5, quadrant spread 0.61 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.613684083376605,
+     "raw_displacement_hr_px": 3.0061140764126573,
+     "reason": null,
+     "residual_hr_px": 0.3134341778886527,
+     "sample_id": "opensr_test:spain_crops:ROI_00030",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "crops",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.47 HR px within 0.5, quadrant spread 0.27 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.2719561140793028,
+     "raw_displacement_hr_px": 0.9623543381243223,
+     "reason": null,
+     "residual_hr_px": 0.47334611550429884,
+     "sample_id": "opensr_test:spain_crops:ROI_00031",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "crops",
+     "correction_hr_px": [
+      0,
+      -1
+     ],
+     "detail": "residual 0.51 HR px (tolerance 0.5), quadrant spread 0.43 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.43283365506339766,
+     "raw_displacement_hr_px": 0.518092220605401,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5068539294770685,
+     "sample_id": "opensr_test:spain_crops:ROI_00032",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "crops",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.63 HR px (tolerance 0.5), quadrant spread 0.33 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.32865039297033605,
+     "raw_displacement_hr_px": 0.6269939648227881,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.6269939648227881,
+     "sample_id": "opensr_test:spain_crops:ROI_00033",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "crops",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.51 HR px (tolerance 0.5), quadrant spread 0.17 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.16770898920849875,
+     "raw_displacement_hr_px": 0.5087141011616779,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5087141011616779,
+     "sample_id": "opensr_test:spain_crops:ROI_00034",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+     "valid_fraction": 1.0
+    }
+   ],
+   "unreadable": []
+  },
+  "opensr_spain_urban": {
+   "counts": {
+    "invalid": 0,
+    "reference_gate_evaluated": 20,
+    "total": 20,
+    "unreadable": 0
+   },
+   "evidence_class": "real_cross_sensor",
+   "gate": {
+    "by_evidence_level": {
+     "pixel_level_eligible": 13,
+     "uncertain": 7
+    },
+    "excluded_by_reason": {
+     "reference_alignment_uncertain": 7
+    }
+   },
+   "info": {
+    "hr_variant": "HRharm",
+    "n_in_subset": 20,
+    "subset": "spain_urban"
+   },
+   "invalid": [],
+   "kind": "opensr_test",
+   "manifest_digest": "1596f37c40c631a6a42bb898dfaea0251af956d30be887220c4c0cba45632314",
+   "per_system": {
+    "sen2sr_lite": {
+     "eligible": 13,
+     "excluded_after_gate": {},
+     "reused_evidence": 0
+    },
+    "sen2sr_mamba": {
+     "eligible": 13,
+     "excluded_after_gate": {},
+     "reused_evidence": 0
+    }
+   },
+   "role": "independent_benchmark",
+   "scene_units_all": [
+    "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1"
+   ],
+   "scene_units_eligible": [
+    "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+    "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1"
+   ],
+   "split": "test",
+   "tiles": [
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      2,
+      -1
+     ],
+     "detail": "residual 0.48 HR px within 0.5, quadrant spread 0.64 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.642319864466399,
+     "raw_displacement_hr_px": 1.86433064078237,
+     "reason": null,
+     "residual_hr_px": 0.47888953063209383,
+     "sample_id": "opensr_test:spain_urban:ROI_00001",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.33 HR px within 0.5, quadrant spread 0.23 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.23074601105727477,
+     "raw_displacement_hr_px": 1.13127066241864,
+     "reason": null,
+     "residual_hr_px": 0.3289097986537165,
+     "sample_id": "opensr_test:spain_urban:ROI_00002",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.43 HR px within 0.5, quadrant spread 0.21 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.2096973753869152,
+     "raw_displacement_hr_px": 0.43360809452285504,
+     "reason": null,
+     "residual_hr_px": 0.43360809452285504,
+     "sample_id": "opensr_test:spain_urban:ROI_00004",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "urban",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.52 HR px (tolerance 0.5), quadrant spread 0.43 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.43168009932447854,
+     "raw_displacement_hr_px": 0.5236484643335364,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5236484643335364,
+     "sample_id": "opensr_test:spain_urban:ROI_00006",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "urban",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.50 HR px (tolerance 0.5), quadrant spread 0.19 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.1900430097132417,
+     "raw_displacement_hr_px": 1.0176253465979181,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5027868849477389,
+     "sample_id": "opensr_test:spain_urban:ROI_00007",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0383-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "urban",
+     "correction_hr_px": [
+      -2,
+      0
+     ],
+     "detail": "residual 0.17 HR px (tolerance 0.5), quadrant spread 1.73 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.7269274808020987,
+     "raw_displacement_hr_px": 2.1389965964182585,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.16704009768797765,
+     "sample_id": "opensr_test:spain_urban:ROI_00009",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      -3,
+      0
+     ],
+     "detail": "residual 0.08 HR px within 0.5, quadrant spread 0.87 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.872260983215275,
+     "raw_displacement_hr_px": 2.908405877692817,
+     "reason": null,
+     "residual_hr_px": 0.0828415615876267,
+     "sample_id": "opensr_test:spain_urban:ROI_00010",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      -3,
+      0
+     ],
+     "detail": "residual 0.26 HR px within 0.5, quadrant spread 0.51 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.5091313874511797,
+     "raw_displacement_hr_px": 3.07630829621976,
+     "reason": null,
+     "residual_hr_px": 0.26499384738388254,
+     "sample_id": "opensr_test:spain_urban:ROI_00011",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "urban",
+     "correction_hr_px": [
+      -3,
+      0
+     ],
+     "detail": "residual 0.52 HR px (tolerance 0.5), quadrant spread 0.92 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.9160808420774716,
+     "raw_displacement_hr_px": 3.188637026996534,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5175424331464805,
+     "sample_id": "opensr_test:spain_urban:ROI_00013",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "urban",
+     "correction_hr_px": [
+      -3,
+      -1
+     ],
+     "detail": "residual 0.24 HR px (tolerance 0.5), quadrant spread 1.37 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.374990813641115,
+     "raw_displacement_hr_px": 3.0039052740581984,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.23742090357755322,
+     "sample_id": "opensr_test:spain_urban:ROI_00014",
+     "scene_unit": "PNOA_ANUAL_2020_OF_ETRS89_HU30_h25_0372-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "urban",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.58 HR px (tolerance 0.5), quadrant spread 0.65 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.6508994541222587,
+     "raw_displacement_hr_px": 1.6320032812913707,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5786743342793783,
+     "sample_id": "opensr_test:spain_urban:ROI_00026",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      1,
+      -2
+     ],
+     "detail": "residual 0.43 HR px within 0.5, quadrant spread 0.33 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.33315720050316133,
+     "raw_displacement_hr_px": 1.934104412368261,
+     "reason": null,
+     "residual_hr_px": 0.4280702063240323,
+     "sample_id": "opensr_test:spain_urban:ROI_00027",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      1,
+      -2
+     ],
+     "detail": "residual 0.39 HR px within 0.5, quadrant spread 0.52 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.5203633928052428,
+     "raw_displacement_hr_px": 1.8927343529004486,
+     "reason": null,
+     "residual_hr_px": 0.39457900881146774,
+     "sample_id": "opensr_test:spain_urban:ROI_00028",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      2,
+      -3
+     ],
+     "detail": "residual 0.18 HR px within 0.5, quadrant spread 0.92 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.9214273314061477,
+     "raw_displacement_hr_px": 3.510213903343211,
+     "reason": null,
+     "residual_hr_px": 0.18335197429692873,
+     "sample_id": "opensr_test:spain_urban:ROI_00030",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      1,
+      -2
+     ],
+     "detail": "residual 0.34 HR px within 0.5, quadrant spread 0.19 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.1852510189707022,
+     "raw_displacement_hr_px": 1.8935798943909479,
+     "reason": null,
+     "residual_hr_px": 0.3448416623827013,
+     "sample_id": "opensr_test:spain_urban:ROI_00031",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      -1,
+      -1
+     ],
+     "detail": "residual 0.43 HR px within 0.5, quadrant spread 0.32 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.3152108367037516,
+     "raw_displacement_hr_px": 1.8489423527660134,
+     "reason": null,
+     "residual_hr_px": 0.43211034509082025,
+     "sample_id": "opensr_test:spain_urban:ROI_00032",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU31_h25_0334-1",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      1,
+      0
+     ],
+     "detail": "residual 0.49 HR px within 0.5, quadrant spread 0.29 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.2866688808358402,
+     "raw_displacement_hr_px": 0.7767458117614335,
+     "reason": null,
+     "residual_hr_px": 0.494407600628708,
+     "sample_id": "opensr_test:spain_urban:ROI_00033",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.19 HR px within 0.5, quadrant spread 0.23 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.22772075418232327,
+     "raw_displacement_hr_px": 1.6020997142756717,
+     "reason": null,
+     "residual_hr_px": 0.1926275087529264,
+     "sample_id": "opensr_test:spain_urban:ROI_00034",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "urban",
+     "correction_hr_px": [
+      0,
+      -1
+     ],
+     "detail": "residual 0.50 HR px (tolerance 0.5), quadrant spread 0.57 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.5737652829608626,
+     "raw_displacement_hr_px": 0.796792520731976,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5033952227268272,
+     "sample_id": "opensr_test:spain_urban:ROI_00035",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "urban",
+     "correction_hr_px": [
+      1,
+      0
+     ],
+     "detail": "residual 0.31 HR px within 0.5, quadrant spread 0.41 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.41498310471919997,
+     "raw_displacement_hr_px": 0.8417733873639662,
+     "reason": null,
+     "residual_hr_px": 0.30805107402025994,
+     "sample_id": "opensr_test:spain_urban:ROI_00036",
+     "scene_unit": "PNOA_ANUAL_2021_OF_ETRS89_HU30_h25_0790-2",
+     "valid_fraction": 1.0
+    }
+   ],
+   "unreadable": []
+  },
+  "opensr_spot": {
+   "counts": {
+    "invalid": 0,
+    "reference_gate_evaluated": 9,
+    "total": 9,
+    "unreadable": 0
+   },
+   "evidence_class": "real_cross_sensor",
+   "gate": {
+    "by_evidence_level": {
+     "pixel_level_eligible": 6,
+     "uncertain": 3
+    },
+    "excluded_by_reason": {
+     "reference_alignment_uncertain": 3
+    }
+   },
+   "info": {
+    "hr_variant": "HRharm",
+    "n_in_subset": 9,
+    "subset": "spot"
+   },
+   "invalid": [],
+   "kind": "opensr_test",
+   "manifest_digest": "32495be456ae9ba3a65983714c0af7d6c7b2e6ba3422ab80901d7b409f5a7d7f",
+   "per_system": {
+    "sen2sr_lite": {
+     "eligible": 6,
+     "excluded_after_gate": {},
+     "reused_evidence": 0
+    },
+    "sen2sr_mamba": {
+     "eligible": 6,
+     "excluded_after_gate": {},
+     "reused_evidence": 0
+    }
+   },
+   "role": "independent_benchmark",
+   "scene_units_all": [
+    "spot_ROI_0037",
+    "spot_ROI_0050",
+    "spot_ROI_0117",
+    "spot_ROI_0803",
+    "spot_ROI_0967",
+    "spot_ROI_1647",
+    "spot_ROI_2603",
+    "spot_ROI_3126",
+    "spot_ROI_3171"
+   ],
+   "scene_units_eligible": [
+    "spot_ROI_0037",
+    "spot_ROI_0050",
+    "spot_ROI_0803",
+    "spot_ROI_1647",
+    "spot_ROI_2603",
+    "spot_ROI_3126"
+   ],
+   "split": "test",
+   "tiles": [
+    {
+     "alignment_status": "eligible",
+     "category": "spot_mixed",
+     "correction_hr_px": [
+      -1,
+      0
+     ],
+     "detail": "residual 0.23 HR px within 0.5, quadrant spread 0.44 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.44356813296337877,
+     "raw_displacement_hr_px": 0.7983593950418834,
+     "reason": null,
+     "residual_hr_px": 0.23115033562894205,
+     "sample_id": "opensr_test:spot:ROI_0037",
+     "scene_unit": "spot_ROI_0037",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "spot_mixed",
+     "correction_hr_px": [
+      -1,
+      -1
+     ],
+     "detail": "residual 0.36 HR px within 0.5, quadrant spread 0.15 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.1540174799013696,
+     "raw_displacement_hr_px": 1.076711092359417,
+     "reason": null,
+     "residual_hr_px": 0.36248468534503664,
+     "sample_id": "opensr_test:spot:ROI_0050",
+     "scene_unit": "spot_ROI_0050",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "spot_mixed",
+     "correction_hr_px": [
+      0,
+      1
+     ],
+     "detail": "residual 0.58 HR px (tolerance 0.5), quadrant spread 0.60 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.6022957119113771,
+     "raw_displacement_hr_px": 0.5167417258366936,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5834074134721297,
+     "sample_id": "opensr_test:spot:ROI_0117",
+     "scene_unit": "spot_ROI_0117",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "spot_mixed",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.42 HR px within 0.5, quadrant spread 0.14 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.13892055391866354,
+     "raw_displacement_hr_px": 0.4226558840596666,
+     "reason": null,
+     "residual_hr_px": 0.4226558840596666,
+     "sample_id": "opensr_test:spot:ROI_0803",
+     "scene_unit": "spot_ROI_0803",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "spot_mixed",
+     "correction_hr_px": [
+      1,
+      1
+     ],
+     "detail": "residual 0.55 HR px (tolerance 0.5), quadrant spread 1.43 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.4330899038274216,
+     "raw_displacement_hr_px": 0.8592786023026288,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5485504379990372,
+     "sample_id": "opensr_test:spot:ROI_0967",
+     "scene_unit": "spot_ROI_0967",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "spot_mixed",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.29 HR px within 0.5, quadrant spread 0.31 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.3143458715253286,
+     "raw_displacement_hr_px": 0.29218670708354677,
+     "reason": null,
+     "residual_hr_px": 0.29218670708354677,
+     "sample_id": "opensr_test:spot:ROI_1647",
+     "scene_unit": "spot_ROI_1647",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "spot_mixed",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.23 HR px within 0.5, quadrant spread 0.33 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.3263154828898893,
+     "raw_displacement_hr_px": 0.22533444096078611,
+     "reason": null,
+     "residual_hr_px": 0.22533444096078611,
+     "sample_id": "opensr_test:spot:ROI_2603",
+     "scene_unit": "spot_ROI_2603",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "spot_mixed",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.41 HR px within 0.5, quadrant spread 0.94 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.9393749987697207,
+     "raw_displacement_hr_px": 0.40987719191603084,
+     "reason": null,
+     "residual_hr_px": 0.40987719191603084,
+     "sample_id": "opensr_test:spot:ROI_3126",
+     "scene_unit": "spot_ROI_3126",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "spot_mixed",
+     "correction_hr_px": [
+      0,
+      1
+     ],
+     "detail": "residual 0.65 HR px (tolerance 0.5), quadrant spread 0.75 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.7525070008646534,
+     "raw_displacement_hr_px": 0.760795579192318,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.6547573406946541,
+     "sample_id": "opensr_test:spot:ROI_3171",
+     "scene_unit": "spot_ROI_3171",
+     "valid_fraction": 1.0
+    }
+   ],
+   "unreadable": []
+  },
+  "sen2neon_random30": {
+   "counts": {
+    "invalid": 0,
+    "reference_gate_evaluated": 30,
+    "total": 30,
+    "unreadable": 0
+   },
+   "evidence_class": "real_cross_sensor",
+   "gate": {
+    "by_evidence_level": {
+     "not_eligible": 3,
+     "pixel_level_eligible": 12,
+     "uncertain": 15
+    },
+    "excluded_by_reason": {
+     "reference_alignment_invalid": 3,
+     "reference_alignment_uncertain": 15
+    }
+   },
+   "info": {
+    "dataset_revisions": [
+     "9f076b4f652aa0253127d382dcb6e611250b2e67"
+    ],
+    "manifest": "../../evaluation/manifests/sen2neon_random30_seed0.jsonl"
+   },
+   "invalid": [],
+   "kind": "sen2neon",
+   "manifest_digest": "ab433be9ceada8a1b0bf5705b0caaab62bc8e666c0f144a57e4aeccd9821b436",
+   "per_system": {
+    "sen2sr_lite": {
+     "eligible": 12,
+     "excluded_after_gate": {},
+     "reused_evidence": 0
+    },
+    "sen2sr_mamba": {
+     "eligible": 12,
+     "excluded_after_gate": {},
+     "reused_evidence": 0
+    }
+   },
+   "role": "independent_benchmark",
+   "scene_units_all": [
+    "2019_JERC_5",
+    "2019_SOAP_4",
+    "2020_RMNP_3",
+    "2020_YELL_3",
+    "2021_JORN_4",
+    "2021_OAES_5",
+    "2022_CLBJ_6",
+    "2022_GRSM_7",
+    "2022_JORN_5",
+    "2022_KONZ_7",
+    "2022_RMNP_4",
+    "2022_STEI_5",
+    "2022_UKFS_6",
+    "2022_WREF_5",
+    "2023_BONA_5",
+    "2023_JERC_7",
+    "2023_KONZ_8",
+    "2023_OAES_7",
+    "2023_RMNP_5",
+    "2023_TEAK_6",
+    "2023_YELL_5",
+    "2024_HEAL_6",
+    "2024_JERC_8",
+    "2024_KONZ_9",
+    "2024_NIWO_6",
+    "2024_OAES_8",
+    "2024_SRER_6",
+    "2024_UNDE_6"
+   ],
+   "scene_units_eligible": [
+    "2019_JERC_5",
+    "2021_JORN_4",
+    "2021_OAES_5",
+    "2022_GRSM_7",
+    "2022_JORN_5",
+    "2022_KONZ_7",
+    "2022_RMNP_4",
+    "2022_STEI_5",
+    "2022_UKFS_6",
+    "2022_WREF_5",
+    "2024_KONZ_9"
+   ],
+   "split": "test",
+   "tiles": [
+    {
+     "alignment_status": "eligible",
+     "category": "Forest",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.29 HR px within 0.5, quadrant spread 0.74 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.7437362021301666,
+     "raw_displacement_hr_px": 0.28609103421840715,
+     "reason": null,
+     "residual_hr_px": 0.28609103421840715,
+     "sample_id": "sen2neon:2019_JERC_5__3_1",
+     "scene_unit": "2019_JERC_5",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Forest",
+     "correction_hr_px": [
+      -3,
+      -2
+     ],
+     "detail": "residual 0.45 HR px (tolerance 0.5), quadrant spread 1.42 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.4193866455241073,
+     "raw_displacement_hr_px": 3.3143923807536564,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.4461619932908613,
+     "sample_id": "sen2neon:2019_SOAP_4__4_4",
+     "scene_unit": "2019_SOAP_4",
+     "valid_fraction": 0.9885826110839844
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Forest",
+     "correction_hr_px": [
+      -2,
+      -1
+     ],
+     "detail": "residual 0.54 HR px (tolerance 0.5), quadrant spread 0.90 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.9025803518749599,
+     "raw_displacement_hr_px": 2.2494602329588838,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.537173289610959,
+     "sample_id": "sen2neon:2020_RMNP_3__3_3",
+     "scene_unit": "2020_RMNP_3",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Rural",
+     "correction_hr_px": [
+      0,
+      2
+     ],
+     "detail": "residual 0.21 HR px (tolerance 0.5), quadrant spread 1.67 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.6720537038039571,
+     "raw_displacement_hr_px": 1.8235645485225096,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.21452359895235076,
+     "sample_id": "sen2neon:2020_YELL_3__1_3",
+     "scene_unit": "2020_YELL_3",
+     "valid_fraction": 0.8235359191894531
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Rural",
+     "correction_hr_px": [
+      -2,
+      0
+     ],
+     "detail": "residual 0.54 HR px (tolerance 0.5), quadrant spread 1.10 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.0950554134151445,
+     "raw_displacement_hr_px": 2.4910210098880476,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5367319766666844,
+     "sample_id": "sen2neon:2020_YELL_3__2_5",
+     "scene_unit": "2020_YELL_3",
+     "valid_fraction": 0.9991044998168945
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Rural",
+     "correction_hr_px": [
+      -3,
+      -1
+     ],
+     "detail": "residual 0.32 HR px within 0.5, quadrant spread 0.13 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.13077143121767631,
+     "raw_displacement_hr_px": 3.0790524867288576,
+     "reason": null,
+     "residual_hr_px": 0.3227685410859474,
+     "sample_id": "sen2neon:2021_JORN_4__5_4",
+     "scene_unit": "2021_JORN_4",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Rural",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.40 HR px within 0.5, quadrant spread 0.11 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.11171091936997207,
+     "raw_displacement_hr_px": 0.4044454487199591,
+     "reason": null,
+     "residual_hr_px": 0.4044454487199591,
+     "sample_id": "sen2neon:2021_JORN_4__5_6",
+     "scene_unit": "2021_JORN_4",
+     "valid_fraction": 0.9999885559082031
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Rural",
+     "correction_hr_px": [
+      0,
+      -1
+     ],
+     "detail": "residual 0.19 HR px within 0.5, quadrant spread 0.46 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.4568721203758426,
+     "raw_displacement_hr_px": 0.8496488743628761,
+     "reason": null,
+     "residual_hr_px": 0.18619975720497944,
+     "sample_id": "sen2neon:2021_OAES_5__1_3",
+     "scene_unit": "2021_OAES_5",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Rural",
+     "correction_hr_px": [
+      0,
+      1
+     ],
+     "detail": "residual 0.25 HR px (tolerance 0.5), quadrant spread 1.94 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.9392172803364265,
+     "raw_displacement_hr_px": 1.0154697688162124,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.25306036939114335,
+     "sample_id": "sen2neon:2022_CLBJ_6__0_4",
+     "scene_unit": "2022_CLBJ_6",
+     "valid_fraction": 0.623845100402832
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Forest",
+     "correction_hr_px": [
+      -1,
+      0
+     ],
+     "detail": "residual 0.30 HR px within 0.5, quadrant spread 0.65 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.6500590668574899,
+     "raw_displacement_hr_px": 0.7057907441018002,
+     "reason": null,
+     "residual_hr_px": 0.2997765083978948,
+     "sample_id": "sen2neon:2022_GRSM_7__6_3",
+     "scene_unit": "2022_GRSM_7",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Rural",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.48 HR px within 0.5, quadrant spread 0.20 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.20464612517545622,
+     "raw_displacement_hr_px": 0.48184437893725757,
+     "reason": null,
+     "residual_hr_px": 0.48184437893725757,
+     "sample_id": "sen2neon:2022_JORN_5__9_7",
+     "scene_unit": "2022_JORN_5",
+     "valid_fraction": 0.9999971389770508
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Rural",
+     "correction_hr_px": [
+      -1,
+      0
+     ],
+     "detail": "residual 0.45 HR px within 0.5, quadrant spread 0.65 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.6504579102603321,
+     "raw_displacement_hr_px": 0.9323009041416959,
+     "reason": null,
+     "residual_hr_px": 0.44671015036154743,
+     "sample_id": "sen2neon:2022_KONZ_7__8_5",
+     "scene_unit": "2022_KONZ_7",
+     "valid_fraction": 0.9687681198120117
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Forest",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.23 HR px within 0.5, quadrant spread 0.30 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.2971797201729026,
+     "raw_displacement_hr_px": 1.6223328599685527,
+     "reason": null,
+     "residual_hr_px": 0.22880491112089024,
+     "sample_id": "sen2neon:2022_RMNP_4__8_4",
+     "scene_unit": "2022_RMNP_4",
+     "valid_fraction": 0.7728433609008789
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Forest",
+     "correction_hr_px": [
+      -1,
+      0
+     ],
+     "detail": "residual 0.33 HR px within 0.5, quadrant spread 0.75 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.754660349304445,
+     "raw_displacement_hr_px": 0.9299754067032193,
+     "reason": null,
+     "residual_hr_px": 0.33150248870804117,
+     "sample_id": "sen2neon:2022_STEI_5__5_2",
+     "scene_unit": "2022_STEI_5",
+     "valid_fraction": 0.9256582260131836
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Rural",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.47 HR px within 0.5, quadrant spread 0.24 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.24455156910712236,
+     "raw_displacement_hr_px": 0.47121140484479823,
+     "reason": null,
+     "residual_hr_px": 0.47121140484479823,
+     "sample_id": "sen2neon:2022_UKFS_6__1_0",
+     "scene_unit": "2022_UKFS_6",
+     "valid_fraction": 0.6483774185180664
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Forest",
+     "correction_hr_px": [
+      2,
+      -2
+     ],
+     "detail": "residual 0.43 HR px within 0.5, quadrant spread 0.53 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.5289148581142755,
+     "raw_displacement_hr_px": 2.555199775202587,
+     "reason": null,
+     "residual_hr_px": 0.4271741143014539,
+     "sample_id": "sen2neon:2022_WREF_5__1_5",
+     "scene_unit": "2022_WREF_5",
+     "valid_fraction": 0.8657703399658203
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "unlabelled",
+     "correction_hr_px": [
+      -1,
+      0
+     ],
+     "detail": "residual 0.61 HR px (tolerance 0.5), quadrant spread 0.84 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.8355508162749999,
+     "raw_displacement_hr_px": 0.6904132078361889,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.6052558656539309,
+     "sample_id": "sen2neon:2023_BONA_5__3_0",
+     "scene_unit": "2023_BONA_5",
+     "valid_fraction": 0.8458747863769531
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Rural",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.22 HR px (tolerance 0.5), quadrant spread 1.46 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.4561929644144485,
+     "raw_displacement_hr_px": 0.21939453129165712,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.21939453129165712,
+     "sample_id": "sen2neon:2023_JERC_7__1_5",
+     "scene_unit": "2023_JERC_7",
+     "valid_fraction": 0.999995231628418
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Developed",
+     "correction_hr_px": [
+      -1,
+      -1
+     ],
+     "detail": "residual 0.58 HR px (tolerance 0.5), quadrant spread 0.13 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.13025970071010043,
+     "raw_displacement_hr_px": 0.8454633586738382,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5775595677567289,
+     "sample_id": "sen2neon:2023_KONZ_8__2_1",
+     "scene_unit": "2023_KONZ_8",
+     "valid_fraction": 0.7710390090942383
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Rural",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.50 HR px (tolerance 0.5), quadrant spread 1.05 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.0548467972720288,
+     "raw_displacement_hr_px": 0.49526857263968993,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.49526857263968993,
+     "sample_id": "sen2neon:2023_OAES_7__2_2",
+     "scene_unit": "2023_OAES_7",
+     "valid_fraction": 0.9993152618408203
+    },
+    {
+     "alignment_status": "not_eligible",
+     "category": "Forest",
+     "correction_hr_px": [
+      2,
+      -1
+     ],
+     "detail": "the four quadrants disagree by 2.06 HR px (> 2 x 1.0): not one global translation",
+     "evidence_level": "not_eligible",
+     "quadrant_spread_hr_px": 2.058295696741874,
+     "raw_displacement_hr_px": 2.2489974316245482,
+     "reason": "reference_alignment_invalid",
+     "residual_hr_px": 0.3480075703601521,
+     "sample_id": "sen2neon:2023_RMNP_5__7_1",
+     "scene_unit": "2023_RMNP_5",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "not_eligible",
+     "category": "Forest",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "correction (-3, -6) HR px exceeds max_correction_hr_px=4: the reference is too far off to correct by a global translation",
+     "evidence_level": "not_eligible",
+     "quadrant_spread_hr_px": null,
+     "raw_displacement_hr_px": 6.713929482467434,
+     "reason": "reference_alignment_invalid",
+     "residual_hr_px": null,
+     "sample_id": "sen2neon:2023_TEAK_6__2_2",
+     "scene_unit": "2023_TEAK_6",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Forest",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "residual 0.32 HR px (tolerance 0.5), quadrant spread 1.82 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.8176227621524046,
+     "raw_displacement_hr_px": 1.6964925828454638,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.31883166074253594,
+     "sample_id": "sen2neon:2023_YELL_5__4_8",
+     "scene_unit": "2023_YELL_5",
+     "valid_fraction": 0.9997310638427734
+    },
+    {
+     "alignment_status": "not_eligible",
+     "category": "unlabelled",
+     "correction_hr_px": [
+      1,
+      -1
+     ],
+     "detail": "the four quadrants disagree by 178.90 HR px (> 2 x 1.0): not one global translation",
+     "evidence_level": "not_eligible",
+     "quadrant_spread_hr_px": 178.90220829620566,
+     "raw_displacement_hr_px": 1.4886486975391413,
+     "reason": "reference_alignment_invalid",
+     "residual_hr_px": 0.15472448143440726,
+     "sample_id": "sen2neon:2024_HEAL_6__1_1",
+     "scene_unit": "2024_HEAL_6",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Rural",
+     "correction_hr_px": [
+      1,
+      0
+     ],
+     "detail": "residual 0.75 HR px (tolerance 0.5), quadrant spread 1.19 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.1945100900569599,
+     "raw_displacement_hr_px": 0.720995430936274,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.7472098644943294,
+     "sample_id": "sen2neon:2024_JERC_8__2_6",
+     "scene_unit": "2024_JERC_8",
+     "valid_fraction": 0.648289680480957
+    },
+    {
+     "alignment_status": "eligible",
+     "category": "Rural",
+     "correction_hr_px": [
+      -1,
+      -1
+     ],
+     "detail": "residual 0.26 HR px within 0.5, quadrant spread 0.81 HR px within 1.0",
+     "evidence_level": "pixel_level_eligible",
+     "quadrant_spread_hr_px": 0.8136217067752127,
+     "raw_displacement_hr_px": 1.3241539821546084,
+     "reason": null,
+     "residual_hr_px": 0.2611910280485946,
+     "sample_id": "sen2neon:2024_KONZ_9__2_4",
+     "scene_unit": "2024_KONZ_9",
+     "valid_fraction": 0.7270917892456055
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Rural",
+     "correction_hr_px": [
+      -1,
+      0
+     ],
+     "detail": "residual 0.30 HR px (tolerance 0.5), quadrant spread 1.52 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.5199103319257705,
+     "raw_displacement_hr_px": 0.7916429785919448,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.2969762733300774,
+     "sample_id": "sen2neon:2024_NIWO_6__4_1",
+     "scene_unit": "2024_NIWO_6",
+     "valid_fraction": 0.5166454315185547
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Rural",
+     "correction_hr_px": [
+      0,
+      0
+     ],
+     "detail": "residual 0.23 HR px (tolerance 0.5), quadrant spread 1.58 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 1.5798823456669886,
+     "raw_displacement_hr_px": 0.2281318241734885,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.2281318241734885,
+     "sample_id": "sen2neon:2024_OAES_8__4_1",
+     "scene_unit": "2024_OAES_8",
+     "valid_fraction": 1.0
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Rural",
+     "correction_hr_px": [
+      0,
+      -1
+     ],
+     "detail": "residual 0.65 HR px (tolerance 0.5), quadrant spread 0.37 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.37412698700436037,
+     "raw_displacement_hr_px": 0.6988457045998862,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.651678321097632,
+     "sample_id": "sen2neon:2024_SRER_6__3_2",
+     "scene_unit": "2024_SRER_6",
+     "valid_fraction": 0.9929237365722656
+    },
+    {
+     "alignment_status": "uncertain",
+     "category": "Water",
+     "correction_hr_px": [
+      0,
+      -1
+     ],
+     "detail": "residual 0.52 HR px (tolerance 0.5), quadrant spread 0.37 HR px (tolerance 1.0): between the accepted and the rejected range",
+     "evidence_level": "uncertain",
+     "quadrant_spread_hr_px": 0.3693388313103545,
+     "raw_displacement_hr_px": 0.5079846598058603,
+     "reason": "reference_alignment_uncertain",
+     "residual_hr_px": 0.5228608147578452,
+     "sample_id": "sen2neon:2024_UNDE_6__5_2",
+     "scene_unit": "2024_UNDE_6",
+     "valid_fraction": 0.9989995956420898
+    }
+   ],
+   "unreadable": []
+  }
+ },
+ "eligibility": {
+  "max_nonfinite_fraction": 0.0,
+  "min_members": 2,
+  "min_valid_fraction": 0.5
+ },
+ "environment": {
+  "cpu_count": 20,
+  "cuda_available": true,
+  "cudnn": "92400",
+  "gpu": {
+   "compute_capability": "8.6",
+   "driver_cuda": "13.0",
+   "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+   "total_memory_mib": 3759
+  },
+  "machine": "x86_64",
+  "numpy": "2.4.6",
+  "packages": {
+   "mlstac": "0.4.9",
+   "opensr-test": "1.3.3",
+   "rasterio": "1.4.4",
+   "safetensors": "0.8.0",
+   "scikit-image": "0.26.0",
+   "triton": "3.8.0"
+  },
+  "platform": "Linux-7.1.5-arch1-2-x86_64-with-glibc2.44",
+  "python": "3.11.9",
+  "ram_gib": 15.2,
+  "requested_device": "cuda",
+  "torch": "2.14.0+cu130"
+ },
+ "finished_utc": "2026-09-25T09:22:58+00:00",
+ "metric_configuration": {
+  "hallucination_taus": [
+   0.005,
+   0.0025,
+   0.01
+  ],
+  "hf_sigma": 2.0,
+  "index_min_sum": 0.02,
+  "phase_upsample": 10,
+  "ratio_floor": 0.005,
+  "ssim_window": 7,
+  "version": "frame-eval-metrics/1"
+ },
+ "name": "reliability_v1",
+ "notes": [
+  "Stability is a relative model-stability proxy, not a calibrated uncertainty; see calibration.json for what was and was not shown.",
+  "Only tiles whose reference passed the registration gate are analysed; excluded tiles are listed with machine-readable reasons in metrics.jsonl and here.",
+  "Datasets are analysed separately and never pooled."
+ ],
+ "overview": {
+  "opensr_spain_crops": {
+   "sen2sr_lite": {
+    "descriptive_only": false,
+    "n_tiles": 21,
+    "n_units": 5,
+    "status": "ok"
+   },
+   "sen2sr_mamba": {
+    "descriptive_only": false,
+    "n_tiles": 21,
+    "n_units": 5,
+    "status": "ok"
+   }
+  },
+  "opensr_spain_urban": {
+   "sen2sr_lite": {
+    "descriptive_only": true,
+    "n_tiles": 13,
+    "n_units": 4,
+    "status": "ok"
+   },
+   "sen2sr_mamba": {
+    "descriptive_only": true,
+    "n_tiles": 13,
+    "n_units": 4,
+    "status": "ok"
+   }
+  },
+  "opensr_spot": {
+   "sen2sr_lite": {
+    "descriptive_only": false,
+    "n_tiles": 6,
+    "n_units": 6,
+    "status": "ok"
+   },
+   "sen2sr_mamba": {
+    "descriptive_only": false,
+    "n_tiles": 6,
+    "n_units": 6,
+    "status": "ok"
+   }
+  },
+  "sen2neon_random30": {
+   "sen2sr_lite": {
+    "descriptive_only": false,
+    "n_tiles": 12,
+    "n_units": 11,
+    "status": "ok"
+   },
+   "sen2sr_mamba": {
+    "descriptive_only": false,
+    "n_tiles": 12,
+    "n_units": 11,
+    "status": "ok"
+   }
+  }
+ },
+ "status": "completed",
+ "systems": {
+  "sen2sr_lite": {
+   "available": true,
+   "provenance": {
+    "device": "cuda",
+    "executable_architecture": "CNNSR",
+    "hard_constraint": true,
+    "input_bands": [
+     "B04",
+     "B03",
+     "B02",
+     "B08"
+    ],
+    "kind": "lite",
+    "model_name": "SEN2SRLite/NonReference_RGBN_x4",
+    "name": "sen2sr_lite",
+    "note": "the published inference system: CNN + clamp to >= 0 + low-frequency Fourier hard constraint (512x512 mask) inside every tile",
+    "parameters": 572336,
+    "tiling": {
+     "blend_mode": "linear",
+     "overlap": 32,
+     "padding_mode": "reflect",
+     "scale": 4,
+     "stride": 96,
+     "tile_size": 128
+    },
+    "value_convention": "reflectance fraction = stored DN / the dataset's reflectance_scale (10000); no BOA offset applied, no clipping by FRAME",
+    "weights": {
+     "hard_constraint.safetensor": "fbad981519066387c413ead1d6af7ef3e0d2947c34147ba90163fc79ae539239",
+     "mlm.json": "59caa5c6af96a6fbebdbd771d93c91cc2d3a770302cd2f262b5409e77a40e3f7",
+     "model.safetensor": "479aa796d5068d0b1206118ccbca27bd3223df0214db1a9b31a1e18349ed1c7e"
+    },
+    "weights_dir": "~/.cache/sen2sr_baseline/SEN2SRLite_RGBN"
+   }
+  },
+  "sen2sr_mamba": {
+   "available": true,
+   "provenance": {
+    "architecture": {
+     "attention_type": "sigmoid_02",
+     "depths": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "embed_dim": 96,
+     "img_size": [
+      128,
+      128
+     ],
+     "in_channels": 4,
+     "mlp_ratio": 4,
+     "num_heads": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "operation_attention": "sum",
+     "out_channels": 4,
+     "resi_connection": "1conv",
+     "upsampler": "pixelshuffle",
+     "upscale": 4
+    },
+    "device": "cpu",
+    "executable_architecture": "MambaSR",
+    "hard_constraint": true,
+    "input_bands": [
+     "B04",
+     "B03",
+     "B02",
+     "B08"
+    ],
+    "kind": "mamba",
+    "model_name": "SEN2SR/MambaSR_RGBN_x4",
+    "name": "sen2sr_mamba",
+    "note": "SEN2SR-Mamba RGBN through the isolated worker: MambaSR + clamp to >= 0 + low-frequency hard constraint, float32 (no autocast)",
+    "parameters": 13759444,
+    "tiling": {
+     "blend_mode": "linear",
+     "overlap": 32,
+     "padding_mode": "reflect",
+     "scale": 4,
+     "stride": 96,
+     "tile_size": 128
+    },
+    "value_convention": "reflectance fraction = stored DN / the dataset's reflectance_scale (10000); no BOA offset applied, no clipping by FRAME",
+    "weights": {
+     "hard_constraint_file": "sr_hard_constraint.safetensor",
+     "hard_constraint_sha256": "fbad981519066387c413ead1d6af7ef3e0d2947c34147ba90163fc79ae539239",
+     "weights_file": "sr_model.safetensor",
+     "weights_sha256": "11e551b03663e873c5dcd4f02ec3fc8cdfa41ef46677540295ee4c6686ddc854"
+    },
+    "worker_device": "cuda"
+   }
+  }
+ },
+ "systems_unavailable": [],
+ "tiling": {
+  "blend_mode": "linear",
+  "overlap": 32,
+  "padding_mode": "reflect",
+  "scale": 4,
+  "stride": 96,
+  "tile_size": 128
+ },
+ "tta": {
+  "definition": "frame.uncertainty.run_tta_ensemble over frame.tiling.TiledModel: the model is run on each geometric view of the whole scene and every prediction is de-transformed; stability = per-pixel population standard deviation over the members, averaged over the four bands; the product evaluated is the ensemble mean",
+  "n_members": 6,
+  "seed": 42,
+  "transforms": [
+   "identity",
+   "hflip",
+   "vflip",
+   "rot90",
+   "rot180",
+   "rot270"
+  ]
+ }
+}

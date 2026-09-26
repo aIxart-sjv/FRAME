@@ -1,11 +1,15 @@
 import { SatelliteField } from '../atmosphere/SatelliteField'
 import { StatusBadge } from '../ui/StatusBadge'
-import { useBackendHealth } from '../../hooks/useBackendHealth'
+import type { HealthStatus } from '../../hooks/useBackendHealth'
+import type { HealthResponse } from '../../api/types'
 import './TopBar.css'
 
-export function TopBar() {
-  const { status, health } = useBackendHealth()
+interface TopBarProps {
+  status: HealthStatus
+  health: HealthResponse | null
+}
 
+export function TopBar({ status, health }: TopBarProps) {
   return (
     <header className="top-bar">
       <SatelliteField variant="ambient" />

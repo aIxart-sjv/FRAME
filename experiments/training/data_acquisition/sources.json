@@ -1,0 +1,91 @@
+{
+  "nothing_downloaded": true,
+  "queried_utc": "2026-09-24T17:20:41+00:00",
+  "sen2naipv2": {
+    "license": [
+      "license:cc0-1.0"
+    ],
+    "note": "Distributed as multi-part .taco containers of up to 20 GB; the unit of download is one whole part unless the reader supports ranged remote reads (unverified).",
+    "repo": "tacofoundation/SEN2NAIPv2",
+    "revision": "c370504201072fdb1dd388013ab8c0fc7d00a57e",
+    "total_gb": 149.36,
+    "variants": {
+      "crosssensor": {
+        "card_samples": 8000,
+        "estimated_mb_per_sample_compressed": 1.21,
+        "estimated_samples_in_smallest_part": 8000,
+        "files": {
+          "sen2naipv2-crosssensor.taco": 9717583850
+        },
+        "smallest_part_gb": 9.72,
+        "total_gb": 9.72
+      },
+      "histmatch": {
+        "card_samples": 61282,
+        "estimated_mb_per_sample_compressed": 1.13,
+        "estimated_samples_in_smallest_part": 8271,
+        "files": {
+          "sen2naipv2-histmatch.0000.part.taco": 20000560299,
+          "sen2naipv2-histmatch.0001.part.taco": 19999654192,
+          "sen2naipv2-histmatch.0002.part.taco": 19999987735,
+          "sen2naipv2-histmatch.0003.part.taco": 9361318942
+        },
+        "smallest_part_gb": 9.36,
+        "total_gb": 69.36
+      },
+      "unet": {
+        "card_samples": 62242,
+        "estimated_mb_per_sample_compressed": 1.13,
+        "estimated_samples_in_smallest_part": 9101,
+        "files": {
+          "sen2naipv2-unet.0000.part.taco": 20000562604,
+          "sen2naipv2-unet.0001.part.taco": 20000506401,
+          "sen2naipv2-unet.0002.part.taco": 20000130510,
+          "sen2naipv2-unet.0003.part.taco": 10275824059
+        },
+        "smallest_part_gb": 10.28,
+        "total_gb": 70.28
+      }
+    }
+  },
+  "sen2venus": {
+    "license": "other-nc",
+    "n_files": 29,
+    "note": "One zip per SITE (a natural region unit for geographic splits). 'other-nc': the VENuS half is non-commercial. 5 m HR, 8 bands, x2 (RGBN 10 m) and x4 (red-edge 20 m): not the RGBN 10 m -> 2.5 m task.",
+    "record": "zenodo.org/records/14603764",
+    "site_zips_gb": {
+      "ALSACE.zip": 2.79,
+      "ANJI.zip": 2.42,
+      "ARM.zip": 16.57,
+      "ATTO.zip": 2.06,
+      "BAMBENW2.zip": 9.77,
+      "BENGA.zip": 5.95,
+      "ES-IC3XG.zip": 9.28,
+      "ES-LTERA.zip": 1.77,
+      "ESGISB-1.zip": 3.05,
+      "ESGISB-2.zip": 3.15,
+      "ESGISB-3.zip": 6.11,
+      "ESTUAMAR.zip": 0.89,
+      "FGMANAUS.zip": 0.12,
+      "FR-BIL.zip": 7.15,
+      "FR-LAM.zip": 7.9,
+      "FR-LQ1.zip": 5.22,
+      "JAM2018.zip": 2.65,
+      "K34-AMAZ.zip": 1.27,
+      "KUDALIAR.zip": 7.88,
+      "LERIDA-1.zip": 2.41,
+      "MAD-AMBO.zip": 1.5,
+      "NARYN.zip": 4.0,
+      "SO1.zip": 12.87,
+      "SO2.zip": 0.79,
+      "SUDOUE-2.zip": 10.48,
+      "SUDOUE-3.zip": 5.67,
+      "SUDOUE-4.zip": 0.95,
+      "SUDOUE-5.zip": 2.27,
+      "SUDOUE-6.zip": 2.55
+    },
+    "smallest_four_sites_gb": 2.76,
+    "total_gb": 139.5,
+    "version": "2.0.0"
+  }
+}

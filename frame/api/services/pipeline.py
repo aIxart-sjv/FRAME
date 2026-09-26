@@ -29,22 +29,63 @@ from __future__ import annotations
 import dataclasses
 import time
 from pathlib import Path
-from typing import Any, Callable, Dict
+from typing import Any, Callable, Dict, Optional
 
 import numpy as np
 import torch
 
 from frame.analysis import run_ndvi_analysis
 from frame.consistency import run_consistency_diagnostics
-from frame.geospatial import RGBN_SCALE_FACTOR, derive_output_metadata, read_geotiff, write_geotiff
-from frame.preprocessing import PROVEN_PATCH_SIZE, RGBN_BANDS, preprocess_rgbn
+from frame.geospatial import RGBN_SCALE_FACTOR, derive_output_metadata, peek_geotiff_size, read_geotiff, write_geotiff
+from frame.models import config as models_cfg
+from frame.models.errors import ModelInferenceError
+from frame.preprocessing import RGBN_BANDS, preprocess_rgbn
 from frame.preprocessing.validation import validate_bands, validate_shape
+from frame.tiling import TiledModel, TilingConfig
 from frame.uncertainty import DEFAULT_TRANSFORMS, run_stochastic_uncertainty
 
-from frame.api.schemas import SCIENTIFIC_CAVEATS, SR_PRODUCT_DESCRIPTION, UNCERTAINTY_DISCLAIMER, UNCERTAINTY_LABEL
+from frame.api.errors import SceneTooLargeError
+from frame.api.schemas import NDVI_DEMONSTRATION_NOTE, NDVI_STABILITY_CAVEAT, SCIENTIFIC_CAVEATS, SR_PRODUCT_DESCRIPTION, UNCERTAINTY_DISCLAIMER, UNCERTAINTY_LABEL
 from frame.api.services.storage import AnalysisRecord, JobStore, SRJobRecord, UploadRecord
 
 NATIVE_RESOLUTION_M = 10.0
+
+
+def _output_checked(model: Callable[[torch.Tensor], torch.Tensor]) -> Callable[[torch.Tensor], torch.Tensor]:
+    """``model`` with its output geometry checked on every call: same channels, exactly 4x the spatial size.
+    A model that breaks the x4 contract (the wrong scale, a dropped band) is refused at its first tile with a named
+    error, instead of failing later in an unrelated place -- or worse, producing a raster of the wrong size."""
+
+    def checked(x: torch.Tensor) -> torch.Tensor:
+        y = model(x)
+        expected = (x.shape[0], x.shape[1], x.shape[2] * RGBN_SCALE_FACTOR, x.shape[3] * RGBN_SCALE_FACTOR)
+        if not isinstance(y, torch.Tensor) or tuple(y.shape) != expected:
+            got = tuple(y.shape) if isinstance(y, torch.Tensor) else type(y).__name__
+            raise ModelInferenceError(f"The model returned {got} for an input of shape {tuple(x.shape)}; expected {expected} ({RGBN_SCALE_FACTOR}x, same channels).")
+        return y
+
+    return checked
+
+
+def _preprocess(array: np.ndarray, geo_metadata: Any, *, band_names, input_scale: str):
+    """The one preprocessing call of the API path, used at upload (so a bad scene is refused before it is
+    stored) and again at run time (so a stale or hand-edited record cannot bypass it). `validate_content` turns on the
+    Phase 8 checks: a scene with no valid pixel and a declared scale the values contradict are errors, not results."""
+    return preprocess_rgbn(
+        array,
+        band_names=list(band_names),
+        input_scale=input_scale,
+        resolution_m=geo_metadata.resolution_m,
+        nodata_value=geo_metadata.nodata_value,
+        patch_size=None,
+        require_square=False,
+        crs=geo_metadata.crs,
+        transform=geo_metadata.transform,
+        bounds=geo_metadata.bounds,
+        acquisition_timestamp=geo_metadata.acquisition_timestamp,
+        require_geospatial=True,
+        validate_content=True,
+    )
 
 
 def _now_iso() -> str:
@@ -55,17 +96,37 @@ def _now_iso() -> str:
 # POST /upload
 # ---------------------------------------------------------------------------
 
-def process_upload(store: JobStore, file_path: Path, *, filename: str, input_scale: str) -> UploadRecord:
+def process_upload(
+    store: JobStore,
+    file_path: Path,
+    *,
+    filename: str,
+    input_scale: str,
+    max_input_pixels: Optional[int] = None,
+) -> UploadRecord:
     """Read and validate an uploaded Sentinel-2 L2A GeoTIFF. Does NOT run SR.
 
+    Any height and width are accepted (larger scenes are tiled at run time,
+    frame.tiling), up to ``max_input_pixels`` (None or 0: no limit) -- checked
+    from the file header, before the pixels are read into memory.
+
     Raises the underlying `frame.geospatial`/`frame.preprocessing` error
-    directly on invalid input (missing CRS, wrong band set, wrong shape) --
+    directly on invalid input (missing CRS, wrong band set, empty shape) --
     frame.api.errors.status_code_for maps these to HTTP 400 at the route
     layer, not duplicated here.
     """
+    if max_input_pixels:
+        height, width = peek_geotiff_size(file_path)
+        if height * width > max_input_pixels:
+            raise SceneTooLargeError(
+                f"The scene is {width} x {height} = {height * width:,} pixels; this server accepts at most "
+                f"{max_input_pixels:,} pixels per scene."
+            )
+
     array, metadata = read_geotiff(file_path, require_crs=True)
     validate_bands(list(metadata.band_names), list(RGBN_BANDS))
-    validate_shape(array, expected_size=PROVEN_PATCH_SIZE)
+    validate_shape(array, expected_size=None, require_square=False)
+    _preprocess(array, metadata, band_names=metadata.band_names, input_scale=input_scale)   # raises on a scene with no valid pixel or a contradicted scale
 
     record = UploadRecord(
         upload_id=store.generate_id(),
@@ -95,34 +156,51 @@ def run_sr_job(
     device: str,
     seed: int,
     workspace_dir: Path,
+    model_id: str = models_cfg.MODEL_LITE,
+    model_name: str = models_cfg.LITE_MODEL_NAME,
+    tiling: TilingConfig = TilingConfig(),
 ) -> SRJobRecord:
-    """Run the full FRAME pipeline for a previously-uploaded input."""
+    """Run the full FRAME pipeline for a previously-uploaded input.
+
+    The scene may have any height and width: ``model`` (a single-tile
+    ``model(x[None]) -> y`` callable) is wrapped in the tile engine
+    (frame.tiling.TiledModel, configured by ``tiling``), which is what the
+    uncertainty ensemble then runs. A scene that is exactly one tile is one
+    call to ``model``, bit-identical to running it directly.
+
+    ``model_id`` / ``model_name`` say which SR model the injected ``model``
+    callable is; they are provenance only (recorded in the result and in the
+    output GeoTIFF's ``FRAME_SR_VARIANT`` tag) -- the pipeline itself is
+    identical for every model.
+    """
     upload = store.get_upload(upload_id)
 
     array, geo_metadata = read_geotiff(upload.file_path, require_crs=True)
-    preprocessed = preprocess_rgbn(
-        array,
-        band_names=list(upload.band_names),
-        input_scale=upload.input_scale,
-        resolution_m=geo_metadata.resolution_m,
-        nodata_value=geo_metadata.nodata_value,
-        crs=geo_metadata.crs,
-        transform=geo_metadata.transform,
-        bounds=geo_metadata.bounds,
-        acquisition_timestamp=geo_metadata.acquisition_timestamp,
-        require_geospatial=True,
-    )
+    preprocessed = _preprocess(array, geo_metadata, band_names=upload.band_names, input_scale=upload.input_scale)
+
+    # preprocess_rgbn stamps every raster with the Lite model's name; overwrite it
+    # with the model that actually ran so a Mamba result is never mislabelled.
+    input_metadata = dataclasses.replace(preprocessed.metadata, sr_variant=model_name)
 
     X = preprocessed.tensor.to(device)
     t0 = time.time()
+    tiled_model = TiledModel(_output_checked(model), tiling)
+    # keep_per_member_predictions=False: the API reports mean and std only, and keeping
+    # every ensemble member's full-size prediction would multiply memory on large scenes.
     uncertainty_result = run_stochastic_uncertainty(
-        model, X, transforms=DEFAULT_TRANSFORMS, seed=seed, band_names=RGBN_BANDS
+        tiled_model, X, transforms=DEFAULT_TRANSFORMS, seed=seed, band_names=RGBN_BANDS,
+        keep_per_member_predictions=False,
     )
     inference_seconds = time.time() - t0
 
     output_metadata = derive_output_metadata(
-        preprocessed.metadata, scale_factor=RGBN_SCALE_FACTOR, output_band_names=preprocessed.metadata.band_names
+        input_metadata, scale_factor=RGBN_SCALE_FACTOR, output_band_names=input_metadata.band_names
     )
+
+    # Models that can describe themselves (the isolated Mamba worker: weights
+    # hash, parameter count, runtime versions, ...) add that to the metadata.
+    describe = getattr(model, "describe", None)
+    model_runtime = describe() if callable(describe) else None
 
     job_id = store.generate_id()
     job_dir = workspace_dir / job_id
@@ -160,7 +238,8 @@ def run_sr_job(
         "job_id": job_id,
         "status": "completed",
         "upload_id": upload_id,
-        "model_name": "SEN2SRLite/NonReference_RGBN_x4",
+        "model_name": model_name,
+        "model_id": model_id,
         "input_shape": list(preprocessed.tensor.shape),
         "output_shape": list(mean_prediction.shape),
         "resolution": {
@@ -190,6 +269,8 @@ def run_sr_job(
         "metadata": {
             "inference_seconds": round(inference_seconds, 4),
             "device": device,
+            "tiling": tiled_model.summary(),
+            **({"model_runtime": model_runtime} if model_runtime else {}),
             "output_geospatial": {
                 "crs": output_metadata.crs,
                 "transform": list(output_metadata.transform),
@@ -216,7 +297,7 @@ def run_sr_job(
         sr_std_path=sr_std_path,
         sr_mean_tensor_path=sr_mean_tensor_path,
         sr_std_tensor_path=sr_std_tensor_path,
-        input_metadata=preprocessed.metadata,
+        input_metadata=input_metadata,
         output_metadata=output_metadata,
         result=result,
         error=None,
@@ -291,7 +372,8 @@ def run_ndvi_analysis_job(store: JobStore, job_id: str) -> AnalysisRecord:
             "uncertainty_weighted_mean_abs_diff": report.uncertainty_weighted_summary.uncertainty_weighted_mean_abs_diff,
             "unweighted_mean_abs_diff": report.uncertainty_weighted_summary.unweighted_mean_abs_diff,
         },
-        "scientific_caveats": list(report.scientific_caveats),
+        # frame.analysis (original Phase 6) still calls the stability "the Phase 5 relative model-stability proxy"; the API says it in its own current words
+        "scientific_caveats": [*(NDVI_STABILITY_CAVEAT if c.startswith("Uncertainty here is") else c for c in report.scientific_caveats), NDVI_DEMONSTRATION_NOTE],
         "metadata": report.metadata,
         "artifacts": {
             "native_ndvi_geotiff": str(native_ndvi_path),
