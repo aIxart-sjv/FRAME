@@ -1,0 +1,251 @@
+{
+ "coverage": {
+  "non_finite_mean_pixels": 0,
+  "non_finite_std_pixels": 0,
+  "std_shape_matches_output": true
+ },
+ "georeferencing": {
+  "array_round_trips_exactly": true,
+  "band_names": [
+   "B04_std",
+   "B03_std",
+   "B02_std",
+   "B08_std",
+   "overall_std"
+  ],
+  "bounds_equal": true,
+  "crs_equal": true,
+  "origin_equal": true,
+  "path": "stability_check.tif",
+  "pixel_size_expected_m": 2.5,
+  "pixel_size_m": 2.5,
+  "shape": [
+   720,
+   1024
+  ]
+ },
+ "orientation": {
+  "all_members_aligned": true,
+  "criterion": "aligned if MAE to the identity view <= 0.5 x the MAE the same member rotated by 180 degrees would have",
+  "members": {
+   "hflip": {
+    "aligned": true,
+    "mae_if_misoriented": 0.024403942748904228,
+    "mae_vs_identity": 0.0005565228639170527
+   },
+   "identity": {
+    "aligned": true,
+    "mae_if_misoriented": 0.024403627961874008,
+    "mae_vs_identity": 0.0
+   },
+   "rot180": {
+    "aligned": true,
+    "mae_if_misoriented": 0.02440239116549492,
+    "mae_vs_identity": 0.0007449708646163344
+   },
+   "rot270": {
+    "aligned": true,
+    "mae_if_misoriented": 0.02440452389419079,
+    "mae_vs_identity": 0.0006594045553356409
+   },
+   "rot90": {
+    "aligned": true,
+    "mae_if_misoriented": 0.02440115436911583,
+    "mae_vs_identity": 0.0006367440219037235
+   },
+   "vflip": {
+    "aligned": true,
+    "mae_if_misoriented": 0.024403095245361328,
+    "mae_vs_identity": 0.0006855785031802952
+   }
+  }
+ },
+ "provenance": {
+  "band_indices": [
+   3,
+   2,
+   1,
+   7
+  ],
+  "input": "2022_JORN_5__9_7.tif",
+  "reflectance_scale": 10000.0,
+  "system": {
+   "architecture": {
+    "attention_type": "sigmoid_02",
+    "depths": [
+     8,
+     8,
+     8,
+     8,
+     8,
+     8
+    ],
+    "embed_dim": 96,
+    "img_size": [
+     128,
+     128
+    ],
+    "in_channels": 4,
+    "mlp_ratio": 4,
+    "num_heads": [
+     8,
+     8,
+     8,
+     8,
+     8,
+     8
+    ],
+    "operation_attention": "sum",
+    "out_channels": 4,
+    "resi_connection": "1conv",
+    "upsampler": "pixelshuffle",
+    "upscale": 4
+   },
+   "device": "cpu",
+   "executable_architecture": "MambaSR",
+   "hard_constraint": true,
+   "input_bands": [
+    "B04",
+    "B03",
+    "B02",
+    "B08"
+   ],
+   "kind": "mamba",
+   "model_name": "SEN2SR/MambaSR_RGBN_x4",
+   "name": "sen2sr_mamba",
+   "note": "SEN2SR-Mamba RGBN through the isolated worker: MambaSR + clamp to >= 0 + low-frequency hard constraint, float32 (no autocast)",
+   "parameters": 13759444,
+   "tiling": {
+    "blend_mode": "linear",
+    "overlap": 32,
+    "padding_mode": "reflect",
+    "scale": 4,
+    "stride": 96,
+    "tile_size": 128
+   },
+   "value_convention": "reflectance fraction = stored DN / the dataset's reflectance_scale (10000); no BOA offset applied, no clipping by FRAME",
+   "weights": {
+    "hard_constraint_file": "sr_hard_constraint.safetensor",
+    "hard_constraint_sha256": "fbad981519066387c413ead1d6af7ef3e0d2947c34147ba90163fc79ae539239",
+    "weights_file": "sr_model.safetensor",
+    "weights_sha256": "11e551b03663e873c5dcd4f02ec3fc8cdfa41ef46677540295ee4c6686ddc854"
+   },
+   "worker_device": "cuda"
+  },
+  "window_rows_cols": [
+   0,
+   180,
+   0,
+   256
+  ]
+ },
+ "scene": {
+  "grid": [
+   2,
+   3
+  ],
+  "lr_shape": [
+   4,
+   180,
+   256
+  ],
+  "sr_shape": [
+   4,
+   720,
+   1024
+  ],
+  "tile_count": 6,
+  "view_grids": {
+   "hflip": [
+    2,
+    3
+   ],
+   "identity": [
+    2,
+    3
+   ],
+   "rot180": [
+    2,
+    3
+   ],
+   "rot270": [
+    3,
+    2
+   ],
+   "rot90": [
+    3,
+    2
+   ],
+   "vflip": [
+    2,
+    3
+   ]
+  },
+  "view_shapes": {
+   "hflip": [
+    180,
+    256
+   ],
+   "identity": [
+    180,
+    256
+   ],
+   "rot180": [
+    180,
+    256
+   ],
+   "rot270": [
+    256,
+    180
+   ],
+   "rot90": [
+    256,
+    180
+   ],
+   "vflip": [
+    180,
+    256
+   ]
+  }
+ },
+ "seams": {
+  "canonical_grid": {
+   "n_interior_pixels": 695970,
+   "n_seam_pixels": 41310,
+   "seam_over_interior": 0.9307780002702565,
+   "tolerance": 1.1,
+   "within_tolerance": true
+  },
+  "definition": "mean spread within +/- half_width px of the seam lines (the middle of each blend overlap) over the mean spread elsewhere",
+  "half_width_px": 8,
+  "no_seam_introduced": true,
+  "rot90_grid": {
+   "n_interior_pixels": 695970,
+   "n_seam_pixels": 41310,
+   "seam_over_interior": 1.0410828924677977,
+   "tolerance": 1.1,
+   "within_tolerance": true
+  },
+  "tolerance": 1.1
+ },
+ "stability": {
+  "max_std": 0.016642363741993904,
+  "mean_std": 0.0005227206214748728,
+  "median_std": 0.00043018026917707175,
+  "min_std": 8.602662273915485e-05
+ },
+ "timing": {
+  "n_members": 6,
+  "seconds_per_member": {
+   "hflip": 9.812908411026001,
+   "identity": 9.646073341369629,
+   "rot180": 9.611515760421753,
+   "rot270": 9.812888622283936,
+   "rot90": 9.557653665542603,
+   "vflip": 9.72523808479309
+  },
+  "single_pass_seconds_median": 9.68565571308136,
+  "tta_over_single_pass": 6.016510002705382,
+  "tta_seconds": 58.273844480514526
+ }
+}

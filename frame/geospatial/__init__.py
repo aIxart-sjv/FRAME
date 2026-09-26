@@ -11,7 +11,7 @@ Public API:
     RasterMetadata (reused from frame.preprocessing.metadata)
     bounds_from_transform, validate_geospatial_completeness
     derive_output_transform, derive_output_metadata, RGBN_SCALE_FACTOR
-    write_geotiff, read_geotiff
+    write_geotiff, read_geotiff, peek_geotiff_size
     Exceptions: GeospatialError and its subclasses (see .errors)
 """
 
@@ -20,8 +20,9 @@ from frame.geospatial.errors import (
     InconsistentMetadataError,
     MissingCRSError,
     MissingTransformError,
+    UnreadableRasterError,
 )
-from frame.geospatial.geotiff import read_geotiff, write_geotiff
+from frame.geospatial.geotiff import peek_geotiff_size, read_geotiff, write_geotiff
 from frame.geospatial.metadata import RasterMetadata, bounds_from_transform, validate_geospatial_completeness
 from frame.geospatial.transform import RGBN_SCALE_FACTOR, derive_output_metadata, derive_output_transform
 
@@ -34,8 +35,10 @@ __all__ = [
     "RGBN_SCALE_FACTOR",
     "write_geotiff",
     "read_geotiff",
+    "peek_geotiff_size",
     "GeospatialError",
     "MissingCRSError",
     "MissingTransformError",
     "InconsistentMetadataError",
+    "UnreadableRasterError",
 ]

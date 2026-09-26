@@ -20,6 +20,8 @@ def _all_terminology_text() -> str:
             schemas.UNCERTAINTY_LABEL,
             schemas.UNCERTAINTY_DISCLAIMER,
             schemas.GROUND_TRUTH_DISCLAIMER,
+            schemas.NDVI_DEMONSTRATION_NOTE,
+            schemas.NDVI_STABILITY_CAVEAT,
             " ".join(schemas.SCIENTIFIC_CAVEATS),
         ]
     ).lower()
@@ -30,7 +32,19 @@ def test_sr_product_uses_the_mandated_phrase():
 
 
 def test_uncertainty_label_uses_the_mandated_phrase():
-    assert schemas.UNCERTAINTY_LABEL == "relative model-stability uncertainty"
+    assert schemas.UNCERTAINTY_LABEL == "TTA stability — reconstruction-variation diagnostic"
+
+
+def test_the_stability_is_labelled_a_diagnostic_and_the_phase_6_finding_is_stated():
+    text = schemas.UNCERTAINTY_DISCLAIMER.lower()
+    assert "diagnostic" in schemas.UNCERTAINTY_LABEL.lower() and "tta" in schemas.UNCERTAINTY_LABEL.lower()
+    assert "weakly associated" in text and "texture" in text and "not shown to identify" in text
+    assert "reliability score" in text                                                          # ... and it says what NOT to do with it
+
+
+def test_the_ndvi_note_says_it_is_a_demonstration_and_not_evidence_of_a_downstream_advantage():
+    text = schemas.NDVI_DEMONSTRATION_NOTE.lower()
+    assert "demonstration" in text and "not a reference-based accuracy test" in text and "no consistent downstream advantage" in text
 
 
 def test_forbidden_ground_truth_phrases_never_appear():

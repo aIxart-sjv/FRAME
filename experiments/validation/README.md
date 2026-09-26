@@ -1,3 +1,5 @@
+> **Historical record (pre-registration analysis).** The comparison below (9 `spot` samples, no reference-registration check, no scene-unit statistics) was made before the Phase 5–6 evidence standard existed, and its directional wording ("outperforms bicubic on four of five metrics") is **superseded** by `docs/CLAIMS.md` §5 and `docs/EVALUATION.md` §8.4: against registered, larger real references the differences from bicubic are small and change sign with the dataset. Kept unmodified below.
+
 # Reference-based validation — Phase 4 experiment
 
 Runs FRAME's proven, **unmodified** `SEN2SRLite/NonReference_RGBN_x4` model

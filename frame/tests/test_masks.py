@@ -80,3 +80,21 @@ def test_masked_pixel_is_distinguishable_from_real_zero_reflectance():
     mask = ValidityMask(np.array([[False, True]]))  # only the second is real
     assert reflectance[0, 0, 0] == reflectance[0, 0, 1] == 0.0
     assert mask.array[0, 0] != mask.array[0, 1]
+
+
+# ============================================================================== Phase 8: non-finite pixels are not valid observations
+
+
+def test_from_nonfinite_flags_a_pixel_invalid_when_any_band_is_nan_or_inf():
+    array = np.ones((4, 3, 3), dtype="float32")
+    array[0, 0, 0] = np.nan
+    array[2, 1, 1] = np.inf
+    array[3, 2, 2] = -np.inf
+    mask = ValidityMask.from_nonfinite(array)
+    assert mask.array.shape == (3, 3)
+    assert [bool(mask.array[i, i]) for i in range(3)] == [False, False, False]
+    assert mask.array.sum() == 6                                            # only the three poisoned pixels are excluded
+
+
+def test_from_nonfinite_of_a_finite_stack_is_fully_valid():
+    assert ValidityMask.from_nonfinite(np.zeros((4, 5, 5), dtype="float32")).coverage() == 1.0

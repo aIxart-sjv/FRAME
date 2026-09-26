@@ -1,0 +1,24 @@
+{
+  "name": "reliability_v1",
+  "output_dir": "../runs/reliability_v1",
+  "cache_dir": "~/.cache/frame_reliability",
+  "device": "auto",
+  "systems": [
+    {"name": "sen2sr_lite", "kind": "lite"},
+    {"name": "sen2sr_mamba", "kind": "mamba"}
+  ],
+  "datasets": [
+    {"name": "sen2neon_random30", "kind": "sen2neon", "manifest": "../../evaluation/manifests/sen2neon_random30_seed0.jsonl"},
+    {"name": "opensr_spot", "kind": "opensr_test", "subset": "spot", "hr_variant": "HRharm"},
+    {"name": "opensr_spain_crops", "kind": "opensr_test", "subset": "spain_crops", "hr_variant": "HRharm"},
+    {"name": "opensr_spain_urban", "kind": "opensr_test", "subset": "spain_urban", "hr_variant": "HRharm"}
+  ],
+  "tiling": {"tile_size": 128, "overlap": 32, "padding_mode": "reflect", "blend_mode": "linear"},
+  "tta": {"transforms": ["identity", "hflip", "vflip", "rot90", "rot180", "rot270"], "seed": 42},
+  "alignment": {"method": "bicubic_baseline_cross_correlation", "tolerance_hr_px": 0.5, "quadrant_tolerance_hr_px": 1.0, "max_correction_hr_px": 4, "apply_translation_correction": true, "uncertain_factor": 2.0},
+  "eligibility": {"min_valid_fraction": 0.5, "max_nonfinite_fraction": 0.0, "min_members": 2},
+  "analysis": {"cell_sizes_hr_px": [4, 16], "min_cell_valid_fraction": 0.75, "pooled_cells_per_tile": 8192, "pooled_pixels_per_tile": 20000,
+               "coverage_grid": [1.0, 0.9, 0.8, 0.7, 0.6, 0.5], "high_error_quantile": 0.9, "split_seed": 0, "dev_fraction": 0.5, "min_units_for_split": 12, "calibration_bins": 10,
+               "displacement_sweep_hr_px": [0, 1, 2, 4]},
+  "bootstrap": {"n_boot": 2000, "alpha": 0.05, "seed": 0}
+}

@@ -5,8 +5,8 @@ const STEPS: { label: string; value: string }[] = [
   { label: 'Input', value: '10 m Sentinel-2' },
   { label: 'Model', value: 'FRAME' },
   { label: 'Output', value: SR_PRODUCT_DESCRIPTION },
-  { label: 'Signal', value: 'Model-stability uncertainty' },
-  { label: 'Downstream', value: 'NDVI analysis' },
+  { label: 'Diagnostic', value: 'TTA stability (uncalibrated)' },
+  { label: 'Demonstration', value: 'NDVI (not a proof)' },
 ]
 
 /** The one-glance summary of what FRAME does, per the phase brief:

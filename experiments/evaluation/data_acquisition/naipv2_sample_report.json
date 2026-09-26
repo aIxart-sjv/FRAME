@@ -1,0 +1,206 @@
+{
+  "note": "data verification of a small seeded sample (canonical id order); not a model result",
+  "variants": {
+    "crosssensor": {
+      "band_correspondence_is_diagonal": true,
+      "band_means_hr_dn": [
+        973.9022638067062,
+        890.0409018737671,
+        626.24708974359,
+        2639.4614571005923
+      ],
+      "band_means_lr_dn": [
+        974.4263195266273,
+        890.5691597633136,
+        626.7709664694281,
+        2640.016220907298
+      ],
+      "failures": [],
+      "geography": {
+        "counties": 30,
+        "countries": {
+          "United States": 30
+        },
+        "dataset_own_split_labels": {
+          "train": 30
+        },
+        "lat_range": [
+          28.567747,
+          48.312171
+        ],
+        "lon_range": [
+          -123.081121,
+          -72.646427
+        ],
+        "parts": {
+          "sen2naipv2-crosssensor.taco": 30
+        },
+        "states": 20
+      },
+      "geometry_problems": [],
+      "hr_blockmean_vs_lr_band_correlation_mean": [
+        [
+          0.972,
+          0.924,
+          0.925,
+          0.148
+        ],
+        [
+          0.927,
+          0.967,
+          0.938,
+          0.278
+        ],
+        [
+          0.931,
+          0.94,
+          0.968,
+          0.14
+        ],
+        [
+          0.157,
+          0.284,
+          0.15,
+          0.954
+        ]
+      ],
+      "hr_nodata_fraction_mean": 0.0,
+      "lr_nodata_fraction_mean": 0.0,
+      "max_origin_difference_m": 0.00031453464180231094,
+      "n_pairs": 30,
+      "n_pairs_used_for_correlation": 25,
+      "origin_tolerance_m": 0.025,
+      "p99_dn_hr_median": 3538.0,
+      "p99_dn_lr_median": 3538.0199999999895,
+      "pairs_with_any_nodata": 0,
+      "qc": {
+        "checks": {
+          "files": true,
+          "headers": true,
+          "pixels": true,
+          "records": true,
+          "split_integrity": false
+        },
+        "invalid": 0,
+        "issue_counts": {},
+        "ok": true,
+        "valid": 30
+      }
+    },
+    "unet": {
+      "band_correspondence_is_diagonal": true,
+      "band_means_hr_dn": [
+        754.9853368343195,
+        749.4183886094672,
+        512.9395671597632,
+        2710.0329582840245
+      ],
+      "band_means_lr_dn": [
+        754.9861065088757,
+        749.3990698224852,
+        512.9089917159765,
+        2710.0607266272204
+      ],
+      "failures": [],
+      "geographic_split": {
+        "counts": {
+          "train": 79,
+          "val": 21
+        },
+        "dataset_labels_of_frame_val": {
+          "test": 3,
+          "train": 17,
+          "validation": 1
+        },
+        "fractions": {
+          "train": 0.8,
+          "val": 0.2
+        },
+        "leakage_errors": [],
+        "level": "region = US state",
+        "n_states": {
+          "train": 37,
+          "val": 5
+        },
+        "seed": 0,
+        "states_disjoint": true
+      },
+      "geography": {
+        "counties": 95,
+        "countries": {
+          "United States": 99,
+          "missing": 1
+        },
+        "dataset_own_split_labels": {
+          "test": 7,
+          "train": 85,
+          "validation": 8
+        },
+        "lat_range": [
+          26.808625,
+          48.210085
+        ],
+        "lon_range": [
+          -123.3724,
+          -70.9532
+        ],
+        "parts": {
+          "sen2naipv2-unet.0000.part.taco": 24,
+          "sen2naipv2-unet.0001.part.taco": 27,
+          "sen2naipv2-unet.0002.part.taco": 25,
+          "sen2naipv2-unet.0003.part.taco": 24
+        },
+        "states": 42
+      },
+      "geometry_problems": [],
+      "hr_blockmean_vs_lr_band_correlation_mean": [
+        [
+          0.991,
+          0.961,
+          0.925,
+          0.373
+        ],
+        [
+          0.958,
+          0.991,
+          0.953,
+          0.424
+        ],
+        [
+          0.924,
+          0.954,
+          0.991,
+          0.28
+        ],
+        [
+          0.371,
+          0.422,
+          0.279,
+          0.99
+        ]
+      ],
+      "hr_nodata_fraction_mean": 0.0,
+      "lr_nodata_fraction_mean": 0.0,
+      "max_origin_difference_m": 0.0003007063642144203,
+      "n_pairs": 100,
+      "n_pairs_used_for_correlation": 25,
+      "origin_tolerance_m": 0.025,
+      "p99_dn_hr_median": 3816.0,
+      "p99_dn_lr_median": 3540.0199999999895,
+      "pairs_with_any_nodata": 0,
+      "qc": {
+        "checks": {
+          "files": true,
+          "headers": true,
+          "pixels": true,
+          "records": true,
+          "split_integrity": false
+        },
+        "invalid": 0,
+        "issue_counts": {},
+        "ok": true,
+        "valid": 100
+      }
+    }
+  }
+}

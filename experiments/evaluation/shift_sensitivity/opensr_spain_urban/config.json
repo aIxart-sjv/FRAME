@@ -1,0 +1,187 @@
+{
+  "bands": [
+    "B04",
+    "B03",
+    "B02",
+    "B08"
+  ],
+  "datasets": [
+    {
+      "data_root": null,
+      "hr_variant": "HRharm",
+      "kind": "sen2neon",
+      "manifest": "../manifests/sen2neon_random30_seed0.jsonl",
+      "name": "sen2neon_random30",
+      "split": "test",
+      "subset": null
+    },
+    {
+      "data_root": null,
+      "hr_variant": "HRharm",
+      "kind": "sen2neon",
+      "manifest": "../../data_smoke/metadata/sen2neon_sample.manifest.jsonl",
+      "name": "sen2neon_phase3_sample",
+      "split": "test",
+      "subset": null
+    },
+    {
+      "data_root": null,
+      "hr_variant": "HRharm",
+      "kind": "opensr_test",
+      "manifest": null,
+      "name": "opensr_spot",
+      "split": "test",
+      "subset": "spot"
+    },
+    {
+      "data_root": null,
+      "hr_variant": "HRharm",
+      "kind": "opensr_test",
+      "manifest": null,
+      "name": "opensr_spain_crops",
+      "split": "test",
+      "subset": "spain_crops"
+    },
+    {
+      "data_root": null,
+      "hr_variant": "HRharm",
+      "kind": "opensr_test",
+      "manifest": null,
+      "name": "opensr_spain_urban",
+      "split": "test",
+      "subset": "spain_urban"
+    },
+    {
+      "data_root": null,
+      "hr_variant": "HRharm",
+      "kind": "synthetic_smoke",
+      "manifest": "../../training/manifests/synthetic_5x2_seed0.jsonl",
+      "name": "synthetic_smoke_test",
+      "split": "test",
+      "subset": null
+    }
+  ],
+  "device": "auto",
+  "metrics": {
+    "hallucination_taus": [
+      0.005,
+      0.0025,
+      0.01
+    ],
+    "hf_sigma": 2.0,
+    "index_min_sum": 0.02,
+    "phase_upsample": 10,
+    "ratio_floor": 0.005,
+    "ssim_window": 7,
+    "version": "frame-eval-metrics/1"
+  },
+  "min_valid_fraction": 0.05,
+  "name": "benchmarks_v1",
+  "output_dir": "../benchmarks_v1",
+  "seed": 0,
+  "statistics": {
+    "alpha": 0.05,
+    "n_boot": 10000,
+    "pairs": [
+      [
+        "sen2sr_mamba",
+        "sen2sr_lite"
+      ],
+      [
+        "sen2sr_lite",
+        "sen2sr_lite_no_constraint"
+      ]
+    ],
+    "reference_system": "bicubic",
+    "seed": 0
+  },
+  "systems": [
+    {
+      "checkpoint": null,
+      "group": null,
+      "hard_constraint": null,
+      "kind": "bicubic",
+      "name": "bicubic",
+      "params": {},
+      "train_summary": null
+    },
+    {
+      "checkpoint": null,
+      "group": null,
+      "hard_constraint": true,
+      "kind": "lite",
+      "name": "sen2sr_lite",
+      "params": {},
+      "train_summary": null
+    },
+    {
+      "checkpoint": null,
+      "group": null,
+      "hard_constraint": false,
+      "kind": "lite",
+      "name": "sen2sr_lite_no_constraint",
+      "params": {},
+      "train_summary": null
+    },
+    {
+      "checkpoint": null,
+      "group": null,
+      "hard_constraint": true,
+      "kind": "mamba",
+      "name": "sen2sr_mamba",
+      "params": {},
+      "train_summary": null
+    },
+    {
+      "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed0/checkpoint/step_000600.pt",
+      "group": "tiny_cnn_seeds",
+      "hard_constraint": false,
+      "kind": "checkpoint",
+      "name": "tiny_cnn_seed0",
+      "params": {},
+      "train_summary": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed0/summary.json"
+    },
+    {
+      "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed1/checkpoint/step_000600.pt",
+      "group": "tiny_cnn_seeds",
+      "hard_constraint": false,
+      "kind": "checkpoint",
+      "name": "tiny_cnn_seed1",
+      "params": {},
+      "train_summary": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed1/summary.json"
+    },
+    {
+      "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed2/checkpoint/step_000600.pt",
+      "group": "tiny_cnn_seeds",
+      "hard_constraint": false,
+      "kind": "checkpoint",
+      "name": "tiny_cnn_seed2",
+      "params": {},
+      "train_summary": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed2/summary.json"
+    },
+    {
+      "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed3/checkpoint/step_000600.pt",
+      "group": "tiny_cnn_seeds",
+      "hard_constraint": false,
+      "kind": "checkpoint",
+      "name": "tiny_cnn_seed3",
+      "params": {},
+      "train_summary": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed3/summary.json"
+    },
+    {
+      "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed4/checkpoint/step_000600.pt",
+      "group": "tiny_cnn_seeds",
+      "hard_constraint": false,
+      "kind": "checkpoint",
+      "name": "tiny_cnn_seed4",
+      "params": {},
+      "train_summary": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed4/summary.json"
+    }
+  ],
+  "tiling": {
+    "blend_mode": "linear",
+    "overlap": 32,
+    "padding_mode": "reflect",
+    "tile_size": 128
+  }
+}

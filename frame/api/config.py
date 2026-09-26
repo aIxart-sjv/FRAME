@@ -11,6 +11,9 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from frame.models.config import LITE_MODEL_NAME
+from frame.tiling import DEFAULT_OVERLAP
+
 API_VERSION = "0.1.0"
 
 #: Where uploaded rasters and generated job artifacts (GeoTIFFs, tensors,
@@ -37,7 +40,7 @@ MODEL_MANIFEST_URL = (
     "https://huggingface.co/tacofoundation/sen2sr/resolve/main/"
     "SEN2SRLite/NonReference_RGBN_x4/mlm.json"
 )
-MODEL_NAME = "SEN2SRLite/NonReference_RGBN_x4"
+MODEL_NAME = LITE_MODEL_NAME  # the default model; SEN2SR-Mamba's config lives in frame.models.config
 
 #: "auto" resolves to cuda if available, else cpu, at request time --
 #: matching every prior phase's `torch.cuda.is_available()` check. Set to
@@ -47,6 +50,16 @@ DEVICE = os.environ.get("FRAME_API_DEVICE", "auto")
 #: Default TTA ensemble seed (frame.uncertainty), matching every prior
 #: phase's default of 42.
 UNCERTAINTY_SEED = int(os.environ.get("FRAME_API_UNCERTAINTY_SEED", "42"))
+
+#: Overlap, in input pixels, between neighbouring 128x128 tiles when a scene is
+#: larger than one tile (frame.tiling; docs/TILING.md). Must be 0..64.
+TILE_OVERLAP = int(os.environ.get("FRAME_API_TILE_OVERLAP", str(DEFAULT_OVERLAP)))
+
+#: Largest accepted scene, in input pixels (height x width). A memory guard, not
+#: a scientific limit: the SR raster is 16x larger in pixels and the uncertainty
+#: ensemble holds several full-size arrays at once (measured in docs/TILING.md).
+#: Scenes above it are rejected at upload with HTTP 413. 0 disables the check.
+MAX_INPUT_PIXELS = int(os.environ.get("FRAME_API_MAX_INPUT_PIXELS", str(1024 * 1024)))
 
 #: Comma-separated list of allowed CORS origins for local frontend
 #: development. Explicit, not a wildcard, by default.

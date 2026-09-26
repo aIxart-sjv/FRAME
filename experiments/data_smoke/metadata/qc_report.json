@@ -1,0 +1,23 @@
+{
+  "checks_performed": {
+    "files": true,
+    "headers": true,
+    "pixels": true,
+    "records": true,
+    "split_integrity": true
+  },
+  "invalid_sample_ids": [],
+  "invalid_samples": 0,
+  "issue_counts": {},
+  "issues": [],
+  "manifest_digest": "16db74fc35b0eee67c9cd9ff31954a24e9b43a741a328110be30e8042a7421cd",
+  "ok": true,
+  "per_dataset": {
+    "sen2neon/2.5m": 3
+  },
+  "per_split": {
+    "test": 3
+  },
+  "total_samples": 3,
+  "valid_samples": 3
+}

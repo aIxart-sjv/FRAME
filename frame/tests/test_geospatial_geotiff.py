@@ -191,3 +191,40 @@ def test_read_allows_missing_crs_when_not_required(tmp_path):
 
     _, read_meta = read_geotiff(path, require_crs=False)
     assert read_meta.crs is None
+
+
+# ============================================================================== Phase 8: an unreadable file is a named, caller-input error
+
+
+def test_a_file_that_is_not_a_geotiff_raises_a_named_geospatial_error_not_a_raw_rasterio_one(tmp_path):
+    from frame.geospatial.errors import GeospatialError, UnreadableRasterError
+    from frame.geospatial.geotiff import peek_geotiff_size
+
+    junk = tmp_path / "secret_dir" / "not_a_raster.tif"
+    junk.parent.mkdir()
+    junk.write_bytes(b"this is not a tiff")
+    for call in (lambda: read_geotiff(junk), lambda: peek_geotiff_size(junk)):
+        with pytest.raises(UnreadableRasterError) as info:
+            call()
+        assert isinstance(info.value, GeospatialError)
+        assert "not_a_raster.tif" in str(info.value) and "secret_dir" not in str(info.value)     # the file name helps the caller; the server directory is not disclosed
+
+
+def test_a_missing_file_is_the_same_named_error(tmp_path):
+    from frame.geospatial.errors import UnreadableRasterError
+
+    with pytest.raises(UnreadableRasterError):
+        read_geotiff(tmp_path / "absent.tif")
+
+
+def test_the_missing_crs_message_names_the_file_not_its_directory(tmp_path):
+    import rasterio
+    from rasterio.transform import from_origin
+
+    path = tmp_path / "private_dir" / "nocrs.tif"
+    path.parent.mkdir()
+    with rasterio.open(path, "w", driver="GTiff", height=4, width=4, count=1, dtype="float32", transform=from_origin(0, 0, 10, 10)) as dst:
+        dst.write(np.zeros((1, 4, 4), dtype="float32"))
+    with pytest.raises(MissingCRSError) as info:
+        read_geotiff(path)
+    assert "nocrs.tif" in str(info.value) and "private_dir" not in str(info.value)

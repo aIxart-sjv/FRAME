@@ -1,0 +1,202 @@
+{
+  "schema": "frame-final-readiness/1",
+  "generated_utc": "2026-09-25T19:06:25Z",
+  "project": {
+    "name": "FRAME",
+    "problem_statement": "SIH 2026 PS 26142 (NTRO)",
+    "scope": "orchestration, validation and demonstration layer around the unmodified SEN2SR models"
+  },
+  "code": {
+    "git_revision": "eb3769559525ea81e902422253f8950c36b075a5",
+    "dirty": true,
+    "uncommitted_paths": 172,
+    "sen2sr_unmodified": true
+  },
+  "capabilities": {
+    "models": [
+      {
+        "id": "lite",
+        "label": "SEN2SR-Lite",
+        "canonical_name": "SEN2SRLite/NonReference_RGBN_x4"
+      },
+      {
+        "id": "mamba",
+        "label": "SEN2SR-Mamba",
+        "canonical_name": "SEN2SR/MambaSR_RGBN_x4"
+      }
+    ],
+    "default_model": "lite",
+    "scale_factor": 4,
+    "input_resolution_m": 10.0,
+    "output_pixel_grid_m": 2.5,
+    "supported_bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "model_tile_size": 128,
+    "scene_size": "any height and width up to 1,048,576 input pixels (tiled)",
+    "model_fallback": "none (a model that cannot run is a 503; nothing is substituted)",
+    "execution": "synchronous, single process, in-memory job registry"
+  },
+  "datasets": {
+    "SEN2NEON": {
+      "role": "independent benchmark, test only",
+      "real_data_read": "30 of 2,269 tiles (seed 0)",
+      "eligible_after_gate": "12 tiles / 11 scene units",
+      "trained_on": false
+    },
+    "OpenSR-Test": {
+      "role": "independent benchmark, test only",
+      "real_data_read": "spot 9, spain_crops 28, spain_urban 20",
+      "eligible_after_gate": "6 / 21 / 13 tiles; 6 / 5 / 4 scene units",
+      "trained_on": false
+    },
+    "SEN2NAIPv2": {
+      "role": "primary training (not used by FRAME)",
+      "real_data_read": "130 pairs (format verification and a split check only)",
+      "eligible_after_gate": null,
+      "trained_on": false
+    },
+    "SEN2VENuS": {
+      "role": "supplementary training",
+      "real_data_read": "none (format adapter on synthetic files)",
+      "eligible_after_gate": null,
+      "trained_on": false
+    },
+    "India holdout": {
+      "role": "domain holdout, test only",
+      "real_data_read": "none (profile only)",
+      "eligible_after_gate": null,
+      "trained_on": false
+    }
+  },
+  "tests": {
+    "backend_unit": {
+      "passed": 2044,
+      "failed": 0,
+      "skipped": 0,
+      "deselected": 33,
+      "errors": 0
+    },
+    "backend_integration": {
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "deselected": 2044,
+      "errors": 0
+    },
+    "frontend": {
+      "passed": 70,
+      "failed": 0,
+      "skipped": 0,
+      "deselected": 0,
+      "errors": 0
+    }
+  },
+  "smoke": {
+    "toy": {
+      "status": "passed",
+      "checks": 22,
+      "failed": 0,
+      "expected_output_shape": [
+        4,
+        800,
+        1200
+      ],
+      "produced_output_shape": [
+        4,
+        800,
+        1200
+      ],
+      "sr_run_seconds": 0.6175,
+      "inference_seconds_reported_by_api": 0.5699,
+      "identical_repeat": true,
+      "scene_sha256": "2b94971f8beff44cec85503f50ee82366e5cb4ea2dfadc4d9dbc76ffc1cbc8a6",
+      "output_sha256": "70dce6c4dd08c6f55aeb0b8dcacaeccda5d691705f1ab91d9da039a041496095",
+      "settings_digest": "16297cdccdc6c0d31b65683f42a4f170f463dc16e3a676f106d2160ddb4bf187",
+      "record": "experiments/final_readiness/smoke_toy/smoke_record.json"
+    },
+    "lite": {
+      "status": "passed",
+      "checks": 22,
+      "failed": 0,
+      "expected_output_shape": [
+        4,
+        800,
+        1200
+      ],
+      "produced_output_shape": [
+        4,
+        800,
+        1200
+      ],
+      "sr_run_seconds": 2.4312,
+      "inference_seconds_reported_by_api": 0.9829,
+      "identical_repeat": true,
+      "scene_sha256": "2b94971f8beff44cec85503f50ee82366e5cb4ea2dfadc4d9dbc76ffc1cbc8a6",
+      "output_sha256": "763ea3c3029139322e4d1562da3a4a67e9198c1cbd76c5ff6a81d97089c11c12",
+      "settings_digest": "fac038fcf12b4f0e0ccfc1fd3439b4225ba8dcd9717f884a881865b9810feaad",
+      "record": "experiments/final_readiness/smoke_lite/smoke_record.json"
+    },
+    "mamba": {
+      "status": "passed",
+      "checks": 22,
+      "failed": 0,
+      "expected_output_shape": [
+        4,
+        800,
+        1200
+      ],
+      "produced_output_shape": [
+        4,
+        800,
+        1200
+      ],
+      "sr_run_seconds": 68.9439,
+      "inference_seconds_reported_by_api": 66.5661,
+      "identical_repeat": true,
+      "scene_sha256": "2b94971f8beff44cec85503f50ee82366e5cb4ea2dfadc4d9dbc76ffc1cbc8a6",
+      "output_sha256": "b7a18dbd5a7459fc6f1f2b7c192e413bb6c9c07a58b99d92df9b542ee6865414",
+      "settings_digest": "604df78bafd324df2fc331e138a2ae91392696b11aa2fb7784f2ef6cea8da03f",
+      "record": "experiments/final_readiness/smoke_mamba/smoke_record.json"
+    }
+  },
+  "caveats": [
+    "The output is an SR-derived product on a 2.5 m pixel grid, not native 2.5 m Sentinel-2 imagery; no 2.5 m ground truth exists for Sentinel-2.",
+    "The TTA stability is an uncalibrated reconstruction-variation diagnostic, only weakly associated with error in the tested evidence and not shown to beat image texture.",
+    "Super-resolution changed a downstream NDVI decision only slightly, with a dataset-dependent sign: a mixed-to-null result and no consistent advantage over bicubic.",
+    "Real-data evidence is North America (SEN2NEON, 30 of 2,269 tiles) and Spain (OpenSR-Test); after the registration gate 11 / 6 / 5 / 4 scene units remain per dataset.",
+    "No Indian reference or Indian downstream label exists here; no synthetic Indian truth was made.",
+    "No real-data training was run; the training pipeline was exercised on synthetic data only.",
+    "The API is a synchronous, in-memory, single-process prototype; no production throughput is claimed.",
+    "The working tree is not committed: every run record names its parent revision with dirty=true."
+  ],
+  "not_demonstrated": [
+    "calibrated uncertainty",
+    "superior high-error detection from the TTA stability",
+    "a consistent downstream advantage over bicubic",
+    "universal geographic generalisation",
+    "Indian downstream validity",
+    "region-level land-cover classification",
+    "production-scale throughput",
+    "a universally optimal super-resolution model"
+  ],
+  "deferred": [
+    "real-data training and fine-tuning (SEN2NAIPv2 part decision recorded, not executed)",
+    "Indian reference data and any domain-shift experiment",
+    "land-cover and other downstream tasks needing region-level labels",
+    "12-band / SWIR products, LDSR-S2, other architectures",
+    "STAC acquisition inside the product, asynchronous jobs, authentication, deployment"
+  ],
+  "documents": [
+    "docs/README.md",
+    "docs/RELEASE_READINESS.md",
+    "docs/CLAIMS.md",
+    "docs/REGISTRY.md",
+    "docs/TRACEABILITY.md",
+    "docs/REPRODUCIBILITY.md",
+    "docs/DEMO_RUNBOOK.md"
+  ]
+}

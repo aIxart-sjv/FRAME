@@ -30,6 +30,11 @@ variable — nothing is hard-coded to a developer machine.
 | `SEN2SR_BASELINE_WEIGHTS_DIR` | `~/.cache/sen2sr_baseline/SEN2SRLite_RGBN` | Model weights cache — reuses the *same* variable every prior phase's experiment scripts already use, so an already-downloaded cache is picked up with no re-download. |
 | `FRAME_API_DEVICE` | `auto` | `auto` resolves to `cuda` if available, else `cpu`. Set to `cpu`/`cuda` to force. |
 | `FRAME_API_UNCERTAINTY_SEED` | `42` | Default TTA ensemble seed for `/sr/run` when the request doesn't override it. |
+| `FRAME_MAMBA_WEIGHTS_DIR` | `<repo>/models/SEN2SR` | SEN2SR-Mamba model files (`sr_model.safetensor`, `sr_hard_constraint.safetensor`). See `docs/MAMBA_INTEGRATION.md`. |
+| `FRAME_MAMBA_PYTHON` | `<repo>/sen2sr_mamba_venv/bin/python` | Interpreter of the dedicated environment the Mamba worker runs in. |
+| `FRAME_MAMBA_STARTUP_TIMEOUT_S` / `FRAME_MAMBA_REQUEST_TIMEOUT_S` | `180` / `120` | How long to wait for the Mamba worker to become ready / to answer one tile. |
+| `FRAME_API_TILE_OVERLAP` | `32` | Overlap in input pixels between neighbouring 128×128 tiles (0–64). Validated at startup. |
+| `FRAME_API_MAX_INPUT_PIXELS` | `1048576` | Largest accepted scene (height × width); a memory guard, not a scientific limit — see `docs/TILING.md` for the measurement behind it. `0` disables. |
 | `FRAME_API_CORS_ORIGINS` | `http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173` | Comma-separated allowed CORS origins for a local frontend dev server. Explicit, never `*`. |
 
 ## Endpoints
@@ -37,7 +42,10 @@ variable — nothing is hard-coded to a developer machine.
 ### `GET /health`
 Liveness/version check. Returns `status`, `api_version`, `frame_version`
 (the installed `frame` package's `__version__` if it defines one, else
-`null`), and `model_name`.
+`null`), `model_name` (the default model), `default_model`, and
+`available_models` — one entry per selectable model
+(`id`, `label`, `model_name`, `available`, and a user-facing `reason` when
+`available` is false). Checking availability never starts a model.
 
 ### `POST /aoi/preview`
 Validates an AOI/date-window request and reports the shapes and
@@ -75,15 +83,32 @@ JSON or an out-of-range `lat`/`lon` → `422` (Pydantic field validation).
 Multipart upload of a Sentinel-2 L2A GeoTIFF. **Validates only — does not
 run SR.** Requires exactly the four supported bands (`B04`, `B03`, `B02`,
 `B08`, order-independent — `frame.preprocessing.validate_bands` reorders),
-a 128×128 pixel grid (the one proven patch size), and a valid CRS.
+a valid CRS, and a scene of **any height and width** (rectangular and
+non-multiple-of-128 scenes are fine) up to `FRAME_API_MAX_INPUT_PIXELS`
+pixels; larger scenes are processed in 128×128 tiles at `/sr/run` time
+(`frame.tiling`, `docs/TILING.md`). The size is checked from the file
+header, before the pixels are read.
 
 Form fields: `file` (the GeoTIFF), `input_scale` (`"raw_digital_number"` or
 `"reflectance"`, forwarded unchanged to `frame.preprocessing.preprocess_rgbn`
 at `/sr/run` time).
 
 Response (200) includes `upload_id`, `band_names`, `width`/`height`,
-`crs`, `resolution_m`. A non-GeoTIFF file, a missing/incompatible CRS, a
-missing required band, or the wrong pixel grid → `400`.
+`crs`, `resolution_m`. A non-GeoTIFF file (`frame.geospatial.UnreadableRasterError`),
+a missing/incompatible CRS, a missing required band, or an empty raster → `400`;
+a scene above the pixel limit → `413` (`scene_too_large`), and the rejected file is not kept.
+
+*(Phase 8)* The scene's **content** is validated too, with the same preprocessing call
+`/sr/run` uses (`preprocess_rgbn(..., validate_content=True)`), so a bad scene is refused
+here and not after a long run:
+
+* **no valid pixel** (all nodata, or all NaN/Inf) → `400`, "The scene has no valid pixel";
+* **a declared scale the values contradict** → `400`: `raw_digital_number` whose largest valid
+  value is ≤ 1.5 ("these values look like reflectance fractions … use `reflectance`"), or
+  `reflectance` whose valid values leave the L2A range [−0.1, 6.5535] ("… look like raw digital
+  numbers"). The scale is never guessed or converted; only the impossible combinations are refused;
+* NaN/Inf pixels are excluded from the valid mask, so `metadata.preprocessing_mask_coverage`
+  reports the true valid fraction (they are still zero-filled for the model, as before).
 
 ### `POST /sr/run`
 Runs the full pipeline against a previously-uploaded scene:
@@ -99,8 +124,24 @@ read GeoTIFF -> frame.preprocessing.preprocess_rgbn
              -> frame.consistency.run_consistency_diagnostics
 ```
 
-Request: `{"upload_id": "...", "seed": 42}` (`seed` optional, defaults to
-`FRAME_API_UNCERTAINTY_SEED`). Unknown `upload_id` → `404`.
+The model is wrapped in the tile engine, so the scene may have any size: it
+is cut into overlapping 128×128 tiles, each tile goes through the selected
+model one at a time (for Mamba, always the same worker process), and the
+tile outputs are blended into one 4H×4W raster. `metadata.tiling` records
+how (tile size, overlap, padding, blending, tile counts, a tile-seam
+diagnostic). See `docs/TILING.md`.
+
+Request: `{"upload_id": "...", "seed": 42, "model": "lite"}` (`seed`
+optional, defaults to `FRAME_API_UNCERTAINTY_SEED`; `model` optional,
+`"lite"` (default, the SEN2SR-Lite baseline) or `"mamba"` (SEN2SR-Mamba),
+case-insensitive). Unknown `upload_id` → `404`; an unknown `model` → `422`
+naming the supported ids. The response's `model_id`/`model_name` and the
+output GeoTIFF's `FRAME_SR_VARIANT` tag record which model ran; a Mamba
+run also adds `metadata.model_runtime` (weights hash, parameter count,
+runtime versions). A model that cannot run here → `503`
+(`model_unavailable`, with a user-facing reason); input that violates the
+model's contract (e.g. values still in raw digital numbers) → `422`
+(`model_input_invalid`). See `docs/MAMBA_INTEGRATION.md`.
 
 Response (200) — every field the phase spec requires is present:
 
@@ -121,14 +162,14 @@ Response (200) — every field the phase spec requires is present:
   "bands": ["B04", "B03", "B02", "B08"],
   "crs": "EPSG:32630",
   "uncertainty": {
-    "label": "relative model-stability uncertainty",
+    "label": "TTA stability — reconstruction-variation diagnostic",
     "scalar_summary": 0.0123,
     "scalar_summary_definition": "…",
     "overall_distribution": {"mean": 0.01, "std": 0.004, "p95": 0.02, "...": "..."},
     "n": 6,
     "seed": 42,
     "transform_names": ["identity", "flip_h", "..."],
-    "disclaimer": "This is a relative, architecture-conditioned model-stability proxy … NOT a calibrated probability of error … NOT the upstream LAM explainability tool …"
+    "disclaimer": "This is a relative, architecture-conditioned model-stability diagnostic … NOT a calibrated probability of error … only weakly associated with reconstruction error in FRAME's own validation … NOT the upstream LAM explainability tool …"
   },
   "self_consistency": {
     "downsample_rmse": 0.004,
@@ -190,9 +231,12 @@ Re-fetches a completed NDVI analysis by its own id — identical schema to
 
 Every 4xx/5xx body has the same shape: `{"error": "<code>", "code":
 "<code>", "detail": "<human-readable message>"}`. `detail` never contains
-a Python traceback — a genuine internal failure (a real bug, not bad
-input) returns a generic `500` with no exception text, and the real
-exception is logged server-side only. See `frame/api/errors.py` for the
+a Python traceback or a server path — a genuine internal failure (a real bug, not bad
+input) returns a generic `500` with the same JSON shape (`code: "internal_error"`, no exception
+text; *Phase 8: before this it was Starlette's plain-text "Internal Server Error"*), and the real
+exception is logged server-side only. A model that returns the wrong shape or channel count is
+refused at its first tile (`model_runtime_error`); SEN2SR-Lite weights that are missing and cannot
+be fetched are a `503 model_unavailable`, corrupt ones a `model_runtime_error`, and neither is cached. See `frame/api/errors.py` for the
 full exception → status-code mapping (every `frame.*` package's own
 input-validation error family, e.g. `UnsupportedBandsError`,
 `MissingCRSError`, `ShapeMismatchError`, maps to `400` — a caller-input
@@ -210,10 +254,18 @@ any endpoint response is guaranteed to honor them:
   statistical inference resampled onto a 2.5 m pixel grid** — call it
   "SR-derived product — 2.5 m pixel grid" (`resolution.description` on
   every SR result).
-- The Phase 5 uncertainty is **relative model-stability uncertainty**
-  (`uncertainty.label`) — a test-time-augmentation ensemble spread, not a
-  calibrated probability of error and not a confidence interval. Its
-  `disclaimer` field says this explicitly on every response.
+- The Phase 5 signal (the JSON field is still called `uncertainty`, for compatibility) is labelled
+  **"TTA stability — reconstruction-variation diagnostic"** (`uncertainty.label`) — a
+  test-time-augmentation ensemble spread, not a calibrated probability of error and not a
+  confidence interval. Its `disclaimer` field says this on every response, and, since Phase 8, also
+  what FRAME's own validation found: on registration-checked reference data it was only weakly
+  associated with reconstruction error (about as much as image texture alone) and was not shown to
+  identify high-error regions reliably. *(Before Phase 8 the label was "relative model-stability
+  uncertainty".)*
+- The `/analysis/ndvi` response ends with a note that the NDVI view is a downstream analytical
+  **demonstration** (SR product against its own low-resolution input, not a reference-based test) and
+  that no consistent downstream advantage over bicubic was established (`NDVI_DEMONSTRATION_NOTE`). The legacy `frame.analysis` caveat that called the stability "the Phase 5 relative model-stability proxy" is replaced
+  in that response by `NDVI_STABILITY_CAVEAT` (the same statement in the API's current words); `frame.analysis` itself is unchanged.
 - LAM (`sen2sr/xai/lam.py`, upstream explainability/sensitivity) is a
   **different tool answering a different question** (which input pixels
   influence the output, via gradients on blurred input copies) and is
@@ -225,8 +277,11 @@ any endpoint response is guaranteed to honor them:
 ## Prototype behavior (read this first)
 
 - **Synchronous execution.** `/sr/run` blocks until the pipeline finishes
-  (typically well under a second on GPU for the one proven 128×128 RGBN
-  patch size — see `experiments/baseline/README.md`). There is no
+  (typically well under a second on GPU with SEN2SR-Lite for the one proven
+  128×128 RGBN patch size — see `experiments/baseline/README.md`; roughly
+  ten seconds with SEN2SR-Mamba on the 4 GB development GPU, because the
+  6-member uncertainty ensemble runs the ~1.7 s model six times — see
+  `docs/MAMBA_INTEGRATION.md`). There is no
   polling/job-queue endpoint because there is no async execution to poll.
 - **In-memory job registry.** `frame.api.services.storage.JobStore` is a
   plain Python dict-backed registry, one instance per running process.
@@ -245,10 +300,12 @@ any endpoint response is guaranteed to honor them:
   `ndvi_sr_<analysis_id>.tif`, `ndvi_diff_<analysis_id>.tif`). Nothing is
   auto-deleted; cleanup of old runs is a manual/future concern, not
   implemented here.
-- **Model caching.** The compiled SEN2SRLite model is loaded at most once
-  per device per process (`frame.api.services.model.get_model`, a
-  module-level cache keyed by resolved device string) — not on every
-  request.
+- **Model caching.** Each model is loaded at most once per (model,
+  device) per process (`frame.api.services.model.get_model`, a
+  module-level cache) — not on every request. SEN2SR-Lite loads in-process;
+  SEN2SR-Mamba is served by a long-lived worker process in its own
+  environment (`docs/MAMBA_INTEGRATION.md`), started on first use and
+  stopped when the API process exits.
 - **Scope: 4-band RGBN only.** This phase only supports the
   `B04`/`B03`/`B02`/`B08` path, matching every prior phase. All 10
   Sentinel-2 bands are out of scope here.
@@ -282,6 +339,9 @@ any endpoint response is guaranteed to honor them:
 invocation never touches the real model. Passing `-m integration`
 explicitly on the command line overrides that default and selects only
 the integration test.
+
+*(Phase 8)* `frame/tests/test_integration_contract.py` runs the real upload → run → GeoTIFF chain with fake models and pins the output geometry (exact 4×, CRS, origin, pixel size, model tag), the
+no-silent-substitution rule and the failure cases; `python -m frame.smoke [--model toy|lite|mamba]` does the same end to end and writes a JSON record.
 
 ```bash
 sen2sr_venv/bin/python -m pytest frame/tests/ -q                # normal suite -- integration test excluded

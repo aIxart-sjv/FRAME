@@ -22,11 +22,12 @@ export function MetadataTab({ jobResult }: MetadataTabProps) {
           { label: 'Model', value: jobResult.model_name },
           { label: 'Device', value: String(jobResult.metadata.device ?? '—') },
           { label: 'Inference time', value: `${Number(jobResult.metadata.inference_seconds ?? 0).toFixed(4)} s` },
-          { label: 'Uncertainty seed', value: jobResult.uncertainty.seed },
+          { label: 'TTA stability seed', value: jobResult.uncertainty.seed },
           { label: 'TTA ensemble size', value: jobResult.uncertainty.n },
           { label: 'TTA transforms', value: jobResult.uncertainty.transform_names.join(', ') },
           { label: 'Band stack', value: jobResult.bands.join(' · ') },
           { label: 'CRS', value: jobResult.crs ?? '—' },
+          { label: 'Valid-pixel coverage', value: typeof jobResult.metadata.preprocessing_mask_coverage === 'number' ? `${(jobResult.metadata.preprocessing_mask_coverage * 100).toFixed(1)} %` : '—' },
           { label: 'Created', value: jobResult.created_at },
         ]}
       />

@@ -1,10 +1,13 @@
-"""Pydantic request/response schemas for the FRAME API (Phase 7).
+"""Pydantic request/response schemas for the FRAME API (Phase 7; wording updated in Phase 8).
 
 Terminology constants
 ----------------------
 Every response that describes the SR output or its uncertainty uses these
 exact phrases -- never "native 2.5 m Sentinel-2" / "true 2.5 m image" for
-the former, never "confidence" or "calibrated" for the latter, and LAM
+the former, never "confidence" or "calibrated" for the latter (Phase 6 measured
+the signal as weakly informative and uncalibrated, so it is labelled a
+"TTA stability -- reconstruction-variation diagnostic"; the JSON field is still
+called ``uncertainty`` for API compatibility), and LAM
 (explainability/sensitivity, upstream `sen2sr/xai/lam.py`, not exposed by
 this phase's endpoints at all) is never called "uncertainty" anywhere in
 this codebase. `frame/tests/test_api_terminology.py` enforces this
@@ -15,18 +18,34 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from frame.models import config as models_cfg
+from frame.models.selection import normalize_model_name
 
 SR_PRODUCT_DESCRIPTION = "SR-derived product — 2.5 m pixel grid"
-UNCERTAINTY_LABEL = "relative model-stability uncertainty"
+UNCERTAINTY_LABEL = "TTA stability — reconstruction-variation diagnostic"
 UNCERTAINTY_DISCLAIMER = (
-    "This is a relative, architecture-conditioned model-stability proxy from "
-    "test-time perturbation ensembling. It is NOT a calibrated probability of "
+    "This is a relative, architecture-conditioned model-stability diagnostic: how much the reconstruction varies "
+    "under test-time perturbation ensembling (TTA). It is NOT a calibrated probability of "
     "error, NOT a confidence interval, and NOT a physically rigorous "
-    "uncertainty bound. It is also NOT the upstream LAM explainability tool "
+    "uncertainty bound. In FRAME's own validation on registration-checked reference data (docs/RELIABILITY.md) it was "
+    "only weakly associated with reconstruction error, about as much as image texture alone, and was not shown to identify "
+    "high-error regions reliably; treat it as something to inspect, not as a reliability score. "
+    "It is also NOT the upstream LAM explainability tool "
     "(sen2sr/xai/lam.py) -- LAM answers a different question (which input "
     "pixels influence the output) via a different mechanism (gradients on "
     "blurred input copies) and is not exposed by this API."
+)
+NDVI_STABILITY_CAVEAT = (
+    "The stability used in the uncertainty-weighted NDVI summary is the TTA stability diagnostic (see the stability caveat above), "
+    "not a calibrated probability of NDVI error."
+)
+NDVI_DEMONSTRATION_NOTE = (
+    "This NDVI view is a downstream analytical demonstration on one scene: it compares NDVI from the SR product with NDVI "
+    "from its own low-resolution input, so it is not a reference-based accuracy test. In FRAME's reference-based tests "
+    "(docs/DOWNSTREAM.md) super-resolution changed region-level NDVI and a fixed vegetation-threshold decision only "
+    "slightly, with a sign that depended on the dataset; no consistent downstream advantage over bicubic was established."
 )
 GROUND_TRUTH_DISCLAIMER = (
     "Sentinel-2's finest native band resolution is 10 m -- it has never "
@@ -53,11 +72,25 @@ class ErrorResponse(BaseModel):
 # GET /health
 # ---------------------------------------------------------------------------
 
+class ModelAvailability(BaseModel):
+    """One selectable SR model and whether it can run on this server right now."""
+
+    model_config = ConfigDict(protected_namespaces=())
+
+    id: str
+    label: str
+    model_name: str
+    available: bool
+    reason: Optional[str] = Field(None, description="User-facing explanation when available is false")
+
+
 class HealthResponse(BaseModel):
     status: str
     frame_version: Optional[str]
     api_version: str
     model_name: str
+    default_model: str = models_cfg.DEFAULT_MODEL
+    available_models: List[ModelAvailability] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -116,6 +149,15 @@ class UploadResponse(BaseModel):
 class SRRunRequest(BaseModel):
     upload_id: str
     seed: Optional[int] = Field(None, description="Overrides the default TTA uncertainty seed (42) if given")
+    model: str = Field(
+        models_cfg.DEFAULT_MODEL,
+        description=f"Which SR model to run: one of {', '.join(models_cfg.SUPPORTED_MODELS)}",
+    )
+
+    @field_validator("model")
+    @classmethod
+    def _known_model(cls, value: str) -> str:
+        return normalize_model_name(value)
 
 
 class ResolutionDescription(BaseModel):
@@ -150,6 +192,7 @@ class SRResultResponse(BaseModel):
     status: str
     upload_id: str
     model_name: str
+    model_id: str = models_cfg.DEFAULT_MODEL
     input_shape: List[int]
     output_shape: List[int]
     resolution: ResolutionDescription

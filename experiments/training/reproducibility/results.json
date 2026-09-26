@@ -1,0 +1,39 @@
+{
+  "comparisons": {
+    "cpu_repeat": {
+      "max_abs_train_loss_diff": 0.0,
+      "max_abs_val_psnr_diff_db": 0.0,
+      "max_abs_weight_diff": 0.0,
+      "train_loss_trajectory_bitwise_equal": true,
+      "val_metrics_bitwise_equal": true,
+      "weights_bitwise_equal": true
+    },
+    "cpu_vs_gpu": {
+      "max_abs_train_loss_diff": 0.00019362824968993664,
+      "max_abs_val_psnr_diff_db": 0.1624589122100275,
+      "max_abs_weight_diff": 0.27178916335105896,
+      "train_loss_trajectory_bitwise_equal": false,
+      "val_metrics_bitwise_equal": false,
+      "weights_bitwise_equal": false
+    },
+    "gpu_default_kernels_repeat": {
+      "max_abs_train_loss_diff": 0.0,
+      "max_abs_val_psnr_diff_db": 0.0,
+      "max_abs_weight_diff": 0.0,
+      "train_loss_trajectory_bitwise_equal": true,
+      "val_metrics_bitwise_equal": true,
+      "weights_bitwise_equal": true
+    },
+    "gpu_deterministic_repeat": {
+      "max_abs_train_loss_diff": 0.0,
+      "max_abs_val_psnr_diff_db": 0.0,
+      "max_abs_weight_diff": 0.0,
+      "train_loss_trajectory_bitwise_equal": true,
+      "val_metrics_bitwise_equal": true,
+      "weights_bitwise_equal": true
+    }
+  },
+  "config": "experiments/training/smoke_tiny_cnn/config.json",
+  "steps": 600,
+  "torch": "2.14.0+cu130"
+}

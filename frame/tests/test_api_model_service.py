@@ -89,3 +89,44 @@ def test_resolve_device_returns_explicit_device_unchanged():
 def test_resolve_device_auto_resolves_to_cpu_or_cuda():
     resolved = model_service.resolve_device("auto")
     assert resolved in ("cpu", "cuda")
+
+
+# ============================================================================== Phase 8: a Lite artifact that is missing or broken is a named error, and nothing is cached
+
+
+def test_weights_that_cannot_be_fetched_are_a_model_unavailable_error_not_a_raw_exception():
+    import pytest
+    from frame.models.errors import ModelUnavailableError
+
+    def offline(cache_dir: Path) -> Path:
+        raise ConnectionError("Name or service not known: huggingface.co (/home/someone/.cache)")
+
+    with pytest.raises(ModelUnavailableError) as info:
+        model_service.get_model("cpu", ensure_weights=offline, load_compiled_model=lambda d, dev: object())
+    assert "SEN2SR-Lite" in str(info.value) and "huggingface" not in str(info.value) and "someone" not in str(info.value)   # user-safe text
+    assert "huggingface" in info.value.technical_detail                                                                     # the cause goes to the log
+    assert model_service._model_cache == {}                                                                                 # a failure is not cached: the next request retries
+
+
+def test_weights_that_do_not_load_are_a_model_load_error_and_are_not_cached():
+    import pytest
+    from frame.models.errors import ModelLoadError
+
+    def corrupt(weight_dir: Path, device: str):
+        raise RuntimeError("PytorchStreamReader failed reading zip archive: /secret/dir/model.safetensor")
+
+    with pytest.raises(ModelLoadError) as info:
+        model_service.get_model("cpu", ensure_weights=lambda d: d, load_compiled_model=corrupt)
+    assert "secret" not in str(info.value) and "secret" in info.value.technical_detail
+    assert model_service._model_cache == {}
+
+
+def test_a_model_error_raised_by_a_loader_passes_through_unchanged():
+    import pytest
+    from frame.models.errors import ModelUnavailableError
+
+    def unavailable(weight_dir: Path, device: str):
+        raise ModelUnavailableError("already a named error")
+
+    with pytest.raises(ModelUnavailableError, match="already a named error"):
+        model_service.get_model("cpu", ensure_weights=lambda d: d, load_compiled_model=unavailable)

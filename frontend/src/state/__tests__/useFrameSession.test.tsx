@@ -75,9 +75,57 @@ describe('useFrameSession', () => {
       await result.current.runFrame()
     })
 
-    expect(api.runSr).toHaveBeenCalledWith(uploadFixture.upload_id)
+    // the selected model (default: the Lite baseline) is always sent explicitly
+    expect(api.runSr).toHaveBeenCalledWith(uploadFixture.upload_id, undefined, 'lite')
     expect(result.current.jobResult).toEqual(jobResultFixture)
     expect(result.current.hasResult).toBe(true)
+  })
+
+  it('defaults to the Lite model', () => {
+    const { result } = renderHook(() => useFrameSession())
+    expect(result.current.model).toBe('lite')
+  })
+
+  it('runFrame sends the model the user selected', async () => {
+    vi.mocked(api.uploadScene).mockResolvedValue(uploadFixture)
+    vi.mocked(api.runSr).mockResolvedValue({ ...jobResultFixture, model_id: 'mamba' })
+    const { result } = renderHook(() => useFrameSession())
+
+    act(() => {
+      result.current.selectFile(new File(['data'], 'scene.tif'))
+    })
+    await waitFor(() => expect(result.current.uploadStatus).toBe('success'))
+
+    act(() => {
+      result.current.setModel('mamba')
+    })
+    expect(result.current.model).toBe('mamba')
+
+    await act(async () => {
+      await result.current.runFrame()
+    })
+    expect(api.runSr).toHaveBeenCalledWith(uploadFixture.upload_id, undefined, 'mamba')
+  })
+
+  it('surfaces the backend message when the selected model is unavailable, without losing the upload', async () => {
+    vi.mocked(api.uploadScene).mockResolvedValue(uploadFixture)
+    vi.mocked(api.runSr).mockRejectedValue(new ApiError(503, { error: 'model_unavailable', code: 'model_unavailable', detail: 'SEN2SR-Mamba requires a CUDA-capable GPU.' }))
+    const { result } = renderHook(() => useFrameSession())
+
+    act(() => {
+      result.current.selectFile(new File(['data'], 'scene.tif'))
+    })
+    await waitFor(() => expect(result.current.uploadStatus).toBe('success'))
+    act(() => {
+      result.current.setModel('mamba')
+    })
+    await act(async () => {
+      await result.current.runFrame()
+    })
+
+    expect(result.current.jobStatus).toBe('error')
+    expect(result.current.jobError).toBe('SEN2SR-Mamba requires a CUDA-capable GPU.')
+    expect(result.current.uploadResult).toEqual(uploadFixture) // the user can switch model and retry
   })
 
   it('runNdviAnalysis requires a completed job result', async () => {

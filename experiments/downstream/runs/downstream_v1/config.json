@@ -1,0 +1,145 @@
+{
+  "alignment": {
+    "apply_translation_correction": true,
+    "max_correction_hr_px": 4,
+    "method": "bicubic_baseline_cross_correlation",
+    "quadrant_tolerance_hr_px": 1.0,
+    "tolerance_hr_px": 0.5,
+    "uncertain_factor": 2.0
+  },
+  "analysis": {
+    "pooled_regions_per_tile": 8192,
+    "retention_grid": [
+      1.0,
+      0.8,
+      0.6,
+      0.4
+    ]
+  },
+  "bootstrap": {
+    "alpha": 0.05,
+    "n_boot": 2000,
+    "seed": 0
+  },
+  "cache_dir": "~/.cache/frame_downstream",
+  "datasets": [
+    {
+      "data_root": null,
+      "hr_variant": "HRharm",
+      "kind": "sen2neon",
+      "manifest": "../../evaluation/manifests/sen2neon_random30_seed0.jsonl",
+      "name": "sen2neon_random30",
+      "split": "test",
+      "subset": null
+    },
+    {
+      "data_root": null,
+      "hr_variant": "HRharm",
+      "kind": "opensr_test",
+      "manifest": null,
+      "name": "opensr_spot",
+      "split": "test",
+      "subset": "spot"
+    },
+    {
+      "data_root": null,
+      "hr_variant": "HRharm",
+      "kind": "opensr_test",
+      "manifest": null,
+      "name": "opensr_spain_crops",
+      "split": "test",
+      "subset": "spain_crops"
+    },
+    {
+      "data_root": null,
+      "hr_variant": "HRharm",
+      "kind": "opensr_test",
+      "manifest": null,
+      "name": "opensr_spain_urban",
+      "split": "test",
+      "subset": "spain_urban"
+    }
+  ],
+  "decision": {
+    "ndvi_threshold": 0.3,
+    "region_majority_fraction": 0.5,
+    "rule": "vegetation iff NDVI >= threshold",
+    "selection_policy": "predeclared_conventional_value_not_selected_or_tuned_on_results",
+    "sensitivity_thresholds": [
+      0.2,
+      0.4
+    ]
+  },
+  "device": "auto",
+  "eligibility": {
+    "max_nonfinite_fraction": 0.0,
+    "min_members": 2,
+    "min_valid_fraction": 0.5
+  },
+  "metrics": {
+    "hallucination_taus": [
+      0.005,
+      0.0025,
+      0.01
+    ],
+    "hf_sigma": 2.0,
+    "index_min_sum": 0.02,
+    "phase_upsample": 10,
+    "ratio_floor": 0.005,
+    "ssim_window": 7,
+    "version": "frame-eval-metrics/1"
+  },
+  "name": "downstream_v1",
+  "ndvi": {
+    "denominator_epsilon": 1e-06,
+    "min_reflectance_sum": 0.02,
+    "nir_band": "B08",
+    "red_band": "B04"
+  },
+  "output_dir": "../runs/downstream_v1",
+  "regions": {
+    "min_valid_fraction": 0.75,
+    "primary_scale_hr_px": 4,
+    "scales_hr_px": [
+      4,
+      16
+    ]
+  },
+  "systems": [
+    {
+      "checkpoint": null,
+      "group": null,
+      "hard_constraint": true,
+      "kind": "lite",
+      "name": "sen2sr_lite",
+      "params": {},
+      "train_summary": null
+    },
+    {
+      "checkpoint": null,
+      "group": null,
+      "hard_constraint": true,
+      "kind": "mamba",
+      "name": "sen2sr_mamba",
+      "params": {},
+      "train_summary": null
+    }
+  ],
+  "tiling": {
+    "blend_mode": "linear",
+    "overlap": 32,
+    "padding_mode": "reflect",
+    "tile_size": 128
+  },
+  "tta": {
+    "seed": 42,
+    "transforms": [
+      "identity",
+      "hflip",
+      "vflip",
+      "rot90",
+      "rot180",
+      "rot270"
+    ]
+  }
+}

@@ -2,7 +2,7 @@
 
 A single-page console for demonstrating the FRAME pipeline end to end:
 upload a Sentinel-2 L2A GeoTIFF, run FRAME, and inspect the SR-derived
-output, its model-stability uncertainty, and the downstream NDVI analysis
+output, its TTA stability diagnostic, and an NDVI demonstration
 — entirely through the real FastAPI backend (`frame/api/`), with no
 Python imported into the browser.
 
@@ -41,11 +41,15 @@ default already includes `http://localhost:5173`.
 ## Supported input
 
 Sentinel-2 L2A GeoTIFFs with exactly the four bands this prototype's
-backend supports: **B04, B03, B02, B08** (order-independent), on a 128×128
-pixel grid, with an embedded CRS. This is the only path the API validates
+backend supports: **B04, B03, B02, B08** (order-independent), of **any height
+and width** up to the backend's pixel cap (larger scenes are tiled; see
+`docs/TILING.md`), with an embedded CRS. This is the only path the API validates
 end to end — see `frame/api/README.md`'s "Scope" note. Uploading anything
-else (wrong bands, wrong shape, no CRS, a non-GeoTIFF file) is rejected by
+else (wrong bands, no CRS, a non-GeoTIFF file, a scene with no valid pixel, or
+a "Pixel values" setting the file's values contradict) is rejected by
 the backend with a clear message, shown inline rather than as a crash.
+Set **Pixel values** to match the file (Raw digital number, or Reflectance (0–1));
+changing it re-validates the file.
 
 ## User workflow
 
@@ -60,18 +64,22 @@ the backend with a clear message, shown inline rather than as a crash.
    and the uncertainty ensemble all execute inside that one request).
 3. **Overview** tab — a comparison slider between the native 10 m input
    and the **SR-derived product — 2.5 m pixel grid**.
-4. **Uncertainty** tab — the **relative model-stability uncertainty** map,
-   toggleable between a standalone heatmap and an SR-image overlay whose
-   opacity is modulated by the uncertainty value itself (so high-
-   uncertainty regions are visually obvious, not a binary mask), plus the
-   real distribution statistics from the API response.
-5. **NDVI** tab — triggers `POST /analysis/ndvi` on demand, then shows the
+4. **Stability** tab — the **TTA stability — reconstruction-variation
+   diagnostic** map, toggleable between a standalone heatmap and an SR-image
+   overlay whose opacity is modulated by the value itself (so unstable
+   regions are visually obvious, not a binary mask), plus the real
+   distribution statistics from the API response. The tab states that the
+   signal is uncalibrated and that FRAME's own validation found it only
+   weakly associated with error (about as much as image texture), so it is
+   to be inspected, not read as a reliability score.
+5. **NDVI** tab — a **demonstration** (it says so on the tab): triggers `POST /analysis/ndvi` on demand, then shows the
    native NDVI, SR-derived NDVI, their absolute difference, and the
    measured comparison/uncertainty-relationship statistics — all numbers
    and rasters come from the backend; nothing is recomputed in the
    browser.
 6. **Metadata** tab — the full reproducibility record (model, seed, TTA
-   transforms, device, inference time, CRS, self-consistency numbers).
+   transforms, device, inference time, CRS, valid-pixel coverage,
+   self-consistency numbers).
 7. **Downloads** (sidebar, always visible once a result exists) — the SR
    GeoTIFF, uncertainty GeoTIFF, NDVI GeoTIFFs, and the raw JSON result/
    analysis, each a real file from the backend.
@@ -83,13 +91,16 @@ language (`src/constants/terminology.ts` mirrors `frame/api/schemas.py`):
 
 - The SR output is always **"SR-derived product — 2.5 m pixel grid"** —
   never "native 2.5 m Sentinel-2" or a "true 2.5 m image."
-- The Phase 5 signal is always **"relative model-stability uncertainty"**
-  — never a calibrated confidence or probability of error.
+- The stability signal is always **"TTA stability — reconstruction-variation
+  diagnostic"** (before Phase 8: "relative model-stability uncertainty") —
+  never a calibrated confidence, probability of error or reliability score.
 - LAM (upstream sensitivity/explainability) is never called
   "uncertainty," and is not exposed by any view in this app.
 - NDVI agreement between the native and SR grids demonstrates internal
-  consistency, not proof of physical accuracy — stated on the NDVI tab
-  using the backend's own `scientific_caveats`.
+  consistency, not proof of physical accuracy, and the NDVI view is a
+  demonstration, not evidence of a downstream advantage — stated on the NDVI
+  tab using the backend's own `scientific_caveats` plus the fixed
+  `NDVI_DEMONSTRATION_NOTE`.
 
 `frame/tests/test_api_terminology.py` (backend) and
 `src/__tests__/terminology.test.tsx` (frontend) both enforce these

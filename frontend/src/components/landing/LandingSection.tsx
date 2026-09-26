@@ -3,17 +3,21 @@ import { PipelineDiagram } from './PipelineDiagram'
 import { UploadPanel } from './UploadPanel'
 import { InputPreview } from './InputPreview'
 import { PipelineProgress } from '../pipeline/PipelineProgress'
+import { ModelSelector } from './ModelSelector'
 import { ErrorNotice } from '../ui/ErrorNotice'
 import { ScientificNotes } from '../notes/ScientificNotes'
+import type { HealthResponse } from '../../api/types'
 import type { FrameSession } from '../../state/useFrameSession'
 import './LandingSection.css'
 
 interface LandingSectionProps {
   session: FrameSession
+  /** Latest GET /health result (null while offline/unknown); tells the model selector what is available. */
+  health?: HealthResponse | null
 }
 
-export function LandingSection({ session }: LandingSectionProps) {
-  const { file, selectFile, inputScale, setInputScale, uploadStatus, uploadResult, uploadError, jobStatus, jobResult, jobError, runFrame } = session
+export function LandingSection({ session, health = null }: LandingSectionProps) {
+  const { file, selectFile, inputScale, setInputScale, model, setModel, uploadStatus, uploadResult, uploadError, jobStatus, jobResult, jobError, runFrame } = session
 
   return (
     <div className="landing-section">
@@ -21,8 +25,8 @@ export function LandingSection({ session }: LandingSectionProps) {
         <SatelliteField variant="hero" />
         <div className="landing-section__hero-content">
           <p className="label">SIH 26142 · Earth observation prototype</p>
-          <h2 className="landing-section__headline">Sharper Sentinel-2, with the uncertainty shown alongside it.</h2>
-          <p className="landing-section__tagline">FRAME turns medium-resolution Sentinel-2 imagery into a sharper SR-derived product while exposing model-stability uncertainty and lightweight downstream analysis.</p>
+          <h2 className="landing-section__headline">Sentinel-2 super-resolution on a 2.5 m pixel grid, with its limits shown alongside.</h2>
+          <p className="landing-section__tagline">FRAME turns 10 m Sentinel-2 imagery into a georeferenced SR-derived product, and adds a TTA stability diagnostic and a lightweight NDVI demonstration. The diagnostic is uncalibrated and the demonstration is not evidence of a downstream advantage.</p>
           <PipelineDiagram />
         </div>
       </div>
@@ -36,6 +40,10 @@ export function LandingSection({ session }: LandingSectionProps) {
               <p className="label">Input preview</p>
               <InputPreview upload={uploadResult} />
             </div>
+          )}
+
+          {uploadStatus === 'success' && uploadResult && (
+            <ModelSelector model={model} onChange={setModel} availability={health?.available_models} disabled={jobStatus === 'pending'} />
           )}
 
           {uploadStatus === 'success' && uploadResult && (

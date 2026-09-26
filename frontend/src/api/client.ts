@@ -6,7 +6,7 @@
  * into the browser.
  */
 
-import { ApiError, type ApiErrorBody, type HealthResponse, type NDVIAnalysisResponse, type SRResultResponse, type UploadResponse } from './types'
+import { ApiError, type ApiErrorBody, type HealthResponse, type ModelId, type NDVIAnalysisResponse, type SRResultResponse, type UploadResponse } from './types'
 
 export const API_BASE_URL: string = (import.meta.env.VITE_FRAME_API_URL as string | undefined)?.replace(/\/$/, '') || 'http://127.0.0.1:8000'
 
@@ -73,11 +73,16 @@ export function uploadScene(file: File, inputScale: string): Promise<UploadRespo
   return request<UploadResponse>('/upload', { method: 'POST', body: form })
 }
 
-export function runSr(uploadId: string, seed?: number): Promise<SRResultResponse> {
+export function runSr(uploadId: string, seed?: number, model?: ModelId): Promise<SRResultResponse> {
+  // `seed` and `model` are only sent when given, so the backend's own defaults
+  // (seed 42, the Lite baseline) apply otherwise.
+  const body: { upload_id: string; seed?: number; model?: ModelId } = { upload_id: uploadId }
+  if (seed !== undefined) body.seed = seed
+  if (model !== undefined) body.model = model
   return request<SRResultResponse>('/sr/run', {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(seed === undefined ? { upload_id: uploadId } : { upload_id: uploadId, seed }),
+    body: JSON.stringify(body),
   })
 }
 

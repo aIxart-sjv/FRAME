@@ -1,0 +1,226 @@
+{
+  "alignment_on_real_data": [
+    {
+      "band": "B08",
+      "pearson_when_HR_shifted_east": {
+        "0.5 LR px": 0.4941,
+        "1 LR px": 0.3189,
+        "2 LR px": 0.1315
+      },
+      "pearson_zero_shift": 0.5244,
+      "sample_id": "sen2neon:2018_MLBS_3__0_2"
+    },
+    {
+      "band": "B08",
+      "pearson_when_HR_shifted_east": {
+        "0.5 LR px": 0.8457,
+        "1 LR px": 0.7761,
+        "2 LR px": 0.6673
+      },
+      "pearson_zero_shift": 0.8706,
+      "sample_id": "sen2neon:2018_MLBS_3__1_1"
+    },
+    {
+      "band": "B08",
+      "pearson_when_HR_shifted_east": {
+        "0.5 LR px": 0.9434,
+        "1 LR px": 0.9117,
+        "2 LR px": 0.7941
+      },
+      "pearson_zero_shift": 0.9352,
+      "sample_id": "sen2neon:2022_KONZ_7__5_3"
+    }
+  ],
+  "data_root_env": "FRAME_DATA_ROOT",
+  "dataset": "sen2neon",
+  "downloaded_bytes_incl_metadata": 36446313,
+  "grid": {
+    "fully_valid_patches": 8,
+    "lr_patch": 128,
+    "n_patches": 12,
+    "patches_with_any_nodata": 4,
+    "patches_with_no_valid_pixel": 0
+  },
+  "lr_checksums": {
+    "s2_l2a_10m/2018_MLBS_3__0_2.tif": "ok",
+    "s2_l2a_10m/2018_MLBS_3__1_1.tif": "ok",
+    "s2_l2a_10m/2022_KONZ_7__5_3.tif": "ok"
+  },
+  "manifest": {
+    "digest": "16db74fc35b0eee67c9cd9ff31954a24e9b43a741a328110be30e8042a7421cd",
+    "digest_matches_recompute": true,
+    "n_records": 3,
+    "path": "experiments/data_smoke/metadata/sen2neon_sample.manifest.jsonl"
+  },
+  "n_files": 8,
+  "pairs": [
+    {
+      "crs": "EPSG:32617",
+      "hr_shape": [
+        12,
+        1024,
+        1024
+      ],
+      "hr_valid_fraction": 0.5334,
+      "load_seconds": 0.068,
+      "lon_lat": [
+        -80.54325020048908,
+        37.448448298909405
+      ],
+      "lr_range": [
+        0.016,
+        0.7232
+      ],
+      "lr_shape": [
+        12,
+        256,
+        256
+      ],
+      "lr_valid_fraction": 1.0,
+      "sample_id": "sen2neon:2018_MLBS_3__0_2"
+    },
+    {
+      "crs": "EPSG:32617",
+      "hr_shape": [
+        12,
+        1024,
+        1024
+      ],
+      "hr_valid_fraction": 1.0,
+      "load_seconds": 0.063,
+      "lon_lat": [
+        -80.57232332530769,
+        37.42548201629058
+      ],
+      "lr_range": [
+        0.0163,
+        0.8472
+      ],
+      "lr_shape": [
+        12,
+        256,
+        256
+      ],
+      "lr_valid_fraction": 1.0,
+      "sample_id": "sen2neon:2018_MLBS_3__1_1"
+    },
+    {
+      "crs": "EPSG:32614",
+      "hr_shape": [
+        12,
+        1024,
+        1024
+      ],
+      "hr_valid_fraction": 1.0,
+      "load_seconds": 0.066,
+      "lon_lat": [
+        -96.55945042755113,
+        39.12910496419979
+      ],
+      "lr_range": [
+        0.0164,
+        0.5932
+      ],
+      "lr_shape": [
+        12,
+        256,
+        256
+      ],
+      "lr_valid_fraction": 1.0,
+      "sample_id": "sen2neon:2022_KONZ_7__5_3"
+    }
+  ],
+  "qc": {
+    "checks_performed": {
+      "files": true,
+      "headers": true,
+      "pixels": true,
+      "records": true,
+      "split_integrity": true
+    },
+    "invalid_sample_ids": [],
+    "invalid_samples": 0,
+    "issue_counts": {},
+    "issues": [],
+    "manifest_digest": "16db74fc35b0eee67c9cd9ff31954a24e9b43a741a328110be30e8042a7421cd",
+    "ok": true,
+    "per_dataset": {
+      "sen2neon/2.5m": 3
+    },
+    "per_split": {
+      "test": 3
+    },
+    "seconds": 0.29,
+    "total_samples": 3,
+    "valid_samples": 3
+  },
+  "random_rgbn_batch": {
+    "augmentations": [
+      "rot90",
+      "identity",
+      "hflip",
+      "rot270"
+    ],
+    "bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "hr": [
+      4,
+      4,
+      512,
+      512
+    ],
+    "lr": [
+      4,
+      4,
+      128,
+      128
+    ],
+    "valid_fractions": [
+      0.836,
+      0.83,
+      0.894,
+      0.894
+    ]
+  },
+  "revision": "9f076b4f652aa0253127d382dcb6e611250b2e67",
+  "synthetic_from_real_hr": {
+    "deterministic_same_seed": true,
+    "differs_other_seed": true,
+    "hr_patch": [
+      4,
+      512,
+      512
+    ],
+    "lr": [
+      4,
+      128,
+      128
+    ],
+    "mean_abs_diff_vs_plain_block_mean": 0.00118,
+    "recorded": {
+      "config": {
+        "blur_sigma": 2.0,
+        "clip_min": 0.0,
+        "harmonisation": "none",
+        "noise_a": 2e-05,
+        "noise_b": 1e-06,
+        "scale": 4
+      },
+      "harmonisation": "none",
+      "name": "frame-sen2naipv2-style",
+      "origin": "frame",
+      "parameters_verified": false,
+      "seed": 11,
+      "version": "frame-degradation/1"
+    }
+  },
+  "tiles": [
+    "2018_MLBS_3__0_2",
+    "2018_MLBS_3__1_1",
+    "2022_KONZ_7__5_3"
+  ]
+}

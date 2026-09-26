@@ -28,3 +28,9 @@ class InvalidInputScaleError(PreprocessingError):
 
 class MissingMetadataError(PreprocessingError):
     """Raised when geospatial metadata is required but not available."""
+
+
+class NoValidPixelsError(PreprocessingError):
+    """Raised (when content validation is requested) if the validity mask leaves no
+    observation at all: an all-nodata or all-NaN scene has nothing to super-resolve."""
+

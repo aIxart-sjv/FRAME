@@ -164,3 +164,72 @@ def test_already_reflectance_input_is_not_double_normalized():
     )
     expected = torch.tensor([0.1, 0.3, 0.2, 0.4]).view(4, 1, 1).expand(4, 128, 128)
     assert torch.allclose(result.tensor, expected, atol=1e-6)
+
+
+# ============================================================================== Phase 8: integration-level input validation (opt-in, so every earlier caller is unchanged)
+
+
+from frame.preprocessing.errors import InvalidInputScaleError, NoValidPixelsError  # noqa: E402
+
+
+def _reflectance_patch(size=64, value=0.2):
+    return np.full((4, size, size), value, dtype="float32"), list(RGBN_BANDS)
+
+
+def test_non_finite_pixels_are_excluded_from_the_mask_and_the_reported_coverage():
+    array, band_names = _reflectance_patch()
+    array[1, :8, :8] = np.nan
+    result = preprocess_rgbn(array, band_names=band_names, input_scale="reflectance", resolution_m=10.0, patch_size=None)
+    assert result.mask.array[:8, :8].sum() == 0 and result.mask.coverage() == pytest.approx(1 - 64 / 4096)
+    assert torch.isfinite(result.tensor).all()                                  # still zero-filled for the model, as before
+    assert result.metadata.cloud_mask_coverage == pytest.approx(result.mask.coverage())
+
+
+def test_validate_content_rejects_a_scene_with_no_valid_pixel():
+    array, band_names = _reflectance_patch(value=0.0)
+    with pytest.raises(NoValidPixelsError, match="no valid pixel"):
+        preprocess_rgbn(array, band_names=band_names, input_scale="reflectance", resolution_m=10.0, nodata_value=0.0, patch_size=None, validate_content=True)
+    nan = np.full((4, 64, 64), np.nan, dtype="float32")
+    with pytest.raises(NoValidPixelsError):
+        preprocess_rgbn(nan, band_names=band_names, input_scale="reflectance", resolution_m=10.0, patch_size=None, validate_content=True)
+
+
+def test_without_validate_content_an_empty_scene_still_preprocesses_exactly_as_before():
+    array, band_names = _reflectance_patch(value=0.0)
+    result = preprocess_rgbn(array, band_names=band_names, input_scale="reflectance", resolution_m=10.0, nodata_value=0.0, patch_size=None)
+    assert result.mask.coverage() == 0.0
+
+
+def test_validate_content_rejects_reflectance_fractions_declared_as_raw_digital_numbers():
+    """The silent failure documented in experiments/end_to_end: 0.2 / 10000 is a black image and nothing complains."""
+    array, band_names = _reflectance_patch(value=0.2)
+    with pytest.raises(InvalidInputScaleError, match="reflectance"):
+        preprocess_rgbn(array, band_names=band_names, input_scale="raw_digital_number", resolution_m=10.0, patch_size=None, validate_content=True)
+
+
+def test_validate_content_rejects_digital_numbers_declared_as_reflectance():
+    array, band_names = _reflectance_patch(value=2500.0)
+    with pytest.raises(InvalidInputScaleError, match="raw_digital_number"):
+        preprocess_rgbn(array, band_names=band_names, input_scale="reflectance", resolution_m=10.0, patch_size=None, validate_content=True)
+
+
+def test_validate_content_accepts_consistent_declarations_including_dark_scenes():
+    for scale, value in (("reflectance", 0.2), ("raw_digital_number", 2000.0), ("raw_digital_number", 60.0), ("reflectance", 0.005)):
+        array, band_names = _reflectance_patch(value=value)
+        assert preprocess_rgbn(array, band_names=band_names, input_scale=scale, resolution_m=10.0, patch_size=None, validate_content=True).tensor.shape == (4, 64, 64)
+
+
+def test_the_scale_check_looks_only_at_valid_pixels():
+    array, band_names = _reflectance_patch(value=0.2)
+    array[:, :4, :4] = 65000.0                                                  # an unmasked bright block would break a reflectance declaration ...
+    with pytest.raises(InvalidInputScaleError):
+        preprocess_rgbn(array, band_names=band_names, input_scale="reflectance", resolution_m=10.0, patch_size=None, validate_content=True)
+    array[:, :4, :4] = np.nan                                                   # ... but NaN pixels are not observations
+    preprocess_rgbn(array, band_names=band_names, input_scale="reflectance", resolution_m=10.0, patch_size=None, validate_content=True)
+
+
+def test_the_l2a_reflectance_bounds_match_the_model_contract_bounds():
+    from frame.models import config as models_cfg
+    from frame.preprocessing import reflectance
+
+    assert (reflectance.MIN_REFLECTANCE, reflectance.MAX_REFLECTANCE) == (models_cfg.MIN_REFLECTANCE, models_cfg.MAX_REFLECTANCE)

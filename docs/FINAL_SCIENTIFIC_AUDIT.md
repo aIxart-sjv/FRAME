@@ -1,3 +1,7 @@
+> **Status (Phase 8): the record of the original Phase 9 audit, partly superseded.** This document closed the original nine-phase build (Lite only, 128 × 128 input, one real scene plus nine `spot` samples). It predates Mamba, arbitrary-size tiling, the paired-data and training layers, and the real-data evaluation, reliability and downstream studies of the gap-closure roadmap.
+> Its statements that the frozen model is "marginally better than bicubic on most metrics" and that the uncertainty signal "is not noise" rest on nine unregistered samples and one scene, and are **superseded** by [`CLAIMS.md`](CLAIMS.md) (Phase 5: 28 SEN2NEON units and 57 OpenSR-Test scenes with a registration analysis; Phase 6: the stability is weakly informative, texture-like and uncalibrated; Phase 7: mixed to null downstream).
+> Where it says "where this document and any other document disagree, this one is correct", read: for the original scope only. Its list of things **not** to claim (§H) still holds and is extended by `CLAIMS.md`. The body below is unchanged.
+
 # FRAME — Final Scientific Audit (Phase 9)
 
 This document is the authoritative, final statement of what FRAME does and

@@ -5,6 +5,7 @@ import { renderNdvi, renderSequentialHeatmap } from '../../lib/raster'
 import { MetadataGrid } from '../ui/MetadataGrid'
 import { ErrorNotice } from '../ui/ErrorNotice'
 import { RasterLoadingState } from './RasterLoadingState'
+import { NDVI_DEMONSTRATION_NOTE } from '../../constants/terminology'
 import type { AsyncStatus } from '../../state/useFrameSession'
 import type { NDVIAnalysisResponse } from '../../api/types'
 import './NdviTab.css'
@@ -39,7 +40,7 @@ export function NdviTab({ analysisStatus, analysisResult, analysisError, onRunAn
   if (!analysisResult) {
     return (
       <div className="tab-content ndvi-tab__empty">
-        <p className="ndvi-tab__empty-text">Run the Phase 6 NDVI comparison against this SR result — native 10 m NDVI vs. the SR-derived NDVI, reduced to a common grid before comparison.</p>
+        <p className="ndvi-tab__empty-text">Run the NDVI demonstration on this SR result — native 10 m NDVI vs. the SR-derived NDVI, reduced to a common grid before comparison. It illustrates a downstream index computation; it is not evidence that super-resolution improves it.</p>
         <button type="button" className="ndvi-tab__run-button" disabled={analysisStatus === 'pending'} onClick={onRunAnalysis}>
           {analysisStatus === 'pending' ? 'Running NDVI analysis…' : 'Run NDVI analysis'}
         </button>
@@ -71,15 +72,18 @@ export function NdviTab({ analysisStatus, analysisResult, analysisError, onRunAn
           { label: 'Mean abs. difference', value: comparison.mean_abs_difference?.toFixed(4) ?? '—' },
           { label: 'RMSE', value: comparison.rmse?.toFixed(4) ?? '—' },
           { label: 'Max abs. difference', value: comparison.max_abs_difference?.toFixed(4) ?? '—' },
-          { label: 'Uncertainty ↔ disagreement corr.', value: weighted.correlation_uncertainty_vs_abs_diff?.toFixed(3) ?? 'undefined (zero variance)' },
-          { label: 'Uncertainty-weighted mean abs. diff.', value: weighted.uncertainty_weighted_mean_abs_diff?.toFixed(4) ?? '—' },
+          { label: 'Stability ↔ disagreement corr.', value: weighted.correlation_uncertainty_vs_abs_diff?.toFixed(3) ?? 'undefined (zero variance)' },
+          { label: 'Stability-weighted mean abs. diff.', value: weighted.uncertainty_weighted_mean_abs_diff?.toFixed(4) ?? '—' },
           { label: 'Unweighted mean abs. diff.', value: weighted.unweighted_mean_abs_diff?.toFixed(4) ?? '—' },
           { label: 'Resampling', value: comparison.resampling_method },
         ]}
       />
 
+      <p className="ndvi-tab__caveats-intro">{NDVI_DEMONSTRATION_NOTE}</p>
       <ul className="ndvi-tab__caveats">
-        {analysisResult.scientific_caveats.map((caveat) => (
+        {analysisResult.scientific_caveats
+          .filter((caveat) => !caveat.startsWith('This NDVI view is a downstream analytical demonstration'))
+          .map((caveat) => (
           <li key={caveat}>{caveat}</li>
         ))}
       </ul>

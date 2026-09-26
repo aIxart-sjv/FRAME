@@ -4,11 +4,26 @@
  * for this prototype (see frame/api/README.md).
  */
 
+/** The SR models the backend can run (frame/models/config.py: SUPPORTED_MODELS). */
+export type ModelId = 'lite' | 'mamba'
+
+export interface ModelAvailability {
+  id: ModelId
+  label: string
+  model_name: string
+  available: boolean
+  /** User-facing explanation, present when available is false. */
+  reason: string | null
+}
+
 export interface HealthResponse {
   status: string
   frame_version: string | null
   api_version: string
   model_name: string
+  /** Older backends omit these; treat absence as "availability unknown". */
+  default_model?: ModelId
+  available_models?: ModelAvailability[]
 }
 
 export interface UploadResponse {
@@ -65,6 +80,7 @@ export interface SRResultResponse {
   status: string
   upload_id: string
   model_name: string
+  model_id?: ModelId
   input_shape: number[]
   output_shape: number[]
   resolution: ResolutionDescription

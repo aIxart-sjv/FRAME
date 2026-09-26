@@ -1,0 +1,569 @@
+{
+  "alignment_estimates": [
+    {
+      "dx": 0,
+      "dy": 0,
+      "raw_dx": 0.1,
+      "raw_dy": 0.1,
+      "sample_id": "sen2neon:2019_JERC_5__3_1",
+      "status": "ok"
+    },
+    {
+      "dx": 2,
+      "dy": 3,
+      "raw_dx": 2.0,
+      "raw_dy": 3.0,
+      "sample_id": "sen2neon:2019_SOAP_4__4_4",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": 2,
+      "raw_dx": 1.3,
+      "raw_dy": 1.7,
+      "sample_id": "sen2neon:2020_RMNP_3__3_3",
+      "status": "ok"
+    },
+    {
+      "dx": -2,
+      "dy": -1,
+      "raw_dx": -2.0,
+      "raw_dy": -1.0,
+      "sample_id": "sen2neon:2020_YELL_3__1_3",
+      "status": "ok"
+    },
+    {
+      "dx": 0,
+      "dy": 3,
+      "raw_dx": -0.0,
+      "raw_dy": 3.0,
+      "sample_id": "sen2neon:2020_YELL_3__2_5",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": 3,
+      "raw_dx": 1.2,
+      "raw_dy": 2.8,
+      "sample_id": "sen2neon:2021_JORN_4__5_4",
+      "status": "ok"
+    },
+    {
+      "dx": 0,
+      "dy": 0,
+      "raw_dx": -0.0,
+      "raw_dy": -0.0,
+      "sample_id": "sen2neon:2021_JORN_4__5_6",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": 0,
+      "raw_dx": 0.8,
+      "raw_dy": -0.1,
+      "sample_id": "sen2neon:2021_OAES_5__1_3",
+      "status": "ok"
+    },
+    {
+      "dx": -1,
+      "dy": 0,
+      "raw_dx": -1.0,
+      "raw_dy": -0.0,
+      "sample_id": "sen2neon:2022_CLBJ_6__0_4",
+      "status": "ok"
+    },
+    {
+      "dx": 0,
+      "dy": 1,
+      "raw_dx": -0.0,
+      "raw_dy": 0.7,
+      "sample_id": "sen2neon:2022_GRSM_7__6_3",
+      "status": "ok"
+    },
+    {
+      "dx": 0,
+      "dy": 0,
+      "raw_dx": -0.0,
+      "raw_dy": -0.0,
+      "sample_id": "sen2neon:2022_JORN_5__9_7",
+      "status": "ok"
+    },
+    {
+      "dx": 0,
+      "dy": 1,
+      "raw_dx": -0.0,
+      "raw_dy": 1.0,
+      "sample_id": "sen2neon:2022_KONZ_7__8_5",
+      "status": "ok"
+    },
+    {
+      "dx": 2,
+      "dy": -1,
+      "raw_dx": 2.0,
+      "raw_dy": -1.0,
+      "sample_id": "sen2neon:2022_RMNP_4__8_4",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": 1,
+      "raw_dx": 1.0,
+      "raw_dy": 1.0,
+      "sample_id": "sen2neon:2022_STEI_5__5_2",
+      "status": "ok"
+    },
+    {
+      "dx": 0,
+      "dy": 1,
+      "raw_dx": -0.0,
+      "raw_dy": 1.0,
+      "sample_id": "sen2neon:2022_UKFS_6__1_0",
+      "status": "ok"
+    },
+    {
+      "dx": 2,
+      "dy": -2,
+      "raw_dx": 2.0,
+      "raw_dy": -2.0,
+      "sample_id": "sen2neon:2022_WREF_5__1_5",
+      "status": "ok"
+    },
+    {
+      "dx": 0,
+      "dy": 1,
+      "raw_dx": -0.0,
+      "raw_dy": 1.0,
+      "sample_id": "sen2neon:2023_BONA_5__3_0",
+      "status": "ok"
+    },
+    {
+      "dx": 0,
+      "dy": 0,
+      "raw_dx": -0.0,
+      "raw_dy": -0.0,
+      "sample_id": "sen2neon:2023_JERC_7__1_5",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": 1,
+      "raw_dx": 1.0,
+      "raw_dy": 1.0,
+      "sample_id": "sen2neon:2023_KONZ_8__2_1",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": 0,
+      "raw_dx": 1.0,
+      "raw_dy": -0.0,
+      "sample_id": "sen2neon:2023_OAES_7__2_2",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": -2,
+      "raw_dx": 1.2,
+      "raw_dy": -1.7,
+      "sample_id": "sen2neon:2023_RMNP_5__7_1",
+      "status": "ok"
+    },
+    {
+      "dx": 6,
+      "dy": 2,
+      "raw_dx": 6.0,
+      "raw_dy": 2.5,
+      "sample_id": "sen2neon:2023_TEAK_6__2_2",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": -1,
+      "raw_dx": 1.0,
+      "raw_dy": -1.0,
+      "sample_id": "sen2neon:2023_YELL_5__4_8",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": -1,
+      "raw_dx": 0.6,
+      "raw_dy": -0.7,
+      "sample_id": "sen2neon:2024_HEAL_6__1_1",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": -1,
+      "raw_dx": 1.0,
+      "raw_dy": -1.0,
+      "sample_id": "sen2neon:2024_JERC_8__2_6",
+      "status": "ok"
+    },
+    {
+      "dx": 2,
+      "dy": 1,
+      "raw_dx": 2.0,
+      "raw_dy": 1.0,
+      "sample_id": "sen2neon:2024_KONZ_9__2_4",
+      "status": "ok"
+    },
+    {
+      "dx": 0,
+      "dy": 1,
+      "raw_dx": -0.0,
+      "raw_dy": 1.0,
+      "sample_id": "sen2neon:2024_NIWO_6__4_1",
+      "status": "ok"
+    },
+    {
+      "dx": 0,
+      "dy": 0,
+      "raw_dx": -0.0,
+      "raw_dy": 0.1,
+      "sample_id": "sen2neon:2024_OAES_8__4_1",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": 0,
+      "raw_dx": 1.0,
+      "raw_dy": -0.0,
+      "sample_id": "sen2neon:2024_SRER_6__3_2",
+      "status": "ok"
+    },
+    {
+      "dx": 1,
+      "dy": 0,
+      "raw_dx": 1.0,
+      "raw_dy": -0.0,
+      "sample_id": "sen2neon:2024_UNDE_6__5_2",
+      "status": "ok"
+    }
+  ],
+  "alignment_magnitude_hr_px": {
+    "max": 6.5,
+    "mean": 1.541196868730523,
+    "median": 1.0,
+    "n": 30
+  },
+  "alignment_reference": "bicubic baseline (system-neutral); whole-pixel phase-correlation estimate, identical for every system on a sample",
+  "axis": "x (columns)",
+  "code": {
+    "git": {
+      "dirty": true,
+      "revision": "eb3769559525ea81e902422253f8950c36b075a5"
+    }
+  },
+  "conditions": [
+    "shift_0_lr_px",
+    "shift_0.25_lr_px",
+    "shift_0.5_lr_px",
+    "shift_1_lr_px",
+    "shift_2_lr_px",
+    "aligned_to_bicubic"
+  ],
+  "config_digest": "dd727ab4b56eeb3f86b9744718409af60f16288b4e1639c2e680e9d049e02f44",
+  "counts": {
+    "evaluated": 30,
+    "invalid": 0,
+    "skipped": 0,
+    "total": 30,
+    "unreadable": 0,
+    "valid": 30
+  },
+  "dataset": "sen2neon_random30",
+  "environment": {
+    "cpu_count": 20,
+    "cuda_available": true,
+    "cudnn": "92400",
+    "gpu": {
+      "compute_capability": "8.6",
+      "driver_cuda": "13.0",
+      "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+      "total_memory_mib": 3759
+    },
+    "machine": "x86_64",
+    "numpy": "2.4.6",
+    "packages": {
+      "mlstac": "0.4.9",
+      "opensr-test": "1.3.3",
+      "rasterio": "1.4.4",
+      "safetensors": "0.8.0",
+      "scikit-image": "0.26.0",
+      "triton": "3.8.0"
+    },
+    "platform": "Linux-7.1.5-arch1-2-x86_64-with-glibc2.44",
+    "python": "3.11.9",
+    "ram_gib": 15.2,
+    "requested_device": "cuda",
+    "torch": "2.14.0+cu130"
+  },
+  "evidence_class": "real_cross_sensor",
+  "failures": {},
+  "finished_utc": "2026-09-25T05:17:51+00:00",
+  "headline_metrics": [
+    "reference_accuracy.psnr_db",
+    "reference_accuracy.ssim",
+    "reference_accuracy.sam_degrees",
+    "reference_accuracy.ergas",
+    "indices.NDVI.mae",
+    "spatial_detail.hf_relative_error",
+    "spatial_detail.hf_correlation"
+  ],
+  "hr_shifts": [
+    0,
+    1,
+    2,
+    4,
+    8
+  ],
+  "invalid": [],
+  "lr_shifts": [
+    0.0,
+    0.25,
+    0.5,
+    1.0,
+    2.0
+  ],
+  "manifest_digest": "ab433be9ceada8a1b0bf5705b0caaab62bc8e666c0f144a57e4aeccd9821b436",
+  "metric_configuration": {
+    "hallucination_taus": [
+      0.005,
+      0.0025,
+      0.01
+    ],
+    "hf_sigma": 2.0,
+    "index_min_sum": 0.02,
+    "phase_upsample": 10,
+    "ratio_floor": 0.005,
+    "ssim_window": 7,
+    "version": "frame-eval-metrics/1"
+  },
+  "name": "benchmarks_v1:shift_sensitivity:sen2neon_random30",
+  "not_computed": [
+    "classification accuracy",
+    "area error"
+  ],
+  "notes": [
+    "An interpretation aid, not a ranking: it shows how large a difference a systematic misregistration alone produces.",
+    "Displacement is in whole HR pixels along the column axis; nothing is resampled. Statistics are descriptive unless the scene-unit count allows an interval."
+  ],
+  "role": "independent_benchmark",
+  "sample_ids": [
+    "sen2neon:2019_JERC_5__3_1",
+    "sen2neon:2019_SOAP_4__4_4",
+    "sen2neon:2020_RMNP_3__3_3",
+    "sen2neon:2020_YELL_3__1_3",
+    "sen2neon:2020_YELL_3__2_5",
+    "sen2neon:2021_JORN_4__5_4",
+    "sen2neon:2021_JORN_4__5_6",
+    "sen2neon:2021_OAES_5__1_3",
+    "sen2neon:2022_CLBJ_6__0_4",
+    "sen2neon:2022_GRSM_7__6_3",
+    "sen2neon:2022_JORN_5__9_7",
+    "sen2neon:2022_KONZ_7__8_5",
+    "sen2neon:2022_RMNP_4__8_4",
+    "sen2neon:2022_STEI_5__5_2",
+    "sen2neon:2022_UKFS_6__1_0",
+    "sen2neon:2022_WREF_5__1_5",
+    "sen2neon:2023_BONA_5__3_0",
+    "sen2neon:2023_JERC_7__1_5",
+    "sen2neon:2023_KONZ_8__2_1",
+    "sen2neon:2023_OAES_7__2_2",
+    "sen2neon:2023_RMNP_5__7_1",
+    "sen2neon:2023_TEAK_6__2_2",
+    "sen2neon:2023_YELL_5__4_8",
+    "sen2neon:2024_HEAL_6__1_1",
+    "sen2neon:2024_JERC_8__2_6",
+    "sen2neon:2024_KONZ_9__2_4",
+    "sen2neon:2024_NIWO_6__4_1",
+    "sen2neon:2024_OAES_8__4_1",
+    "sen2neon:2024_SRER_6__3_2",
+    "sen2neon:2024_UNDE_6__5_2"
+  ],
+  "scale": 4,
+  "skipped": [],
+  "split": "test",
+  "status": "completed",
+  "systems": {
+    "bicubic": {
+      "hard_constraint": null,
+      "input_bands": [
+        "B04",
+        "B03",
+        "B02",
+        "B08"
+      ],
+      "kind": "bicubic",
+      "model_name": null,
+      "name": "bicubic",
+      "operator": "frame.validation.bicubic_upsample: bicubic interpolation with antialiasing, negatives clamped to 0",
+      "tiling": "none (whole scene)",
+      "value_convention": "reflectance fraction = stored DN / the dataset's reflectance_scale (10000); no BOA offset applied, no clipping by FRAME",
+      "weights": null
+    },
+    "sen2sr_lite": {
+      "device": "cuda",
+      "executable_architecture": "CNNSR",
+      "hard_constraint": true,
+      "input_bands": [
+        "B04",
+        "B03",
+        "B02",
+        "B08"
+      ],
+      "kind": "lite",
+      "model_name": "SEN2SRLite/NonReference_RGBN_x4",
+      "name": "sen2sr_lite",
+      "note": "the published inference system: CNN + clamp to >= 0 + low-frequency Fourier hard constraint (512x512 mask) inside every tile",
+      "parameters": 572336,
+      "tiling": {
+        "blend_mode": "linear",
+        "overlap": 32,
+        "padding_mode": "reflect",
+        "scale": 4,
+        "stride": 96,
+        "tile_size": 128
+      },
+      "value_convention": "reflectance fraction = stored DN / the dataset's reflectance_scale (10000); no BOA offset applied, no clipping by FRAME",
+      "weights": {
+        "hard_constraint.safetensor": "fbad981519066387c413ead1d6af7ef3e0d2947c34147ba90163fc79ae539239",
+        "mlm.json": "59caa5c6af96a6fbebdbd771d93c91cc2d3a770302cd2f262b5409e77a40e3f7",
+        "model.safetensor": "479aa796d5068d0b1206118ccbca27bd3223df0214db1a9b31a1e18349ed1c7e"
+      },
+      "weights_dir": "~/.cache/sen2sr_baseline/SEN2SRLite_RGBN"
+    },
+    "sen2sr_mamba": {
+      "architecture": {
+        "attention_type": "sigmoid_02",
+        "depths": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "embed_dim": 96,
+        "img_size": [
+          128,
+          128
+        ],
+        "in_channels": 4,
+        "mlp_ratio": 4,
+        "num_heads": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "operation_attention": "sum",
+        "out_channels": 4,
+        "resi_connection": "1conv",
+        "upsampler": "pixelshuffle",
+        "upscale": 4
+      },
+      "device": "cpu",
+      "executable_architecture": "MambaSR",
+      "hard_constraint": true,
+      "input_bands": [
+        "B04",
+        "B03",
+        "B02",
+        "B08"
+      ],
+      "kind": "mamba",
+      "model_name": "SEN2SR/MambaSR_RGBN_x4",
+      "name": "sen2sr_mamba",
+      "note": "SEN2SR-Mamba RGBN through the isolated worker: MambaSR + clamp to >= 0 + low-frequency hard constraint, float32 (no autocast)",
+      "parameters": 13759444,
+      "tiling": {
+        "blend_mode": "linear",
+        "overlap": 32,
+        "padding_mode": "reflect",
+        "scale": 4,
+        "stride": 96,
+        "tile_size": 128
+      },
+      "value_convention": "reflectance fraction = stored DN / the dataset's reflectance_scale (10000); no BOA offset applied, no clipping by FRAME",
+      "weights": {
+        "hard_constraint_file": "sr_hard_constraint.safetensor",
+        "hard_constraint_sha256": "fbad981519066387c413ead1d6af7ef3e0d2947c34147ba90163fc79ae539239",
+        "weights_file": "sr_model.safetensor",
+        "weights_sha256": "11e551b03663e873c5dcd4f02ec3fc8cdfa41ef46677540295ee4c6686ddc854"
+      },
+      "worker_device": "cuda"
+    },
+    "tiny_cnn_seed0": {
+      "device": "cuda",
+      "group": "tiny_cnn_seeds",
+      "hard_constraint": false,
+      "input_bands": [
+        "B04",
+        "B03",
+        "B02",
+        "B08"
+      ],
+      "kind": "checkpoint",
+      "model_name": "tiny_cnn",
+      "model_params": {
+        "depth": 4,
+        "width": 32
+      },
+      "name": "tiny_cnn_seed0",
+      "note": "a frozen model trained by frame.train WITHOUT the low-frequency hard constraint; not the published SEN2SR system",
+      "parameters": 47424,
+      "tiling": {
+        "blend_mode": "linear",
+        "overlap": 32,
+        "padding_mode": "reflect",
+        "scale": 4,
+        "stride": 96,
+        "tile_size": 128
+      },
+      "training": {
+        "config_digest": "aaec387101c7e38bf3de19373afd9b18898068215a4ce1d9c995cfc7bb7a679c",
+        "git_revision": "eb3769559525ea81e902422253f8950c36b075a5",
+        "manifest_digest": "01bb0e2d18892c71bdf5228c9cb544b7e406eb49ee1bf9917519b1a2622949e1",
+        "overlap_check": "performed against the train and validation scenes listed in train_summary",
+        "seed": 0,
+        "step": 600,
+        "summary_sha256": "d09a4b3a3dea8912013f36e8199fd30d4aae10c63fae005424021902e70cea2a",
+        "torch_version": "2.14.0+cu130",
+        "train_scenes": [
+          "R01_S00",
+          "R01_S01",
+          "R02_S00",
+          "R02_S01",
+          "R04_S00",
+          "R04_S01"
+        ],
+        "training_datasets": [
+          "synthetic_smoke"
+        ],
+        "val_scenes": [
+          "R03_S00",
+          "R03_S01"
+        ]
+      },
+      "value_convention": "reflectance fraction = stored DN / the dataset's reflectance_scale (10000); no BOA offset applied, no clipping by FRAME",
+      "weights": {
+        "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed0/checkpoint/step_000600.pt",
+        "checkpoint_sha256": "58fb6bb7c1b28c5837afa98f4ffa58a319278012911b78d73d1c343951970789"
+      }
+    }
+  },
+  "systems_unavailable": [],
+  "tiling": {
+    "blend_mode": "linear",
+    "overlap": 32,
+    "padding_mode": "reflect",
+    "scale": 4,
+    "stride": 96,
+    "tile_size": 128
+  },
+  "unreadable": []
+}

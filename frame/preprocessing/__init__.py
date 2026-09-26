@@ -11,7 +11,7 @@ Public API:
     preprocess_rgbn, PreprocessedInput, RGBN_BANDS, RGBN_RESOLUTION_M
     RasterMetadata
     ValidityMask, DEFAULT_SCL_INVALID_CLASSES
-    to_reflectance
+    to_reflectance, check_scale_consistency
     Exceptions: PreprocessingError and its subclasses (see .errors)
 """
 
@@ -19,6 +19,7 @@ from frame.preprocessing.errors import (
     InvalidInputScaleError,
     InvalidShapeError,
     MissingMetadataError,
+    NoValidPixelsError,
     PreprocessingError,
     UnsupportedBandsError,
     UnsupportedResolutionError,
@@ -33,7 +34,7 @@ from frame.preprocessing.pipeline import (
     PreprocessedInput,
     preprocess_rgbn,
 )
-from frame.preprocessing.reflectance import RAW_DIGITAL_NUMBER, REFLECTANCE, to_reflectance
+from frame.preprocessing.reflectance import RAW_DIGITAL_NUMBER, REFLECTANCE, check_scale_consistency, to_reflectance
 from frame.preprocessing.validation import (
     reorder_bands,
     validate_bands,
@@ -53,6 +54,7 @@ __all__ = [
     "ValidityMask",
     "DEFAULT_SCL_INVALID_CLASSES",
     "to_reflectance",
+    "check_scale_consistency",
     "RAW_DIGITAL_NUMBER",
     "REFLECTANCE",
     "validate_shape",
@@ -65,4 +67,5 @@ __all__ = [
     "UnsupportedResolutionError",
     "InvalidInputScaleError",
     "MissingMetadataError",
+    "NoValidPixelsError",
 ]

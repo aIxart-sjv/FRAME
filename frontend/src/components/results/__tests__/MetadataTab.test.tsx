@@ -16,6 +16,12 @@ describe('MetadataTab result rendering', () => {
     expect(screen.getAllByText(jobResultFixture.crs as string).length).toBeGreaterThanOrEqual(1)
   })
 
+  it('shows how much of the input was valid, so a nodata-heavy scene is visible in the demo', () => {
+    render(<MetadataTab jobResult={{ ...jobResultFixture, metadata: { ...jobResultFixture.metadata, preprocessing_mask_coverage: 0.231 } }} />)
+    expect(screen.getByText('Valid-pixel coverage')).toBeInTheDocument()
+    expect(screen.getByText('23.1 %')).toBeInTheDocument()
+  })
+
   it('renders self-consistency numbers with the explicit "not ground truth" framing', () => {
     render(<MetadataTab jobResult={jobResultFixture} />)
     expect(screen.getByText(/vs\. own LR input — not ground truth/i)).toBeInTheDocument()

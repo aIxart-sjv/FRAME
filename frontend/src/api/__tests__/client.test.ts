@@ -75,6 +75,22 @@ describe('api client', () => {
     expect(JSON.parse(init.body as string)).toEqual({ upload_id: 'upload-1', seed: 7 })
   })
 
+  it('runSr posts the selected model when given', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(jsonResponse(jobResultFixture))
+    vi.stubGlobal('fetch', fetchMock)
+    await api.runSr('upload-1', undefined, 'mamba')
+    const [, init] = fetchMock.mock.calls[0]
+    expect(JSON.parse(init.body as string)).toEqual({ upload_id: 'upload-1', model: 'mamba' })
+  })
+
+  it('runSr omits seed and model when not given, so the backend defaults apply', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(jsonResponse(jobResultFixture))
+    vi.stubGlobal('fetch', fetchMock)
+    await api.runSr('upload-1')
+    const [, init] = fetchMock.mock.calls[0]
+    expect(JSON.parse(init.body as string)).toEqual({ upload_id: 'upload-1' })
+  })
+
   it('builds download URLs against the configured API base', () => {
     expect(api.srDownloadUrl('job-1')).toBe(`${api.API_BASE_URL}/sr/download/job-1`)
     expect(api.uncertaintyDownloadUrl('job-1')).toBe(`${api.API_BASE_URL}/uncertainty/download/job-1`)

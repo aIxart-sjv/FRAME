@@ -1,0 +1,78 @@
+{
+  "baselines": [
+    "bicubic"
+  ],
+  "batch_size": 1,
+  "checkpoint_every": 1000,
+  "data": {
+    "augment": true,
+    "data_root": "~/.cache/frame_data_overfit",
+    "datasets": [],
+    "hr_bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "lr_bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "lr_patch": 32,
+    "manifest": "../manifests/synthetic_2x1_seed1.jsonl",
+    "min_valid_fraction": 0.8,
+    "patches_per_pair": 16,
+    "require_region_disjoint": true,
+    "train_split": "train",
+    "val_lr_patch": 128,
+    "val_split": "val"
+  },
+  "deterministic": true,
+  "device": "auto",
+  "evaluate_train": true,
+  "grad_accum": 1,
+  "keep_last_checkpoints": 2,
+  "log_every": 100,
+  "loss": {
+    "charbonnier_eps": 0.001,
+    "consistency_weight": 0.0,
+    "reconstruction": "l1",
+    "spectral_weight": 0.0
+  },
+  "model": {
+    "name": "tiny_cnn",
+    "params": {
+      "depth": 4,
+      "width": 32
+    },
+    "pretrained": false
+  },
+  "name": "overfit_one_scene",
+  "optim": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "grad_clip_norm": null,
+    "lr": 0.001,
+    "momentum": 0.9,
+    "name": "adamw",
+    "weight_decay": 0.0
+  },
+  "output_dir": ".",
+  "precision": {
+    "amp": "off"
+  },
+  "scheduler": {
+    "gamma": 0.5,
+    "min_lr_fraction": 0.05,
+    "name": "none",
+    "step_size": 100,
+    "warmup_steps": 0
+  },
+  "seed": 0,
+  "steps": 2000,
+  "validate_every": 500
+}

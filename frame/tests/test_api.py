@@ -209,7 +209,7 @@ def test_full_sr_run_flow_and_result_schema(client, tmp_path):
     assert body["input_shape"] == [4, H, H]
     assert body["output_shape"] == [4, H * RGBN_SCALE_FACTOR, H * RGBN_SCALE_FACTOR]
     assert body["resolution"]["description"] == "SR-derived product — 2.5 m pixel grid"
-    assert body["uncertainty"]["label"] == "relative model-stability uncertainty"
+    assert body["uncertainty"]["label"] == "TTA stability — reconstruction-variation diagnostic"
     assert body["uncertainty"]["seed"] == 42
     assert len(body["scientific_caveats"]) >= 1
 

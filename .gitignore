@@ -174,3 +174,19 @@ cython_debug/
 .pypirc
 
 demo.py
+
+# Downloaded model artifacts (e.g. models/SEN2SR, ~367 MB of weights): fetched from
+# Hugging Face, not versioned here. See docs/MAMBA_INTEGRATION.md for what is expected there.
+/models/
+
+# Training checkpoints (Phase 4): model + optimizer state, up to ~160 MiB for Mamba. The metrics, config, summary and README of a run ARE versioned.
+experiments/training/**/checkpoint/
+experiments/training/**/*.pt
+
+# Phase 6: reliability runs keep JSON/Markdown records only; rasters (e.g. the stability GeoTIFF of a scene check) stay out of git
+experiments/uncertainty/runs/**/*.tif
+
+# The Python-packaging patterns above (`downloads/`, `lib/`) also match FRAME frontend SOURCE directories, which would then be
+# missing from a clean clone (the frontend would not build). Re-include them explicitly.
+!frontend/src/components/downloads/
+!frontend/src/lib/

@@ -1,0 +1,118 @@
+{
+  "name": "benchmarks_v1",
+  "output_dir": "../benchmarks_v1",
+  "device": "auto",
+  "seed": 0,
+  "systems": [
+    {
+      "name": "bicubic",
+      "kind": "bicubic"
+    },
+    {
+      "name": "sen2sr_lite",
+      "kind": "lite"
+    },
+    {
+      "name": "sen2sr_lite_no_constraint",
+      "kind": "lite",
+      "hard_constraint": false
+    },
+    {
+      "name": "sen2sr_mamba",
+      "kind": "mamba"
+    },
+    {
+      "name": "tiny_cnn_seed0",
+      "kind": "checkpoint",
+      "group": "tiny_cnn_seeds",
+      "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed0/checkpoint/step_000600.pt",
+      "train_summary": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed0/summary.json"
+    },
+    {
+      "name": "tiny_cnn_seed1",
+      "kind": "checkpoint",
+      "group": "tiny_cnn_seeds",
+      "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed1/checkpoint/step_000600.pt",
+      "train_summary": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed1/summary.json"
+    },
+    {
+      "name": "tiny_cnn_seed2",
+      "kind": "checkpoint",
+      "group": "tiny_cnn_seeds",
+      "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed2/checkpoint/step_000600.pt",
+      "train_summary": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed2/summary.json"
+    },
+    {
+      "name": "tiny_cnn_seed3",
+      "kind": "checkpoint",
+      "group": "tiny_cnn_seeds",
+      "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed3/checkpoint/step_000600.pt",
+      "train_summary": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed3/summary.json"
+    },
+    {
+      "name": "tiny_cnn_seed4",
+      "kind": "checkpoint",
+      "group": "tiny_cnn_seeds",
+      "checkpoint": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed4/checkpoint/step_000600.pt",
+      "train_summary": "~/.cache/frame_eval/checkpoints/tiny_cnn_seed4/summary.json"
+    }
+  ],
+  "datasets": [
+    {
+      "name": "sen2neon_random30",
+      "kind": "sen2neon",
+      "manifest": "../manifests/sen2neon_random30_seed0.jsonl"
+    },
+    {
+      "name": "sen2neon_phase3_sample",
+      "kind": "sen2neon",
+      "manifest": "../../data_smoke/metadata/sen2neon_sample.manifest.jsonl"
+    },
+    {
+      "name": "opensr_spot",
+      "kind": "opensr_test",
+      "subset": "spot",
+      "hr_variant": "HRharm"
+    },
+    {
+      "name": "opensr_spain_crops",
+      "kind": "opensr_test",
+      "subset": "spain_crops",
+      "hr_variant": "HRharm"
+    },
+    {
+      "name": "opensr_spain_urban",
+      "kind": "opensr_test",
+      "subset": "spain_urban",
+      "hr_variant": "HRharm"
+    },
+    {
+      "name": "synthetic_smoke_test",
+      "kind": "synthetic_smoke",
+      "manifest": "../../training/manifests/synthetic_5x2_seed0.jsonl"
+    }
+  ],
+  "tiling": {
+    "tile_size": 128,
+    "overlap": 32,
+    "padding_mode": "reflect",
+    "blend_mode": "linear"
+  },
+  "statistics": {
+    "n_boot": 10000,
+    "alpha": 0.05,
+    "seed": 0,
+    "reference_system": "bicubic",
+    "pairs": [
+      [
+        "sen2sr_mamba",
+        "sen2sr_lite"
+      ],
+      [
+        "sen2sr_lite",
+        "sen2sr_lite_no_constraint"
+      ]
+    ]
+  },
+  "min_valid_fraction": 0.05
+}

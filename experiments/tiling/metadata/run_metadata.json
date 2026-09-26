@@ -1,0 +1,458 @@
+{
+  "phase": "Phase 2 -- arbitrary-size tiling",
+  "git_commit": "eb3769559525ea81e902422253f8950c36b075a5",
+  "date_utc": "2026-09-24T14:50:22Z",
+  "scientific_framing": "Engineering measurements on one machine. Tile-seam numbers are a tiling diagnostic, not accuracy; the SR output is an SR-derived product on a 2.5 m pixel grid.",
+  "machine": {
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "vram_total_mib": 4096,
+    "nvidia_driver": "610.43.03",
+    "torch_main_env": "2.14.0+cu130"
+  },
+  "real_scene": {
+    "source": "Sentinel-2 L2A via cubo (Microsoft Planetary Computer STAC)",
+    "aoi_lat_lon": [
+      39.49152740347753,
+      -0.4308725142800361
+    ],
+    "date_window": [
+      "2023-01-15",
+      "2023-01-16"
+    ],
+    "bands": [
+      "B04",
+      "B03",
+      "B02",
+      "B08"
+    ],
+    "size_px": [
+      1024,
+      1024
+    ],
+    "crs": "EPSG:32630",
+    "bounds": [
+      715805.0,
+      4369365.0,
+      726045.0,
+      4379605.0
+    ],
+    "reflectance_min_max": [
+      0.0,
+      1.871999979019165
+    ],
+    "cache_file": "/home/zangetsu/.cache/frame_tiling/real_scene_1024.tif",
+    "sha256": "46dbef5bbb5582151967ffe3240ca1858f890f3cc188ae0110763cf1fff2d751",
+    "scale": "DN / 10000, as experiments/baseline (values are already reflectance in the cached file)"
+  },
+  "crops": {
+    "full_scene_crop_rowoff_coloff_h_w": [
+      20,
+      10,
+      511,
+      777
+    ],
+    "mamba_sweep_crop": [
+      100,
+      100,
+      256,
+      384
+    ]
+  },
+  "phase1_reference": {
+    "mamba_warm_tile_seconds": 1.74,
+    "worker_gpu_footprint_mib": 724,
+    "peak_allocator_mib": 605.6
+  },
+  "D_memory": {
+    "method": "fresh process per size; whole API pipeline (preprocess, tile engine, 6-member uncertainty ensemble, GeoTIFF export, consistency) with a cheap bicubic 'model' so the time is not model time; peak resident set size",
+    "rows": [
+      {
+        "scene": [
+          256,
+          256
+        ],
+        "input_pixels": 65536,
+        "peak_rss_mib": 870,
+        "pipeline_seconds_cheap_model": 0.8
+      },
+      {
+        "scene": [
+          511,
+          777
+        ],
+        "input_pixels": 397047,
+        "peak_rss_mib": 2208,
+        "pipeline_seconds_cheap_model": 3.6
+      },
+      {
+        "scene": [
+          768,
+          768
+        ],
+        "input_pixels": 589824,
+        "peak_rss_mib": 2962,
+        "pipeline_seconds_cheap_model": 6.7
+      },
+      {
+        "scene": [
+          1024,
+          1024
+        ],
+        "input_pixels": 1048576,
+        "peak_rss_mib": 4756,
+        "pipeline_seconds_cheap_model": 14.4
+      }
+    ],
+    "total_system_ram_mib": 15602
+  },
+  "C_api_end_to_end": {
+    "scene_shape_hw": [
+      256,
+      384
+    ],
+    "input_file_mib": 1.5,
+    "mamba": {
+      "http_wall_seconds_including_first_model_load": 128.33,
+      "inference_seconds_reported": 125.8733,
+      "tile_count_per_pass": 12,
+      "scene_passes": 6,
+      "tile_inferences": 72,
+      "mean_tile_seconds": 1.7392,
+      "output_shape": [
+        4,
+        1024,
+        1536
+      ],
+      "geotiff": {
+        "shape": [
+          4,
+          1024,
+          1536
+        ],
+        "crs": "EPSG:32630",
+        "resolution_m": 2.5,
+        "bounds_match_input": true,
+        "sr_variant": "SEN2SR/MambaSR_RGBN_x4"
+      },
+      "seam_diagnostic": {
+        "status": "COMPUTABLE",
+        "pair_count": 102,
+        "overlap_pixel_count": 5898240,
+        "mean_abs_difference": 0.0021776955391039285,
+        "rmse": 0.004949972576619114,
+        "max_abs_difference": 0.2528337240219116
+      },
+      "downsample_rmse_vs_own_input": 0.006271043841727221,
+      "worker_pid": 5324,
+      "worker_gpu_memory_after_job_mib": 724
+    },
+    "lite": {
+      "http_wall_seconds_including_first_model_load": 3.75,
+      "inference_seconds_reported": 1.9062,
+      "tile_count_per_pass": 12,
+      "scene_passes": 6,
+      "tile_inferences": 72,
+      "mean_tile_seconds": 0.0193,
+      "output_shape": [
+        4,
+        1024,
+        1536
+      ],
+      "geotiff": {
+        "shape": [
+          4,
+          1024,
+          1536
+        ],
+        "crs": "EPSG:32630",
+        "resolution_m": 2.5,
+        "bounds_match_input": true,
+        "sr_variant": "SEN2SRLite/NonReference_RGBN_x4"
+      },
+      "seam_diagnostic": {
+        "status": "COMPUTABLE",
+        "pair_count": 102,
+        "overlap_pixel_count": 5898240,
+        "mean_abs_difference": 0.00100628697046719,
+        "rmse": 0.0037721186246935283,
+        "max_abs_difference": 0.2264949083328247
+      },
+      "downsample_rmse_vs_own_input": 0.005683188552564411
+    }
+  },
+  "B_real_mamba_multi_tile_engine": {
+    "scene_shape_hw": [
+      511,
+      777
+    ],
+    "tile_size": 128,
+    "overlap": 32,
+    "stride": 96,
+    "tile_grid": [
+      5,
+      8
+    ],
+    "tile_count": 40,
+    "padded_tiles": 12,
+    "worker_start_seconds": 3.742,
+    "worker_gpu_memory_after_load_mib": 126,
+    "total_wall_seconds": 68.623,
+    "tile_seconds": {
+      "mean": 1.7146,
+      "median": 1.7076,
+      "min": 1.65,
+      "max": 2.0839,
+      "first": 2.0839
+    },
+    "engine_overhead_seconds": 0.015,
+    "one_worker_for_all_tiles": true,
+    "peak_gpu_memory_allocated_mib_max_over_tiles": 605.6,
+    "worker_gpu_memory_after_scene_mib": 724,
+    "output": {
+      "shape": [
+        4,
+        2044,
+        3108
+      ],
+      "dtype": "float32",
+      "min": -0.02211,
+      "max": 2.29549,
+      "finite": true
+    },
+    "consistency_rmse_sr_downsampled_vs_input": 0.006308,
+    "seam_diagnostic": {
+      "status": "COMPUTABLE",
+      "pair_count": 67,
+      "overlap_pixel_count": 4340224,
+      "mean_abs_difference": 0.002714,
+      "rmse": 0.005796,
+      "max_abs_difference": 0.284843
+    },
+    "repeat_run_bit_identical": true,
+    "repeat_run_max_abs_difference": 0.0,
+    "phase1_single_tile_warm_seconds_for_reference": 1.74
+  },
+  "A_overlap_verification": {
+    "method": "Each reconstruction is compared with the largest-overlap reconstruction of the same scene (overlap 64), the most heavily blended one available. 'seam_diagnostic' is the adjacent-tile disagreement on the shared pixels before blending; it is biased upward (border zone) and only comparable at equal overlap. Neither is an accuracy measure against any reference.",
+    "lite": {
+      "scene_shape": [
+        511,
+        777
+      ],
+      "reference_overlap": 64,
+      "by_overlap": {
+        "0": {
+          "tile_count": 28,
+          "grid": [
+            4,
+            7
+          ],
+          "seconds": 0.539,
+          "seam_diagnostic": {
+            "status": "NOT_COMPUTABLE",
+            "pair_count": 0,
+            "overlap_pixel_count": 0,
+            "mean_abs_difference": null,
+            "rmse": null,
+            "max_abs_difference": null
+          },
+          "vs_overlap_64": {
+            "rmse": 0.001994,
+            "mean_abs": 0.000351,
+            "max_abs": 0.300092
+          }
+        },
+        "8": {
+          "tile_count": 35,
+          "grid": [
+            5,
+            7
+          ],
+          "seconds": 0.394,
+          "seam_diagnostic": {
+            "status": "COMPUTABLE",
+            "pair_count": 58,
+            "overlap_pixel_count": 839424,
+            "mean_abs_difference": 0.003109,
+            "rmse": 0.005975,
+            "max_abs_difference": 0.331339
+          },
+          "vs_overlap_64": {
+            "rmse": 0.000353,
+            "mean_abs": 8.2e-05,
+            "max_abs": 0.041749
+          }
+        },
+        "16": {
+          "tile_count": 35,
+          "grid": [
+            5,
+            7
+          ],
+          "seconds": 0.444,
+          "seam_diagnostic": {
+            "status": "COMPUTABLE",
+            "pair_count": 58,
+            "overlap_pixel_count": 1777152,
+            "mean_abs_difference": 0.00167,
+            "rmse": 0.004314,
+            "max_abs_difference": 0.174244
+          },
+          "vs_overlap_64": {
+            "rmse": 0.000269,
+            "mean_abs": 5.3e-05,
+            "max_abs": 0.041749
+          }
+        },
+        "32": {
+          "tile_count": 40,
+          "grid": [
+            5,
+            8
+          ],
+          "seconds": 0.609,
+          "seam_diagnostic": {
+            "status": "COMPUTABLE",
+            "pair_count": 67,
+            "overlap_pixel_count": 4340224,
+            "mean_abs_difference": 0.000846,
+            "rmse": 0.003134,
+            "max_abs_difference": 0.246537
+          },
+          "vs_overlap_64": {
+            "rmse": 6.6e-05,
+            "mean_abs": 2.2e-05,
+            "max_abs": 0.006094
+          }
+        },
+        "48": {
+          "tile_count": 60,
+          "grid": [
+            6,
+            10
+          ],
+          "seconds": 1.054,
+          "seam_diagnostic": {
+            "status": "COMPUTABLE",
+            "pair_count": 104,
+            "overlap_pixel_count": 9833472,
+            "mean_abs_difference": 0.000546,
+            "rmse": 0.002452,
+            "max_abs_difference": 0.208472
+          },
+          "vs_overlap_64": {
+            "rmse": 0.000241,
+            "mean_abs": 3.3e-05,
+            "max_abs": 0.041749
+          }
+        },
+        "64": {
+          "tile_count": 84,
+          "grid": [
+            7,
+            12
+          ],
+          "seconds": 1.586,
+          "seam_diagnostic": {
+            "status": "COMPUTABLE",
+            "pair_count": 149,
+            "overlap_pixel_count": 19180544,
+            "mean_abs_difference": 0.00042,
+            "rmse": 0.002219,
+            "max_abs_difference": 0.302387
+          },
+          "vs_overlap_64": null
+        }
+      }
+    },
+    "mamba": {
+      "scene_shape": [
+        256,
+        384
+      ],
+      "reference_overlap": 64,
+      "by_overlap": {
+        "0": {
+          "tile_count": 6,
+          "grid": [
+            2,
+            3
+          ],
+          "seconds": 10.317,
+          "seam_diagnostic": {
+            "status": "NOT_COMPUTABLE",
+            "pair_count": 0,
+            "overlap_pixel_count": 0,
+            "mean_abs_difference": null,
+            "rmse": null,
+            "max_abs_difference": null
+          },
+          "vs_overlap_64": {
+            "rmse": 0.00272,
+            "mean_abs": 0.000781,
+            "max_abs": 0.226611
+          }
+        },
+        "16": {
+          "tile_count": 12,
+          "grid": [
+            3,
+            4
+          ],
+          "seconds": 20.436,
+          "seam_diagnostic": {
+            "status": "COMPUTABLE",
+            "pair_count": 17,
+            "overlap_pixel_count": 442368,
+            "mean_abs_difference": 0.002824,
+            "rmse": 0.006128,
+            "max_abs_difference": 0.228181
+          },
+          "vs_overlap_64": {
+            "rmse": 0.002914,
+            "mean_abs": 0.001013,
+            "max_abs": 0.193
+          }
+        },
+        "32": {
+          "tile_count": 12,
+          "grid": [
+            3,
+            4
+          ],
+          "seconds": 20.258,
+          "seam_diagnostic": {
+            "status": "COMPUTABLE",
+            "pair_count": 17,
+            "overlap_pixel_count": 983040,
+            "mean_abs_difference": 0.002028,
+            "rmse": 0.004672,
+            "max_abs_difference": 0.228699
+          },
+          "vs_overlap_64": {
+            "rmse": 0.002552,
+            "mean_abs": 0.000832,
+            "max_abs": 0.191015
+          }
+        },
+        "64": {
+          "tile_count": 15,
+          "grid": [
+            3,
+            5
+          ],
+          "seconds": 25.547,
+          "seam_diagnostic": {
+            "status": "COMPUTABLE",
+            "pair_count": 22,
+            "overlap_pixel_count": 2883584,
+            "mean_abs_difference": 0.001353,
+            "rmse": 0.003625,
+            "max_abs_difference": 0.229841
+          },
+          "vs_overlap_64": null
+        }
+      }
+    }
+  }
+}

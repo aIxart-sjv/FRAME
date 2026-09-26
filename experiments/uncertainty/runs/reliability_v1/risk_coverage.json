@@ -1,0 +1,6218 @@
+{
+ "opensr_spain_crops": {
+  "sen2sr_lite": {
+   "cell_4_abs_error": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 172032,
+       "risk": 0.014206694505630713
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 154829,
+       "risk": 0.012929534238137677
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 137626,
+       "risk": 0.012182248551917685
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 120422,
+       "risk": 0.011687624024434635
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 103219,
+       "risk": 0.011322814593208127
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 86016,
+       "risk": 0.011036204465821833
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.2231687348913064,
+      "0.6": 0.20299443415775442,
+      "0.7": 0.1773157352118513,
+      "0.8": 0.14249943594624737,
+      "0.9": 0.0898984818028461
+     },
+     "selective_efficiency": 0.5427141136814163
+    },
+    "aurc": 0.006030836944445863,
+    "aurc_oracle": 0.005207357932594824,
+    "aurc_random": 0.007103347252815357,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": 0.2721280037966709,
+       "ci_low": 0.18095433399940314,
+       "estimate": 0.2373329130460886,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.6": {
+       "ci_high": 0.23805036343253239,
+       "ci_low": 0.16570274020469467,
+       "estimate": 0.21483562459231864,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.7": {
+       "ci_high": 0.1984196818765652,
+       "ci_low": 0.14876222536914815,
+       "estimate": 0.18527032705730662,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.8": {
+       "ci_high": 0.15459453580938964,
+       "ci_low": 0.12578804797551202,
+       "estimate": 0.14515834994696286,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.9": {
+       "ci_high": 0.09683090428963304,
+       "ci_low": 0.0822463024434048,
+       "estimate": 0.09100228273966993,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": 0.6224595204807614,
+      "ci_low": 0.4994228843873578,
+      "estimate": 0.5656731801868717,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 500,
+      "n_failed_replicates": 0,
+      "n_units": 5,
+      "reason": null,
+      "seed": 0,
+      "status": "ok"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 172032,
+      "risk": 0.014206694505630713
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 154829,
+      "risk": 0.012913852875433191
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 137626,
+      "risk": 0.012144474172992775
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 120422,
+      "risk": 0.01157461556816927
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 103219,
+      "risk": 0.011154590418121278
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 86016,
+      "risk": 0.010834978313853515
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 172032,
+    "n_dropped": 0,
+    "n_units": 5,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 172032,
+      "risk": 0.014206694505630713
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 154829,
+      "risk": 0.011892460099389135
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 137626,
+      "risk": 0.010611190439360227
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 120422,
+      "risk": 0.009627901354551244
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 103219,
+      "risk": 0.008806063349380961
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 86016,
+      "risk": 0.008065233660902647
+     }
+    ],
+    "random_risk": 0.014206694505630713,
+    "risk_reduction_at": {
+     "0.5": 0.2373329130460886,
+     "0.6": 0.21483562459231864,
+     "0.7": 0.18527032705730662,
+     "0.8": 0.14515834994696286,
+     "0.9": 0.09100228273966993
+    },
+    "selective_efficiency": 0.5656731801868717,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 172032,
+       "risk": 0.014206694505630713
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 154829,
+       "risk": 0.013040079218916485
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 137626,
+       "risk": 0.01225930867253323
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 120422,
+       "risk": 0.011733984167887042
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 103219,
+       "risk": 0.011372655962800854
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 86016,
+       "risk": 0.01113333926165946
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.21633147969453081,
+      "0.6": 0.19948613252059522,
+      "0.7": 0.1740524748218969,
+      "0.8": 0.13707522410126094,
+      "0.9": 0.08211729239703502
+     },
+     "selective_efficiency": 0.5251837400230012
+    }
+   },
+   "tile_rmse": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 21,
+       "risk": 0.02210881596260331
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 19,
+       "risk": 0.021267263508616935
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 17,
+       "risk": 0.0205818999958557
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 15,
+       "risk": 0.020283585870912637
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 13,
+       "risk": 0.020069698775615277
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 10,
+       "risk": 0.01811057938139373
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.18084354168819028,
+      "0.6": 0.09223095395235847,
+      "0.7": 0.08255666403745998,
+      "0.8": 0.069063669865015,
+      "0.9": 0.03806411231654594
+     },
+     "selective_efficiency": 0.6488087535447691
+    },
+    "aurc": 0.010203998648778244,
+    "aurc_oracle": 0.009785631327928488,
+    "aurc_random": 0.011054407981301655,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.18084354168819028,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.10407198545381124,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.08255666403745998,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.069063669865015,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.03853307225366642,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.6702592850069512,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 5,
+      "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 21,
+      "risk": 0.02210881596260331
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 19,
+      "risk": 0.021256895359673303
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 17,
+      "risk": 0.0205818999958557
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 15,
+      "risk": 0.020283585870912637
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 13,
+      "risk": 0.01980790758934227
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 10,
+      "risk": 0.01811057938139373
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 21,
+    "n_dropped": 0,
+    "n_units": 5,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 21,
+      "risk": 0.02210881596260331
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 19,
+      "risk": 0.020705600954024066
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 17,
+      "risk": 0.01993154636306949
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 15,
+      "risk": 0.01909251194598803
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 13,
+      "risk": 0.018414395613790414
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 10,
+      "risk": 0.017315700842222444
+     }
+    ],
+    "random_risk": 0.02210881596260331,
+    "risk_reduction_at": {
+     "0.5": 0.18084354168819028,
+     "0.6": 0.10407198545381124,
+     "0.7": 0.08255666403745998,
+     "0.8": 0.069063669865015,
+     "0.9": 0.03853307225366642
+    },
+    "selective_efficiency": 0.6702592850069512,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 21,
+       "risk": 0.02210881596260331
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 19,
+       "risk": 0.02160970723558885
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 17,
+       "risk": 0.020815864123225725
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 15,
+       "risk": 0.02041057134165077
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 13,
+       "risk": 0.01980790758934227
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 10,
+       "risk": 0.017916796102449856
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.18960851939082513,
+      "0.6": 0.10407198545381124,
+      "0.7": 0.07681300635118105,
+      "0.8": 0.058481279212988735,
+      "0.9": 0.022575099808994525
+     },
+     "selective_efficiency": 0.6216400238539547
+    }
+   },
+   "tile_sam": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 21,
+       "risk": 2.2687473923157038
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 19,
+       "risk": 2.0731753547653793
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 17,
+       "risk": 2.071252650829898
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 15,
+       "risk": 2.0819126158993333
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 13,
+       "risk": 1.9973208743820285
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 10,
+       "risk": 1.8280580596455838
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.19424345529288267,
+      "0.6": 0.11963717020810793,
+      "0.7": 0.08235151125646845,
+      "0.8": 0.0870501238501582,
+      "0.9": 0.08620265006705052
+     },
+     "selective_efficiency": 0.5776324650839899
+    },
+    "aurc": 1.0385877331333486,
+    "aurc_oracle": 0.9488452149002393,
+    "aurc_random": 1.1343736961578517,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.19424345529288278,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.09946299594128305,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.08235151125646867,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.08705012385015842,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.05621120877804353,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.5162871079157981,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 5,
+      "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 21,
+      "risk": 2.2687473923157038
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 19,
+      "risk": 2.1412183589816034
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 17,
+      "risk": 2.0712526508298974
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 15,
+      "risk": 2.081912615899333
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 13,
+      "risk": 2.04309097964201
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 10,
+      "risk": 1.8280580596455835
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 21,
+    "n_dropped": 0,
+    "n_units": 5,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 21,
+      "risk": 2.268747392315703
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 19,
+      "risk": 2.0731753547653784
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 17,
+      "risk": 1.929364404857348
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 15,
+      "risk": 1.8227791048616147
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 13,
+      "risk": 1.7249126874657337
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 10,
+      "risk": 1.6076938017889333
+     }
+    ],
+    "random_risk": 2.2687473923157033,
+    "risk_reduction_at": {
+     "0.5": 0.19424345529288278,
+     "0.6": 0.09946299594128305,
+     "0.7": 0.08235151125646867,
+     "0.8": 0.08705012385015842,
+     "0.9": 0.05621120877804353
+    },
+    "selective_efficiency": 0.5162871079157981,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 21,
+       "risk": 2.2687473923157038
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 19,
+       "risk": 2.2876136085366228
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 17,
+       "risk": 2.15535036197519
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 15,
+       "risk": 2.1181712102000523
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 13,
+       "risk": 2.04309097964201
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 10,
+       "risk": 1.902229696802936
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.16155068508471715,
+      "0.6": 0.09946299594128305,
+      "0.7": 0.06636974333310786,
+      "0.8": 0.04998221958274918,
+      "0.9": -0.008315697148488121
+     },
+     "selective_efficiency": 0.35251852019269736
+    }
+   }
+  },
+  "sen2sr_mamba": {
+   "cell_4_abs_error": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 172032,
+       "risk": 0.014119626347890414
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 154829,
+       "risk": 0.012786055705703467
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 137626,
+       "risk": 0.012015575001802638
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 120422,
+       "risk": 0.011546823300715981
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 103219,
+       "risk": 0.011239396517251867
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 86016,
+       "risk": 0.011001463290865234
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.22083892166814023,
+      "0.6": 0.20398768067037953,
+      "0.7": 0.1822146694100606,
+      "0.8": 0.14901607834701225,
+      "0.9": 0.09444801224404875
+     },
+     "selective_efficiency": 0.5537474652191676
+    },
+    "aurc": 0.0059576300001050134,
+    "aurc_oracle": 0.005172718956644475,
+    "aurc_random": 0.007059813173945207,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": 0.28022477963894366,
+       "ci_low": 0.18869954806201328,
+       "estimate": 0.2345696412566336,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.6": {
+       "ci_high": 0.2471341896446781,
+       "ci_low": 0.17388757310999026,
+       "estimate": 0.21451512719745103,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.7": {
+       "ci_high": 0.20964798420622555,
+       "ci_low": 0.15415209793596552,
+       "estimate": 0.19034732474413818,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.8": {
+       "ci_high": 0.16708135081667574,
+       "ci_low": 0.12997046950892255,
+       "estimate": 0.15669648388364377,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.9": {
+       "ci_high": 0.11112241708355788,
+       "ci_low": 0.09032696824350428,
+       "estimate": 0.10175988466537311,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": 0.646683575840069,
+      "ci_low": 0.5073720977964995,
+      "estimate": 0.5840636698133377,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 500,
+      "n_failed_replicates": 0,
+      "n_units": 5,
+      "reason": null,
+      "seed": 0,
+      "status": "ok"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 172032,
+      "risk": 0.014119626347890414
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 154829,
+      "risk": 0.012682814799210922
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 137626,
+      "risk": 0.011907130545425132
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 120422,
+      "risk": 0.011431993246182628
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 103219,
+      "risk": 0.011090752905892221
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 86016,
+      "risk": 0.010807590660788048
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 172032,
+    "n_dropped": 0,
+    "n_units": 5,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 172032,
+      "risk": 0.014119626347890414
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 154829,
+      "risk": 0.011821341758267455
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 137626,
+      "risk": 0.010544266970533301
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 120422,
+      "risk": 0.00956297596072336
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 103219,
+      "risk": 0.008739853192222504
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 86016,
+      "risk": 0.007997877021505843
+     }
+    ],
+    "random_risk": 0.014119626347890414,
+    "risk_reduction_at": {
+     "0.5": 0.2345696412566336,
+     "0.6": 0.21451512719745103,
+     "0.7": 0.19034732474413818,
+     "0.8": 0.15669648388364377,
+     "0.9": 0.10175988466537311
+    },
+    "selective_efficiency": 0.5840636698133377,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 172032,
+       "risk": 0.014119626347890414
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 154829,
+       "risk": 0.012973789264986971
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 137626,
+       "risk": 0.012202202101277043
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 120422,
+       "risk": 0.011682011356156333
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 103219,
+       "risk": 0.011322898014155812
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 86016,
+       "risk": 0.011086156360527238
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.21484067018646003,
+      "0.6": 0.19807382042744048,
+      "0.7": 0.172640191154795,
+      "0.8": 0.13579851189899583,
+      "0.9": 0.0811520825460541
+     },
+     "selective_efficiency": 0.5200768228046055
+    }
+   },
+   "tile_rmse": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 21,
+       "risk": 0.022000924906413238
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 19,
+       "risk": 0.021118468227925825
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 17,
+       "risk": 0.020444944671210517
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 15,
+       "risk": 0.0200004412260637
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 13,
+       "risk": 0.019954647408409524
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 10,
+       "risk": 0.018021339771955018
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.18088262886157924,
+      "0.6": 0.09300870334806821,
+      "0.7": 0.09092725368861199,
+      "0.8": 0.0707234010307064,
+      "0.9": 0.040109980932218736
+     },
+     "selective_efficiency": 0.6647320950550739
+    },
+    "aurc": 0.010304478706638018,
+    "aurc_oracle": 0.009725514136084917,
+    "aurc_random": 0.011000462453206619,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.1571449784586083,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.08894851430407547,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.06311211512726,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.04665851693385892,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.03905131340839707,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.5458917331957739,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 5,
+      "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 21,
+      "risk": 0.022000924906413238
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 19,
+      "risk": 0.021141759892618284
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 17,
+      "risk": 0.0209743943791068
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 15,
+      "risk": 0.020612400000813484
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 13,
+      "risk": 0.02004397532267225
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 10,
+      "risk": 0.01854359003592547
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 21,
+    "n_dropped": 0,
+    "n_units": 5,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 21,
+      "risk": 0.022000924906413238
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 19,
+      "risk": 0.020590982058625702
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 17,
+      "risk": 0.019806719075635647
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 15,
+      "risk": 0.01896594627017988
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 13,
+      "risk": 0.018275469421251415
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 10,
+      "risk": 0.017231124163899818
+     }
+    ],
+    "random_risk": 0.022000924906413238,
+    "risk_reduction_at": {
+     "0.5": 0.1571449784586083,
+     "0.6": 0.08894851430407547,
+     "0.7": 0.06311211512726,
+     "0.8": 0.04665851693385892,
+     "0.9": 0.03905131340839707
+    },
+    "selective_efficiency": 0.5458917331957739,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 21,
+       "risk": 0.022000924906413238
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 19,
+       "risk": 0.021517408240351015
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 17,
+       "risk": 0.020711695941450583
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 15,
+       "risk": 0.020332774734439618
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 13,
+       "risk": 0.01971167698966896
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 10,
+       "risk": 0.017845364735002547
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.1888811579098364,
+      "0.6": 0.10405234900269877,
+      "0.7": 0.07582182017663064,
+      "0.8": 0.05859885302307666,
+      "0.9": 0.021977106331619645
+     },
+     "selective_efficiency": 0.6124110052613843
+    }
+   },
+   "tile_sam": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 21,
+       "risk": 2.2619879091063964
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 19,
+       "risk": 2.0549361208152295
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 17,
+       "risk": 2.0527980897894014
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 15,
+       "risk": 1.9685910056279459
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 13,
+       "risk": 1.9842336790369637
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 10,
+       "risk": 1.8173175078175858
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.19658389839248902,
+      "0.6": 0.12279209316338036,
+      "0.7": 0.1297075471965532,
+      "0.8": 0.09248052055222344,
+      "0.9": 0.09153532052828839
+     },
+     "selective_efficiency": 0.6288576463266277
+    },
+    "aurc": 1.0465739094650293,
+    "aurc_oracle": 0.9386248311328366,
+    "aurc_random": 1.1309939545531982,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.14936365723962963,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.11591663269617558,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.0776605319795024,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.04655668359600218,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.05839606640875683,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 5,
+       "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.4388440493316369,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 5,
+      "reason": "5 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 21,
+      "risk": 2.2619879091063964
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 19,
+      "risk": 2.1298967129504143
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 17,
+      "risk": 2.156677253724147
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 15,
+      "risk": 2.086320724753991
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 13,
+      "risk": 1.99978588748332
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 10,
+      "risk": 1.924129122370442
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 21,
+    "n_dropped": 0,
+    "n_units": 5,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 21,
+      "risk": 2.261987909106397
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 19,
+      "risk": 2.05493612081523
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 17,
+      "risk": 1.9123860098974834
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 15,
+      "risk": 1.7989420132780767
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 13,
+      "risk": 1.6979461159533857
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 10,
+      "risk": 1.5820881936619848
+     }
+    ],
+    "random_risk": 2.2619879091063964,
+    "risk_reduction_at": {
+     "0.5": 0.14936365723962963,
+     "0.6": 0.11591663269617558,
+     "0.7": 0.0776605319795024,
+     "0.8": 0.04655668359600218,
+     "0.9": 0.05839606640875683
+    },
+    "selective_efficiency": 0.4388440493316369,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 21,
+       "risk": 2.261987909106396
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 19,
+       "risk": 2.281869859061304
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 17,
+       "risk": 2.14430569195278
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 15,
+       "risk": 2.1103683743800676
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 13,
+       "risk": 2.0275331755134083
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 10,
+       "risk": 1.8940992025668624
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.16263955481745673,
+      "0.6": 0.10364986154395939,
+      "0.7": 0.0670293303142484,
+      "0.8": 0.05202601511698923,
+      "0.9": -0.008789591613140857
+     },
+     "selective_efficiency": 0.347154926379992
+    }
+   }
+  }
+ },
+ "opensr_spain_urban": {
+  "sen2sr_lite": {
+   "cell_4_abs_error": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 106496,
+       "risk": 0.02033589331204684
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 95846,
+       "risk": 0.01843756049011366
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 85197,
+       "risk": 0.017228619831963443
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 74547,
+       "risk": 0.016167837664704383
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 63898,
+       "risk": 0.015258274217001792
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 53248,
+       "risk": 0.014457156716188226
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.28908179766935016,
+      "0.6": 0.24968753607873728,
+      "0.7": 0.20496053865867458,
+      "0.8": 0.15279749123401776,
+      "0.9": 0.09334887790784296
+     },
+     "selective_efficiency": 0.5995477760152721
+    },
+    "aurc": 0.008322158261660323,
+    "aurc_oracle": 0.007300677352384889,
+    "aurc_random": 0.01016794665602342,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.30581515104636325,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.26707628380440285,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.22158020555577607,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.16557633246855818,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.1005101130240702,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.6437443431005287,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 500,
+      "n_failed_replicates": 0,
+      "n_units": 4,
+      "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 106496,
+      "risk": 0.02033589331204684
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 95846,
+      "risk": 0.01829193037680758
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 85197,
+      "risk": 0.016968750679966244
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 74547,
+      "risk": 0.01582986189180317
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 63898,
+      "risk": 0.01490465849842256
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 53248,
+      "risk": 0.014116869027160507
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 106496,
+    "n_dropped": 0,
+    "n_units": 4,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 106496,
+      "risk": 0.02033589331204684
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 95846,
+      "risk": 0.01691656381898778
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 85197,
+      "risk": 0.014970274056820797
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 74547,
+      "risk": 0.013423357165420702
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 63898,
+      "risk": 0.012087123348535669
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 53248,
+      "risk": 0.010883016956121047
+     }
+    ],
+    "random_risk": 0.02033589331204684,
+    "risk_reduction_at": {
+     "0.5": 0.30581515104636325,
+     "0.6": 0.26707628380440285,
+     "0.7": 0.22158020555577607,
+     "0.8": 0.16557633246855818,
+     "0.9": 0.1005101130240702
+    },
+    "selective_efficiency": 0.6437443431005287,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 106496,
+       "risk": 0.02033589331204684
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 95846,
+       "risk": 0.018641171519944672
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 85197,
+       "risk": 0.01755440902963738
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 74547,
+       "risk": 0.016537867231261758
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 63898,
+       "risk": 0.01559210411649521
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 53248,
+       "risk": 0.014701382396848518
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.2770722106346062,
+      "0.6": 0.23327173892781206,
+      "0.7": 0.1867646541268565,
+      "0.8": 0.13677708865445948,
+      "0.9": 0.08333648126970783
+     },
+     "selective_efficiency": 0.5522772760951584
+    }
+   },
+   "tile_rmse": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 13,
+       "risk": 0.030696342722768007
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 12,
+       "risk": 0.03040663032895907
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 0.027742169354539117
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 9,
+       "risk": 0.02756300766865228
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 8,
+       "risk": 0.026621689741638935
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 0.02339295913879444
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.2379235744770507,
+      "0.6": 0.13274066614153457,
+      "0.7": 0.10207519125044429,
+      "0.8": 0.09623861040741277,
+      "0.9": 0.009438010137737152
+     },
+     "selective_efficiency": 0.8452097501925175
+    },
+    "aurc": 0.013867461697023346,
+    "aurc_oracle": 0.013679524544891769,
+    "aurc_random": 0.015348171361384003,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.19245262163497134,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.13233655648089204,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.12224119717522786,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.09623861040741266,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.03533064161912303,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.8873715214783128,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 4,
+      "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 13,
+      "risk": 0.030696342722768007
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 12,
+      "risk": 0.029611821239012116
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 0.02774216935453912
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 9,
+      "risk": 0.026943985039435753
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 8,
+      "risk": 0.026634094430279597
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 0.02478875109116573
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 13,
+    "n_dropped": 0,
+    "n_units": 4,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 13,
+      "risk": 0.030696342722768007
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 12,
+      "risk": 0.029611821239012116
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 0.027617232785598297
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 9,
+      "risk": 0.026790039316590672
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 8,
+      "risk": 0.02573150117693537
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 0.02339295913879444
+     }
+    ],
+    "random_risk": 0.030696342722768007,
+    "risk_reduction_at": {
+     "0.5": 0.19245262163497134,
+     "0.6": 0.13233655648089204,
+     "0.7": 0.12224119717522786,
+     "0.8": 0.09623861040741266,
+     "0.9": 0.03533064161912303
+    },
+    "selective_efficiency": 0.8873715214783128,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 13,
+       "risk": 0.030696342722768007
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 12,
+       "risk": 0.029611821239012116
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 0.028644636371805657
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 9,
+       "risk": 0.027963055628316136
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 8,
+       "risk": 0.027877062981329137
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 0.027860504808646606
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.09238357610654413,
+      "0.6": 0.09184415768682963,
+      "0.7": 0.08904276053787163,
+      "0.8": 0.06683878823911371,
+      "0.9": 0.03533064161912303
+     },
+     "selective_efficiency": 0.6056832115567532
+    }
+   },
+   "tile_sam": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 13,
+       "risk": 3.352493585188898
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 12,
+       "risk": 3.3593321546747466
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 3.194609482586686
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 9,
+       "risk": 3.134375410396873
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 8,
+       "risk": 3.096044429170057
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 2.7982372011100076
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.16532660540427568,
+      "0.6": 0.07649504749295188,
+      "0.7": 0.06506147416826014,
+      "0.8": 0.047094527876126,
+      "0.9": -0.00203984565878379
+     },
+     "selective_efficiency": 0.4822374041479878
+    },
+    "aurc": 1.6157868978154533,
+    "aurc_oracle": 1.4890483197672255,
+    "aurc_random": 1.6762467925944493,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.07012611058570328,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.06606268657594538,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.04598816709494258,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.047094527876126,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": -0.013865378031031828,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.32297215819061703,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 4,
+      "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 13,
+      "risk": 3.352493585188898
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 12,
+      "risk": 3.398977176094151
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 3.194609482586686
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 9,
+      "risk": 3.198318550008508
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 8,
+      "risk": 3.1310188522226965
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 3.1173962492960805
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 13,
+    "n_dropped": 0,
+    "n_units": 4,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 13,
+      "risk": 3.352493585188898
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 12,
+      "risk": 3.167601339295953
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 2.9456795588346316
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 9,
+      "risk": 2.8906413697927684
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 8,
+      "risk": 2.8431676970970248
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 2.7342928801148587
+     }
+    ],
+    "random_risk": 3.352493585188898,
+    "risk_reduction_at": {
+     "0.5": 0.07012611058570328,
+     "0.6": 0.06606268657594538,
+     "0.7": 0.04598816709494258,
+     "0.8": 0.047094527876126,
+     "0.9": -0.013865378031031828
+    },
+    "selective_efficiency": 0.32297215819061703,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 13,
+       "risk": 3.3524935851888986
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 12,
+       "risk": 3.3989771760941516
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 3.4356067485980817
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 9,
+       "risk": 3.4350049139743795
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 8,
+       "risk": 3.5015367704969664
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 3.675652382753054
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": -0.09639356179288483,
+      "0.6": -0.04445741103473888,
+      "0.7": -0.02461192741725471,
+      "0.8": -0.02479144591845661,
+      "0.9": -0.013865378031031828
+     },
+     "selective_efficiency": -0.2792387455385501
+    }
+   }
+  },
+  "sen2sr_mamba": {
+   "cell_4_abs_error": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 106496,
+       "risk": 0.020402265658720335
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 95846,
+       "risk": 0.018482822979308106
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 85197,
+       "risk": 0.017196287575034767
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 74547,
+       "risk": 0.016083943223810616
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 63898,
+       "risk": 0.015142424783914478
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 53248,
+       "risk": 0.014354032706299117
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.2964490833318839,
+      "0.6": 0.25780670454889876,
+      "0.7": 0.21165896509459392,
+      "0.8": 0.15713833636487662,
+      "0.9": 0.09407987875071222
+     },
+     "selective_efficiency": 0.6131380096700264
+    },
+    "aurc": 0.008270377343323282,
+    "aurc_oracle": 0.007309826097525925,
+    "aurc_random": 0.010201132829360166,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.31436109198489115,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.27707258735006457,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.23081182871091388,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.1750874858258903,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.10619121724772129,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.6677795423012817,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 500,
+      "n_failed_replicates": 0,
+      "n_units": 4,
+      "reason": "4 scene unit(s): fewer than the 5 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 106496,
+      "risk": 0.020402265658720335
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 95846,
+      "risk": 0.01823572423380944
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 85197,
+      "risk": 0.01683008425938309
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 74547,
+      "risk": 0.015693181412185217
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 63898,
+      "risk": 0.014749357124855322
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 53248,
+      "risk": 0.013988587147279165
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 106496,
+    "n_dropped": 0,
+    "n_units": 4,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 106496,
+      "risk": 0.020402265658720335
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 95846,
+      "risk": 0.016962522617860937
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 85197,
+      "risk": 0.014992734857141485
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 74547,
+      "risk": 0.013427744570322413
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 63898,
+      "risk": 0.01207975300172908
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 53248,
+      "risk": 0.010868746197690352
+     }
+    ],
+    "random_risk": 0.020402265658720335,
+    "risk_reduction_at": {
+     "0.5": 0.31436109198489115,
+     "0.6": 0.27707258735006457,
+     "0.7": 0.23081182871091388,
+     "0.8": 0.1750874858258903,
+     "0.9": 0.10619121724772129
+    },
+    "selective_efficiency": 0.6677795423012817,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 106496,
+       "risk": 0.020402265658720335
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 95846,
+       "risk": 0.01872411957662094
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 85197,
+       "risk": 0.0176321589297168
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 74547,
+       "risk": 0.016599388041135987
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 63898,
+       "risk": 0.015634324090452293
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 53248,
+       "risk": 0.014717976375764535
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.2786106885401829,
+      "0.6": 0.23369667114544845,
+      "0.7": 0.18639486815813133,
+      "0.8": 0.13577446619608824,
+      "0.9": 0.08225292769786685
+     },
+     "selective_efficiency": 0.548582980276564
+    }
+   },
+   "tile_rmse": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 13,
+       "risk": 0.03082101819617
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 12,
+       "risk": 0.030552085320444042
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 0.02880704198351314
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 9,
+       "risk": 0.028167291615799474
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 8,
+       "risk": 0.028035507118205745
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 0.023459027553773205
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.2388626681811452,
+      "0.6": 0.09037699728915505,
+      "0.7": 0.08610119767880653,
+      "0.8": 0.0653442465734998,
+      "0.9": 0.008725632424414043
+     },
+     "selective_efficiency": 0.6658848278202959
+    },
+    "aurc": 0.0142903999339902,
+    "aurc_oracle": 0.013698029463244395,
+    "aurc_random": 0.015410509098085,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.2388626681811452,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.08791590835307683,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.08392344731854795,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.06342748067593929,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.008725632424414043,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.6540861224309145,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 4,
+      "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 13,
+      "risk": 0.03082101819617
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 12,
+      "risk": 0.030552085320444042
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 0.028866118660119653
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 9,
+      "risk": 0.028234412099279717
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 8,
+      "risk": 0.028111360385087002
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 0.023459027553773205
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 13,
+    "n_dropped": 0,
+    "n_units": 4,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 13,
+      "risk": 0.03082101819617
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 12,
+      "risk": 0.029720133084575166
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 0.027592524883364215
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 9,
+      "risk": 0.026782217294145077
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 8,
+      "risk": 0.02574539649538789
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 0.023459027553773205
+     }
+    ],
+    "random_risk": 0.03082101819617,
+    "risk_reduction_at": {
+     "0.5": 0.2388626681811452,
+     "0.6": 0.08791590835307683,
+     "0.7": 0.08392344731854795,
+     "0.8": 0.06342748067593929,
+     "0.9": 0.008725632424414043
+    },
+    "selective_efficiency": 0.6540861224309145,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 13,
+       "risk": 0.03082101819617
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 12,
+       "risk": 0.0297678617435265
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 0.028866118660119653
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 9,
+       "risk": 0.02823441209927972
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 8,
+       "risk": 0.028155523156182718
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 0.028273236535460485
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.08266377328916785,
+      "0.6": 0.08648302995773549,
+      "0.7": 0.08392344731854784,
+      "0.8": 0.06342748067593929,
+      "0.9": 0.034170073355148545
+     },
+     "selective_efficiency": 0.556739348133245
+    }
+   },
+   "tile_sam": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 13,
+       "risk": 3.4243479710994866
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 12,
+       "risk": 3.4371365275286756
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 3.222274762659606
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 9,
+       "risk": 3.2004654260120997
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 8,
+       "risk": 3.1312590936173583
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 2.865378695531438
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.16323378356568574,
+      "0.6": 0.08558968888550877,
+      "0.7": 0.06537961298819261,
+      "0.8": 0.05901071098653532,
+      "0.9": -0.003734596056569117
+     },
+     "selective_efficiency": 0.4973656095185518
+    },
+    "aurc": 1.7168091554340246,
+    "aurc_oracle": 1.513981610866173,
+    "aurc_random": 1.7121739855497433,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.16323378356568574,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": -0.026500561269060974,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": -0.03425616492698058,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": -0.030661489137120412,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": -0.003734596056569117,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 4,
+       "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": -0.0233872261315889,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 4,
+      "reason": "4 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 13,
+      "risk": 3.4243479710994866
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 12,
+      "risk": 3.4371365275286756
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 3.529343579217074
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 9,
+      "risk": 3.541652999964842
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 8,
+      "risk": 3.5150951143141933
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 2.865378695531438
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 13,
+    "n_dropped": 0,
+    "n_units": 4,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 13,
+      "risk": 3.4243479710994866
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 12,
+      "risk": 3.221589918194356
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 2.9833918797798376
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 9,
+      "risk": 2.935040000590135
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 8,
+      "risk": 2.8930593389202492
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 2.789121971254819
+     }
+    ],
+    "random_risk": 3.4243479710994866,
+    "risk_reduction_at": {
+     "0.5": 0.16323378356568574,
+     "0.6": -0.026500561269060974,
+     "0.7": -0.03425616492698058,
+     "0.8": -0.030661489137120412,
+     "0.9": -0.003734596056569117
+    },
+    "selective_efficiency": -0.0233872261315889,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 13,
+       "risk": 3.424347971099486
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 12,
+       "risk": 3.477480598658912
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 3.5293435792170733
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 9,
+       "risk": 3.5416529999648416
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 8,
+       "risk": 3.6154304248615525
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 3.8252416124312743
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": -0.11707152564961709,
+      "0.6": -0.0558011204979012,
+      "0.7": -0.03425616492698058,
+      "0.8": -0.03066148913712019,
+      "0.9": -0.015516129788166966
+     },
+     "selective_efficiency": -0.3365228051963069
+    }
+   }
+  }
+ },
+ "opensr_spot": {
+  "sen2sr_lite": {
+   "cell_4_abs_error": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 49152,
+       "risk": 0.01730559341801315
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 44237,
+       "risk": 0.014590828187432337
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 39322,
+       "risk": 0.012781207292093026
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 34406,
+       "risk": 0.011380416798670053
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 29491,
+       "risk": 0.01036333670372806
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 24576,
+       "risk": 0.009595028632427708
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.44555333061041547,
+      "0.6": 0.40115681367268186,
+      "0.7": 0.34238505876231107,
+      "0.8": 0.26144068086164285,
+      "0.9": 0.15687212596564593
+     },
+     "selective_efficiency": 0.7414968336475444
+    },
+    "aurc": 0.006157718627470756,
+    "aurc_oracle": 0.005421243181657106,
+    "aurc_random": 0.008652796709006575,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": 0.5671236381637339,
+       "ci_low": 0.2166171089267221,
+       "estimate": 0.4640227467006819,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.6": {
+       "ci_high": 0.5049389050494035,
+       "ci_low": 0.18419924551402314,
+       "estimate": 0.41900942558409926,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.7": {
+       "ci_high": 0.440711646530041,
+       "ci_low": 0.14832221296108994,
+       "estimate": 0.3605623617012724,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.8": {
+       "ci_high": 0.3407239031623481,
+       "ci_low": 0.10997165892410873,
+       "estimate": 0.27174091276567947,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.9": {
+       "ci_high": 0.2212350562005576,
+       "ci_low": 0.06403842757016179,
+       "estimate": 0.15845143886663948,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": 0.8346824399349491,
+      "ci_low": 0.45952240723354415,
+      "estimate": 0.7720986393755607,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 500,
+      "n_failed_replicates": 0,
+      "n_units": 6,
+      "reason": null,
+      "seed": 0,
+      "status": "ok"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 49152,
+      "risk": 0.01730559341801315
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 44237,
+      "risk": 0.014563497240487921
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 39322,
+      "risk": 0.012602955666650522
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 34406,
+      "risk": 0.011065847784572333
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 29491,
+      "risk": 0.010054386660539491
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 24576,
+      "risk": 0.009275404426901446
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 49152,
+    "n_dropped": 0,
+    "n_units": 6,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 49152,
+      "risk": 0.01730559341801315
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 44237,
+      "risk": 0.01338453475811186
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 39322,
+      "risk": 0.011147230572870367
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 34406,
+      "risk": 0.009417955491331193
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 29491,
+      "risk": 0.008088011982512067
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 24576,
+      "risk": 0.007043804605478006
+     }
+    ],
+    "random_risk": 0.01730559341801315,
+    "risk_reduction_at": {
+     "0.5": 0.4640227467006819,
+     "0.6": 0.41900942558409926,
+     "0.7": 0.3605623617012724,
+     "0.8": 0.27174091276567947,
+     "0.9": 0.15845143886663948
+    },
+    "selective_efficiency": 0.7720986393755607,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 49152,
+       "risk": 0.01730559341801315
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 44237,
+       "risk": 0.014733144978590402
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 39322,
+       "risk": 0.01298874220162763
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 34406,
+       "risk": 0.011685100820128481
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 29491,
+       "risk": 0.010727139326876354
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 24576,
+       "risk": 0.009980044730113491
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.4233052580719132,
+      "0.6": 0.38013455720561273,
+      "0.7": 0.3247789580006183,
+      "0.8": 0.24944832067371747,
+      "0.9": 0.14864838074521747
+     },
+     "selective_efficiency": 0.7040273508153836
+    }
+   },
+   "tile_rmse": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 6,
+       "risk": 0.027921702567432916
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 5,
+       "risk": 0.022555208710226496
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 5,
+       "risk": 0.022555208710226496
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 4,
+       "risk": 0.015223770681920823
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 4,
+       "risk": 0.015223770681920823
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 3,
+       "risk": 0.011625125325076242
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.5836527053821046,
+      "0.6": 0.4547692553792404,
+      "0.7": 0.4547692553792404,
+      "0.8": 0.19219794510187738,
+      "0.9": 0.19219794510187738
+     },
+     "selective_efficiency": 1.0
+    },
+    "aurc": 0.009533137273054921,
+    "aurc_oracle": 0.009533137273054921,
+    "aurc_random": 0.01396085128371646,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.5836527053821046,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.4547692553792404,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.4547692553792404,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.19219794510187738,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.19219794510187738,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 1.0,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 6,
+      "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 6,
+      "risk": 0.027921702567432916
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 5,
+      "risk": 0.022555208710226496
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 5,
+      "risk": 0.022555208710226496
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 4,
+      "risk": 0.015223770681920823
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 4,
+      "risk": 0.015223770681920823
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 3,
+      "risk": 0.011625125325076242
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 6,
+    "n_dropped": 0,
+    "n_units": 6,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 6,
+      "risk": 0.027921702567432916
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 5,
+      "risk": 0.022555208710226496
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 5,
+      "risk": 0.022555208710226496
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 4,
+      "risk": 0.015223770681920823
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 4,
+      "risk": 0.015223770681920823
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 3,
+      "risk": 0.011625125325076242
+     }
+    ],
+    "random_risk": 0.027921702567432916,
+    "risk_reduction_at": {
+     "0.5": 0.5836527053821046,
+     "0.6": 0.4547692553792404,
+     "0.7": 0.4547692553792404,
+     "0.8": 0.19219794510187738,
+     "0.9": 0.19219794510187738
+    },
+    "selective_efficiency": 1.0,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 6,
+       "risk": 0.027921702567432916
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 5,
+       "risk": 0.022555208710226496
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 5,
+       "risk": 0.022555208710226496
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 4,
+       "risk": 0.015223770681920823
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 4,
+       "risk": 0.015223770681920823
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 3,
+       "risk": 0.011625125325076242
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.5836527053821046,
+      "0.6": 0.4547692553792404,
+      "0.7": 0.4547692553792404,
+      "0.8": 0.19219794510187738,
+      "0.9": 0.19219794510187738
+     },
+     "selective_efficiency": 1.0
+    }
+   },
+   "tile_sam": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 6,
+       "risk": 1.7271875283675495
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 5,
+       "risk": 1.2715476801261822
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 5,
+       "risk": 1.2715476801261822
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 4,
+       "risk": 0.7738007836405666
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 4,
+       "risk": 0.7738007836405666
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 3,
+       "risk": 0.7423527546068218
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.5701956258864049,
+      "0.6": 0.5519879741304501,
+      "0.7": 0.5519879741304501,
+      "0.8": 0.26380450342413897,
+      "0.9": 0.26380450342413897
+     },
+     "selective_efficiency": 0.9892587510808645
+    },
+    "aurc": 0.5325467069020683,
+    "aurc_oracle": 0.5289522389811881,
+    "aurc_random": 0.8635937641837748,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.5701956258864049,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.5519879741304501,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.5519879741304501,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.26380450342413897,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.26380450342413897,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.9892587510808645,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 6,
+      "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 6,
+      "risk": 1.7271875283675495
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 5,
+      "risk": 1.2715476801261822
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 5,
+      "risk": 1.2715476801261822
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 4,
+      "risk": 0.7738007836405666
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 4,
+      "risk": 0.7738007836405666
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 3,
+      "risk": 0.7423527546068218
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 6,
+    "n_dropped": 0,
+    "n_units": 6,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 6,
+      "risk": 1.7271875283675495
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 5,
+      "risk": 1.2715476801261822
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 5,
+      "risk": 1.2715476801261822
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 4,
+      "risk": 0.7738007836405665
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 4,
+      "risk": 0.7738007836405665
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 3,
+      "risk": 0.6704633961892194
+     }
+    ],
+    "random_risk": 1.7271875283675495,
+    "risk_reduction_at": {
+     "0.5": 0.5701956258864049,
+     "0.6": 0.5519879741304501,
+     "0.7": 0.5519879741304501,
+     "0.8": 0.26380450342413897,
+     "0.9": 0.26380450342413897
+    },
+    "selective_efficiency": 0.9892587510808645,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 6,
+       "risk": 1.7271875283675495
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 5,
+       "risk": 1.2715476801261822
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 5,
+       "risk": 1.2715476801261822
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 4,
+       "risk": 0.7738007836405666
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 4,
+       "risk": 0.7738007836405666
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 3,
+       "risk": 0.7423527546068218
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.5701956258864049,
+      "0.6": 0.5519879741304501,
+      "0.7": 0.5519879741304501,
+      "0.8": 0.26380450342413897,
+      "0.9": 0.26380450342413897
+     },
+     "selective_efficiency": 0.9892587510808645
+    }
+   }
+  },
+  "sen2sr_mamba": {
+   "cell_4_abs_error": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 49152,
+       "risk": 0.017402055543262424
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 44237,
+       "risk": 0.014673768860218131
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 39322,
+       "risk": 0.012757859852396476
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 34406,
+       "risk": 0.011262093346702334
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 29491,
+       "risk": 0.010264824036483725
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 24576,
+       "risk": 0.009485641952096557
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.45491255739790315,
+      "0.6": 0.4101372673495477,
+      "0.7": 0.3528297091855511,
+      "0.8": 0.2668762709853576,
+      "0.9": 0.15677956413031946
+     },
+     "selective_efficiency": 0.7471518035201034
+    },
+    "aurc": 0.006176134994982033,
+    "aurc_oracle": 0.005407469119039423,
+    "aurc_random": 0.008701027771631212,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": 0.5626691045731957,
+       "ci_low": 0.22625356290647256,
+       "estimate": 0.45646644025281635,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.6": {
+       "ci_high": 0.5150300826169878,
+       "ci_low": 0.19114607666011524,
+       "estimate": 0.4144019829152381,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.7": {
+       "ci_high": 0.45317469631523144,
+       "ci_low": 0.15869583080069802,
+       "estimate": 0.36366965651524563,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.8": {
+       "ci_high": 0.35601339460901915,
+       "ci_low": 0.11841401502720136,
+       "estimate": 0.28247527071899825,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.9": {
+       "ci_high": 0.2304291145718943,
+       "ci_low": 0.07206011325053654,
+       "estimate": 0.16213626886567256,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": 0.8305574107708024,
+      "ci_low": 0.49316207520514366,
+      "estimate": 0.7666153978045217,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 500,
+      "n_failed_replicates": 0,
+      "n_units": 6,
+      "reason": null,
+      "seed": 0,
+      "status": "ok"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 49152,
+      "risk": 0.017402055543262424
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 44237,
+      "risk": 0.01458055118688466
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 39322,
+      "risk": 0.012486405192612326
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 34406,
+      "risk": 0.011073455981184952
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 29491,
+      "risk": 0.010190609219333364
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 24576,
+      "risk": 0.009458601196347635
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 49152,
+    "n_dropped": 0,
+    "n_units": 6,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 49152,
+      "risk": 0.017402055543262424
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 44237,
+      "risk": 0.01342606405470992
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 39322,
+      "risk": 0.011115813497645299
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 34406,
+      "risk": 0.009345652796417936
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 29491,
+      "risk": 0.00800554326390174
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 24576,
+      "risk": 0.006961179612176238
+     }
+    ],
+    "random_risk": 0.017402055543262424,
+    "risk_reduction_at": {
+     "0.5": 0.45646644025281635,
+     "0.6": 0.4144019829152381,
+     "0.7": 0.36366965651524563,
+     "0.8": 0.28247527071899825,
+     "0.9": 0.16213626886567256
+    },
+    "selective_efficiency": 0.7666153978045217,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 49152,
+       "risk": 0.017402055543262424
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 44237,
+       "risk": 0.01477700941528887
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 39322,
+       "risk": 0.012966675144914827
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 34406,
+       "risk": 0.011630313603825932
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 29491,
+       "risk": 0.0106607036292234
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 24576,
+       "risk": 0.00991605805592144
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.43017892160672644,
+      "0.6": 0.38738825406456556,
+      "0.7": 0.33167012512330163,
+      "0.8": 0.2548768096573999,
+      "0.9": 0.15084689974971932
+     },
+     "selective_efficiency": 0.7079430361781704
+    }
+   },
+   "tile_rmse": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 6,
+       "risk": 0.02817882017704903
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 5,
+       "risk": 0.02258651629558695
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 5,
+       "risk": 0.02258651629558695
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 4,
+       "risk": 0.015124719829501317
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 4,
+       "risk": 0.015124719829501317
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 3,
+       "risk": 0.011525427559742035
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.590989704773757,
+      "0.6": 0.4632592942333321,
+      "0.7": 0.4632592942333321,
+      "0.8": 0.19845770143410313,
+      "0.9": 0.19845770143410313
+     },
+     "selective_efficiency": 1.0
+    },
+    "aurc": 0.009527459611857208,
+    "aurc_oracle": 0.009527459611857208,
+    "aurc_random": 0.014089410088524514,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.590989704773757,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.4632592942333321,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.4632592942333321,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.19845770143410313,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.19845770143410313,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 1.0,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 6,
+      "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 6,
+      "risk": 0.02817882017704903
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 5,
+      "risk": 0.02258651629558695
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 5,
+      "risk": 0.02258651629558695
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 4,
+      "risk": 0.015124719829501317
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 4,
+      "risk": 0.015124719829501317
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 3,
+      "risk": 0.011525427559742035
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 6,
+    "n_dropped": 0,
+    "n_units": 6,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 6,
+      "risk": 0.02817882017704903
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 5,
+      "risk": 0.02258651629558695
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 5,
+      "risk": 0.02258651629558695
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 4,
+      "risk": 0.015124719829501317
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 4,
+      "risk": 0.015124719829501317
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 3,
+      "risk": 0.011525427559742035
+     }
+    ],
+    "random_risk": 0.02817882017704903,
+    "risk_reduction_at": {
+     "0.5": 0.590989704773757,
+     "0.6": 0.4632592942333321,
+     "0.7": 0.4632592942333321,
+     "0.8": 0.19845770143410313,
+     "0.9": 0.19845770143410313
+    },
+    "selective_efficiency": 1.0,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 6,
+       "risk": 0.02817882017704903
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 5,
+       "risk": 0.02258651629558695
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 5,
+       "risk": 0.02258651629558695
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 4,
+       "risk": 0.015124719829501317
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 4,
+       "risk": 0.015124719829501317
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 3,
+       "risk": 0.011525427559742035
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.590989704773757,
+      "0.6": 0.4632592942333321,
+      "0.7": 0.4632592942333321,
+      "0.8": 0.19845770143410313,
+      "0.9": 0.19845770143410313
+     },
+     "selective_efficiency": 1.0
+    }
+   },
+   "tile_sam": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 6,
+       "risk": 1.7134777785724247
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 5,
+       "risk": 1.2768863781763358
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 5,
+       "risk": 1.2768863781763358
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 4,
+       "risk": 0.7368157445530414
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 4,
+       "risk": 0.7368157445530414
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 3,
+       "risk": 0.6988689991905694
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.5921341916830526,
+      "0.6": 0.5699881528858135,
+      "0.7": 0.5699881528858135,
+      "0.8": 0.2547984023229253,
+      "0.9": 0.2547984023229253
+     },
+     "selective_efficiency": 0.989419590163246
+    },
+    "aurc": 0.5233577634340251,
+    "aurc_oracle": 0.5197927350290663,
+    "aurc_random": 0.8567388892862123,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.5921341916830526,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.6": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.5699881528858135,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.7": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.5699881528858135,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.8": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.2547984023229253,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      },
+      "0.9": {
+       "ci_high": null,
+       "ci_low": null,
+       "estimate": 0.2547984023229253,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 6,
+       "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+       "seed": 0,
+       "status": "descriptive_only"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": null,
+      "ci_low": null,
+      "estimate": 0.989419590163246,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 6,
+      "reason": "6 scene unit(s): fewer than the 10 needed for an interval",
+      "seed": 0,
+      "status": "descriptive_only"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 6,
+      "risk": 1.7134777785724247
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 5,
+      "risk": 1.2768863781763358
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 5,
+      "risk": 1.2768863781763358
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 4,
+      "risk": 0.7368157445530414
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 4,
+      "risk": 0.7368157445530414
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 3,
+      "risk": 0.6988689991905694
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 6,
+    "n_dropped": 0,
+    "n_units": 6,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 6,
+      "risk": 1.7134777785724247
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 5,
+      "risk": 1.2768863781763358
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 5,
+      "risk": 1.2768863781763358
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 4,
+      "risk": 0.7368157445530414
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 4,
+      "risk": 0.7368157445530414
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 3,
+      "risk": 0.6275684310913938
+     }
+    ],
+    "random_risk": 1.7134777785724247,
+    "risk_reduction_at": {
+     "0.5": 0.5921341916830526,
+     "0.6": 0.5699881528858135,
+     "0.7": 0.5699881528858135,
+     "0.8": 0.2547984023229253,
+     "0.9": 0.2547984023229253
+    },
+    "selective_efficiency": 0.989419590163246,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 6,
+       "risk": 1.7134777785724247
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 5,
+       "risk": 1.2768863781763358
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 5,
+       "risk": 1.2768863781763358
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 4,
+       "risk": 0.7368157445530414
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 4,
+       "risk": 0.7368157445530414
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 3,
+       "risk": 0.6988689991905694
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.5921341916830526,
+      "0.6": 0.5699881528858135,
+      "0.7": 0.5699881528858135,
+      "0.8": 0.2547984023229253,
+      "0.9": 0.2547984023229253
+     },
+     "selective_efficiency": 0.989419590163246
+    }
+   }
+  }
+ },
+ "sen2neon_random30": {
+  "sen2sr_lite": {
+   "cell_4_abs_error": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 98304,
+       "risk": 0.013346812588084234
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 88474,
+       "risk": 0.01278513527138615
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 78643,
+       "risk": 0.012637111637020864
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 68813,
+       "risk": 0.012601222504705084
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 58982,
+       "risk": 0.012717395136519098
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 49152,
+       "risk": 0.012950713110497484
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.029677458567177295,
+      "0.6": 0.04715863412415544,
+      "0.7": 0.05586278210310658,
+      "0.8": 0.053173815574287464,
+      "0.9": 0.04208325493380638
+     },
+     "selective_efficiency": 0.11008601267147924
+    },
+    "aurc": 0.006302244616742055,
+    "aurc_oracle": 0.00408957618477334,
+    "aurc_random": 0.006673406294042118,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": 0.16356190472702714,
+       "ci_low": -0.034359431241778364,
+       "estimate": 0.045341000645815366,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.6": {
+       "ci_high": 0.14671699940032215,
+       "ci_low": 0.011220646670554483,
+       "estimate": 0.06624564052821513,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.7": {
+       "ci_high": 0.12623682005786813,
+       "ci_low": 0.03117866915168425,
+       "estimate": 0.07141664488729615,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.8": {
+       "ci_high": 0.10504129193834962,
+       "ci_low": 0.040100728894841745,
+       "estimate": 0.06673761355036723,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.9": {
+       "ci_high": 0.07053537302012286,
+       "ci_low": 0.036341810120210996,
+       "estimate": 0.05101972511397013,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": 0.3130106649975573,
+      "ci_low": 0.05622534124011296,
+      "estimate": 0.1436478644507711,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 500,
+      "n_failed_replicates": 0,
+      "n_units": 11,
+      "reason": null,
+      "seed": 0,
+      "status": "ok"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 98304,
+      "risk": 0.013346812588084234
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 88474,
+      "risk": 0.0126658618786925
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 78643,
+      "risk": 0.01245607816745149
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 68813,
+      "risk": 0.012393628013103728
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 58982,
+      "risk": 0.01246264443917655
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 49152,
+      "risk": 0.01274165474990833
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 98304,
+    "n_dropped": 0,
+    "n_units": 11,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 98304,
+      "risk": 0.013346812588084234
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 88474,
+      "risk": 0.009822425712626193
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 78643,
+      "risk": 0.00828953396988951
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 68813,
+      "risk": 0.0071754934949545025
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 58982,
+      "risk": 0.006235929049711968
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 49152,
+      "risk": 0.005397946653018219
+     }
+    ],
+    "random_risk": 0.013346812588084234,
+    "risk_reduction_at": {
+     "0.5": 0.045341000645815366,
+     "0.6": 0.06624564052821513,
+     "0.7": 0.07141664488729615,
+     "0.8": 0.06673761355036723,
+     "0.9": 0.05101972511397013
+    },
+    "selective_efficiency": 0.1436478644507711,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 98304,
+       "risk": 0.013346812588084234
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 88474,
+       "risk": 0.012634036877033485
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 78643,
+       "risk": 0.012522380255453738
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 68813,
+       "risk": 0.012540306077904677
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 58982,
+       "risk": 0.01269141066634462
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 49152,
+       "risk": 0.012975391384059046
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.02782845728700689,
+      "0.6": 0.04910550121343149,
+      "0.7": 0.06042690004500317,
+      "0.8": 0.06176997895111924,
+      "0.9": 0.05340418967799854
+     },
+     "selective_efficiency": 0.12325992588244603
+    }
+   },
+   "tile_rmse": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 12,
+       "risk": 0.02429980482580261
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 11,
+       "risk": 0.023512579087870446
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 0.024378043198568435
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 8,
+       "risk": 0.025208495632771714
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 7,
+       "risk": 0.025043210773316324
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 0.0165324397686392
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.3196472199198769,
+      "0.6": -0.03059308306560249,
+      "0.7": -0.037394983765639545,
+      "0.8": -0.003219711982326068,
+      "0.9": 0.032396381105755157
+     },
+     "selective_efficiency": 0.0842000757832972
+    },
+    "aurc": 0.010664866140394882,
+    "aurc_oracle": 0.0086575384073946,
+    "aurc_random": 0.012149902412901306,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": 0.5098434061716904,
+       "ci_low": -0.05722313064932673,
+       "estimate": 0.2901285005806732,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.6": {
+       "ci_high": 0.42607804859566806,
+       "ci_low": -0.07223886617601766,
+       "estimate": 0.1784439087180416,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.7": {
+       "ci_high": 0.3861784321531251,
+       "ci_low": -0.08669073973498999,
+       "estimate": 0.1649360776272487,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.8": {
+       "ci_high": 0.2985033088603918,
+       "ci_low": -0.09069342103564872,
+       "estimate": 0.15690461862448535,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.9": {
+       "ci_high": 0.20959944012288695,
+       "ci_low": -0.037918253824001436,
+       "estimate": -0.03421790867343444,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": 0.9289894009268244,
+      "ci_low": -0.33332192334418176,
+      "estimate": 0.4252237940159851,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 11,
+      "reason": null,
+      "seed": 0,
+      "status": "ok"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 12,
+      "risk": 0.02429980482580261
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 11,
+      "risk": 0.025131293328114212
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 0.020487053216960628
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 8,
+      "risk": 0.020291890330727043
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 7,
+      "risk": 0.019963652671600867
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 0.017249738887289496
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 12,
+    "n_dropped": 0,
+    "n_units": 11,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 12,
+      "risk": 0.024299804825802615
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 11,
+      "risk": 0.019853002342741906
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 0.018251157980692243
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 8,
+      "risk": 0.01587625362768374
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 7,
+      "risk": 0.01425787097280528
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 0.012374393474243019
+     }
+    ],
+    "random_risk": 0.024299804825802615,
+    "risk_reduction_at": {
+     "0.5": 0.2901285005806732,
+     "0.6": 0.1784439087180416,
+     "0.7": 0.1649360776272487,
+     "0.8": 0.15690461862448535,
+     "0.9": -0.03421790867343444
+    },
+    "selective_efficiency": 0.4252237940159851,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 12,
+       "risk": 0.02429980482580261
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 11,
+       "risk": 0.024242657947942257
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 0.023367199366466657
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 8,
+       "risk": 0.017929331354663527
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 7,
+       "risk": 0.018258221490232193
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 0.0165324397686392
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.3196472199198769,
+      "0.6": 0.24862682556014604,
+      "0.7": 0.26216150774901015,
+      "0.8": 0.03837913374290458,
+      "0.9": 0.002351742257603484
+     },
+     "selective_efficiency": 0.49495103160014275
+    }
+   },
+   "tile_sam": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 12,
+       "risk": 2.6200088554364904
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 11,
+       "risk": 2.771121244949055
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 2.9357905274437393
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 8,
+       "risk": 3.088220552603734
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 7,
+       "risk": 3.245571209884666
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 2.1259569250553856
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.18856880172597623,
+      "0.6": -0.23876345041740588,
+      "0.7": -0.17870615062834938,
+      "0.8": -0.12052694835439359,
+      "0.9": -0.05767628960452065
+     },
+     "selective_efficiency": -0.2727321388995559
+    },
+    "aurc": 1.0214008310139433,
+    "aurc_oracle": 0.8283442342239706,
+    "aurc_random": 1.3100044277182457,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": 0.6304264160854771,
+       "ci_low": -0.06264064111658335,
+       "estimate": 0.36623550993846,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.6": {
+       "ci_high": 0.5866335869009656,
+       "ci_low": -0.02900811160488938,
+       "estimate": 0.4045503207543558,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.7": {
+       "ci_high": 0.5369237871018346,
+       "ci_low": -0.023659427716816055,
+       "estimate": 0.3425696434938842,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.8": {
+       "ci_high": 0.43325390292580634,
+       "ci_low": -0.1285449732992752,
+       "estimate": 0.22319266653834924,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.9": {
+       "ci_high": 0.28161430457291026,
+       "ci_low": -0.06303420821201396,
+       "estimate": -0.05189366344492785,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": 1.0,
+      "ci_low": -0.0928229537993579,
+      "estimate": 0.5991850698945763,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 11,
+      "reason": null,
+      "seed": 0,
+      "status": "ok"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 12,
+      "risk": 2.620008855436491
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 11,
+      "risk": 2.755970713203243
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 2.0352420926375325
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 8,
+      "risk": 1.722473355878793
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 7,
+      "risk": 1.560083432590406
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 1.660468576222427
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 12,
+    "n_dropped": 0,
+    "n_units": 11,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 12,
+      "risk": 2.6200088554364904
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 11,
+      "risk": 1.9524408496706853
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 1.7832658550970404
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 8,
+      "risk": 1.4415323594907914
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 7,
+      "risk": 1.2390080081469752
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 1.114381684231936
+     }
+    ],
+    "random_risk": 2.6200088554364913,
+    "risk_reduction_at": {
+     "0.5": 0.36623550993846,
+     "0.6": 0.4045503207543558,
+     "0.7": 0.3425696434938842,
+     "0.8": 0.22319266653834924,
+     "0.9": -0.05189366344492785
+    },
+    "selective_efficiency": 0.5991850698945763,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 12,
+       "risk": 2.6200088554364913
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 11,
+       "risk": 2.591969361936368
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 2.7553890410501767
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 8,
+       "risk": 2.0582756339549
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 7,
+       "risk": 2.1060725002813605
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 2.1259569250553856
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.18856880172597623,
+      "0.6": 0.19615825117870045,
+      "0.7": 0.21440126826899863,
+      "0.8": -0.05167165192315015,
+      "0.9": 0.010702060583475337
+     },
+     "selective_efficiency": 0.2523261972090201
+    }
+   }
+  },
+  "sen2sr_mamba": {
+   "cell_4_abs_error": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 98304,
+       "risk": 0.01320500055491832
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 88474,
+       "risk": 0.012592303091264634
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 78643,
+       "risk": 0.01245854287793807
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 68813,
+       "risk": 0.01248567353794814
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 58982,
+       "risk": 0.012696331319636335
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 49152,
+       "risk": 0.012982237216932665
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.016869619736796126,
+      "0.6": 0.03852095523710719,
+      "0.7": 0.05447383466426736,
+      "0.8": 0.056528409360969256,
+      "0.9": 0.04639889722878365
+     },
+     "selective_efficiency": 0.10509417201107012
+    },
+    "aurc": 0.006369867840035492,
+    "aurc_oracle": 0.004034771724828591,
+    "aurc_random": 0.0066025002774591605,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": 0.13758972992711757,
+       "ci_low": -0.06939563948389874,
+       "estimate": 0.017995522981154477,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.6": {
+       "ci_high": 0.12134424376081931,
+       "ci_low": -0.02685845315731068,
+       "estimate": 0.04048882892166894,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.7": {
+       "ci_high": 0.10621796573907928,
+       "ci_low": -0.004233643267839853,
+       "estimate": 0.04974950200705819,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.8": {
+       "ci_high": 0.08925167954046312,
+       "ci_low": 0.008061507605974832,
+       "estimate": 0.044273235794029975,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.9": {
+       "ci_high": 0.061835851039774334,
+       "ci_low": 0.015314698323804108,
+       "estimate": 0.03266062835438566,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 500,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": 0.26419540961399596,
+      "ci_low": -0.018356089942522837,
+      "estimate": 0.09059853199254364,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 500,
+      "n_failed_replicates": 0,
+      "n_units": 11,
+      "reason": null,
+      "seed": 0,
+      "status": "ok"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 98304,
+      "risk": 0.01320500055491832
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 88474,
+      "risk": 0.012773716939374676
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 78643,
+      "risk": 0.012620372451690124
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 68813,
+      "risk": 0.012548058353308206
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 58982,
+      "risk": 0.012670345546539688
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 49152,
+      "risk": 0.01296736966396613
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 98304,
+    "n_dropped": 0,
+    "n_units": 11,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 98304,
+      "risk": 0.01320500055491832
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 88474,
+      "risk": 0.009689618633279731
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 78643,
+      "risk": 0.008171903244489164
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 68813,
+      "risk": 0.007071802264575227
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 58982,
+      "risk": 0.006147832464547225
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 49152,
+      "risk": 0.005328120727870811
+     }
+    ],
+    "random_risk": 0.01320500055491832,
+    "risk_reduction_at": {
+     "0.5": 0.017995522981154477,
+     "0.6": 0.04048882892166894,
+     "0.7": 0.04974950200705819,
+     "0.8": 0.044273235794029975,
+     "0.9": 0.03266062835438566
+    },
+    "selective_efficiency": 0.09059853199254364,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 98304,
+       "risk": 0.01320500055491832
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 88474,
+       "risk": 0.012507178450351583
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 78643,
+       "risk": 0.01241019062487806
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 68813,
+       "risk": 0.012440104552589972
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 58982,
+       "risk": 0.012602582710127324
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 49152,
+       "risk": 0.01289389817652283
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.023559436980077675,
+      "0.6": 0.04562043312952524,
+      "0.7": 0.05792472322490394,
+      "0.8": 0.06019007168797319,
+      "0.9": 0.05284529157454876
+     },
+     "selective_efficiency": 0.11743831207682727
+    }
+   },
+   "tile_rmse": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 12,
+       "risk": 0.02426529638359999
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 11,
+       "risk": 0.02507863385818618
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 0.02432511301610125
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 8,
+       "risk": 0.025204039139683897
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 7,
+       "risk": 0.01822846804430001
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 0.017388236408438822
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.2834113322353282,
+      "0.6": 0.24878444688522516,
+      "0.7": -0.03868663878007994,
+      "0.8": -0.0024651103186892342,
+      "0.9": -0.03351854688805278
+     },
+     "selective_efficiency": 0.21909901458162076
+    },
+    "aurc": 0.010943422897001823,
+    "aurc_oracle": 0.00863493211199794,
+    "aurc_random": 0.012132648191799995,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": 0.5161392187031667,
+       "ci_low": -0.022680343551940128,
+       "estimate": 0.2834113322353282,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.6": {
+       "ci_high": 0.427229839522796,
+       "ci_low": -0.08621124486100518,
+       "estimate": 0.2349963425657079,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.7": {
+       "ci_high": 0.3574579883864114,
+       "ci_low": -0.13736407379764057,
+       "estimate": 0.21213168063333832,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.8": {
+       "ci_high": 0.2525283084347438,
+       "ci_low": -0.10334796006579496,
+       "estimate": -0.06522209926190503,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.9": {
+       "ci_high": 0.1594659941676556,
+       "ci_low": -0.03792730031150577,
+       "estimate": -0.03351854688805278,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": 0.9857125255403357,
+      "ci_low": -0.2828468145834292,
+      "estimate": 0.34000052253111224,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 11,
+      "reason": null,
+      "seed": 0,
+      "status": "ok"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 12,
+      "risk": 0.02426529638359999
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 11,
+      "risk": 0.02507863385818618
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 0.025847929952950693
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 8,
+      "risk": 0.019117858280680855
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 7,
+      "risk": 0.018563040482181093
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 0.017388236408438822
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 12,
+    "n_dropped": 0,
+    "n_units": 11,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 12,
+      "risk": 0.024265296383599987
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 11,
+      "risk": 0.0197935846403556
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 0.01818911904519439
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 8,
+      "risk": 0.015868782703989975
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 7,
+      "risk": 0.014225457084418849
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 0.012279458908441192
+     }
+    ],
+    "random_risk": 0.024265296383599987,
+    "risk_reduction_at": {
+     "0.5": 0.2834113322353282,
+     "0.6": 0.2349963425657079,
+     "0.7": 0.21213168063333832,
+     "0.8": -0.06522209926190503,
+     "0.9": -0.03351854688805278
+    },
+    "selective_efficiency": 0.34000052253111224,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 12,
+       "risk": 0.02426529638359999
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 11,
+       "risk": 0.024248063824824327
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 0.02338043880280842
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 8,
+       "risk": 0.01789937547894687
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 7,
+       "risk": 0.01822846804430001
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 0.016493923086891404
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.32026698433244627,
+      "0.6": 0.24878444688522516,
+      "0.7": 0.26234671952969046,
+      "0.8": 0.03646597044615574,
+      "0.9": 0.0007101730184225774
+     },
+     "selective_efficiency": 0.49147860031130647
+    }
+   },
+   "tile_sam": {
+    "added_detail_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 12,
+       "risk": 2.5782068327286347
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 11,
+       "risk": 2.7022706913150256
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 2.8652228834068323
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 8,
+       "risk": 3.0350489483020966
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 7,
+       "risk": 2.0488192623076555
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 1.9106693792085707
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.2589154000548429,
+      "0.6": 0.2053316916628849,
+      "0.7": -0.17719374170223756,
+      "0.8": -0.1113239042867773,
+      "0.9": -0.048120211695773296
+     },
+     "selective_efficiency": -0.0010230206992062824
+    },
+    "aurc": 1.1887231173654755,
+    "aurc_oracle": 0.8232548112736559,
+    "aurc_random": 1.2891034163643171,
+    "ci": {
+     "risk_reduction_at": {
+      "0.5": {
+       "ci_high": 0.5736451313591692,
+       "ci_low": -0.18839227928938523,
+       "estimate": 0.2589154000548429,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.6": {
+       "ci_high": 0.5236464483460558,
+       "ci_low": -0.19823668969369876,
+       "estimate": 0.2179564746967565,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.7": {
+       "ci_high": 0.46967366563817786,
+       "ci_low": -0.1992348900348983,
+       "estimate": 0.1761905955235542,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.8": {
+       "ci_high": 0.3407157055658556,
+       "ci_low": -0.15688536407453493,
+       "estimate": -0.08614302968553922,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      },
+      "0.9": {
+       "ci_high": 0.2420227291505178,
+       "ci_low": -0.06106295068294039,
+       "estimate": -0.048120211695773074,
+       "level": 0.95,
+       "method": "percentile bootstrap over scene units",
+       "n_boot": 2000,
+       "n_failed_replicates": 0,
+       "n_units": 11,
+       "reason": null,
+       "seed": 0,
+       "status": "ok"
+      }
+     },
+     "selective_efficiency": {
+      "ci_high": 0.8720196009507643,
+      "ci_low": -0.5922626201806743,
+      "estimate": 0.21547837194726827,
+      "level": 0.95,
+      "method": "percentile bootstrap over scene units",
+      "n_boot": 2000,
+      "n_failed_replicates": 0,
+      "n_units": 11,
+      "reason": null,
+      "seed": 0,
+      "status": "ok"
+     }
+    },
+    "coverage_grid": [
+     1.0,
+     0.9,
+     0.8,
+     0.7,
+     0.6,
+     0.5
+    ],
+    "curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 12,
+      "risk": 2.5782068327286347
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 11,
+      "risk": 2.702270691315025
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 2.8003013804558377
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 8,
+      "risk": 2.12395103548728
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 7,
+      "risk": 2.016269960428011
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 1.9106693792085707
+     }
+    ],
+    "definition": "items ranked by instability (most unstable removed first); risk = error of the retained items; oracle = ranked by the true error",
+    "n": 12,
+    "n_dropped": 0,
+    "n_units": 11,
+    "note": "Items are ranked by instability and the most unstable are removed; the risk is the error of what remains. This describes an ordering. It is NOT calibrated selective prediction: nothing here is a calibrated probability, and the oracle (ranked by the true error) and random removal only bracket the result.",
+    "oracle_curve": [
+     {
+      "coverage": 1.0,
+      "n_retained": 12,
+      "risk": 2.5782068327286347
+     },
+     {
+      "coverage": 0.9,
+      "n_retained": 11,
+      "risk": 1.9090750220436759
+     },
+     {
+      "coverage": 0.8,
+      "n_retained": 10,
+      "risk": 1.7630548675686306
+     },
+     {
+      "coverage": 0.7,
+      "n_retained": 8,
+      "risk": 1.4357127416760034
+     },
+     {
+      "coverage": 0.6,
+      "n_retained": 7,
+      "risk": 1.2622612122376249
+     },
+     {
+      "coverage": 0.5,
+      "n_retained": 6,
+      "risk": 1.1466817056926135
+     }
+    ],
+    "random_risk": 2.5782068327286347,
+    "risk_reduction_at": {
+     "0.5": 0.2589154000548429,
+     "0.6": 0.2179564746967565,
+     "0.7": 0.1761905955235542,
+     "0.8": -0.08614302968553922,
+     "0.9": -0.048120211695773074
+    },
+    "selective_efficiency": 0.21547837194726827,
+    "status": "ok",
+    "texture_baseline": {
+     "curve": [
+      {
+       "coverage": 1.0,
+       "n_retained": 12,
+       "risk": 2.5782068327286347
+      },
+      {
+       "coverage": 0.9,
+       "n_retained": 11,
+       "risk": 2.5716916859089967
+      },
+      {
+       "coverage": 0.8,
+       "n_retained": 10,
+       "risk": 2.721585977460201
+      },
+      {
+       "coverage": 0.7,
+       "n_retained": 8,
+       "risk": 2.007962329507561
+      },
+      {
+       "coverage": 0.6,
+       "n_retained": 7,
+       "risk": 2.0488192623076555
+      },
+      {
+       "coverage": 0.5,
+       "n_retained": 6,
+       "risk": 2.064332764107649
+      }
+     ],
+     "risk_reduction_at": {
+      "0.5": 0.19931452438093544,
+      "0.6": 0.2053316916628849,
+      "0.7": 0.22117872623026058,
+      "0.8": -0.05561196367625065,
+      "0.9": 0.002527007041069229
+     },
+     "selective_efficiency": 0.261824355962865
+    }
+   }
+  }
+ }
+}
