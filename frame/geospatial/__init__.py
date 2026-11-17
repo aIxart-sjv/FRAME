@@ -12,9 +12,11 @@ Public API:
     bounds_from_transform, validate_geospatial_completeness
     derive_output_transform, derive_output_metadata, RGBN_SCALE_FACTOR
     write_geotiff, read_geotiff, peek_geotiff_size
+    write_cog, validate_cog, CogValidationResult                        (Step I)
     Exceptions: GeospatialError and its subclasses (see .errors)
 """
 
+from frame.geospatial.cog import CogValidationResult, validate_cog
 from frame.geospatial.errors import (
     GeospatialError,
     InconsistentMetadataError,
@@ -22,7 +24,7 @@ from frame.geospatial.errors import (
     MissingTransformError,
     UnreadableRasterError,
 )
-from frame.geospatial.geotiff import peek_geotiff_size, read_geotiff, write_geotiff
+from frame.geospatial.geotiff import peek_geotiff_size, read_geotiff, write_cog, write_geotiff
 from frame.geospatial.metadata import RasterMetadata, bounds_from_transform, validate_geospatial_completeness
 from frame.geospatial.transform import RGBN_SCALE_FACTOR, derive_output_metadata, derive_output_transform
 
@@ -36,6 +38,9 @@ __all__ = [
     "write_geotiff",
     "read_geotiff",
     "peek_geotiff_size",
+    "write_cog",
+    "validate_cog",
+    "CogValidationResult",
     "GeospatialError",
     "MissingCRSError",
     "MissingTransformError",

@@ -18,6 +18,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from frame.acquisition.errors import AcquisitionError
 from frame.analysis.errors import AnalysisError
 from frame.consistency.errors import ConsistencyError
 from frame.geospatial.errors import GeospatialError
@@ -28,7 +29,7 @@ from frame.tiling.errors import InvalidSceneError
 from frame.uncertainty.errors import UncertaintyError
 
 from frame.api import config
-from frame.api.errors import APIError, model_error_code, status_code_for
+from frame.api.errors import APIError, acquisition_error_code, model_error_code, status_code_for
 
 logger = logging.getLogger("frame.api")
 
@@ -89,10 +90,24 @@ def create_app() -> FastAPI:
         # server-error handling below, which never echoes a traceback to
         # the caller.
         status_code = status_code_for(exc)
-        code = exc.code if isinstance(exc, APIError) else "frame_error"
+        if isinstance(exc, APIError):
+            code = exc.code
+        elif isinstance(exc, AcquisitionError):
+            code = acquisition_error_code(exc)
+        else:
+            code = "frame_error"
         return JSONResponse(status_code=status_code, content={"error": code, "code": code, "detail": str(exc)})
 
-    for exc_type in (APIError, PreprocessingError, GeospatialError, ConsistencyError, UncertaintyError, AnalysisError, InvalidSceneError):
+    for exc_type in (
+        APIError,
+        PreprocessingError,
+        GeospatialError,
+        ConsistencyError,
+        UncertaintyError,
+        AnalysisError,
+        InvalidSceneError,
+        AcquisitionError,
+    ):
         app.add_exception_handler(exc_type, _known_error_response)
 
     # frame.models errors. `str(exc)` on these is written to be user-safe

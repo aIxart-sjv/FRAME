@@ -1,0 +1,149 @@
+{
+  "created_at": "2026-09-28T02:33:52.086136+00:00",
+  "steps": [
+    {
+      "bbox": [
+        80.204,
+        13.006,
+        80.2168,
+        13.0188
+      ],
+      "step": "aoi"
+    },
+    {
+      "elapsed_s": 3.97,
+      "n_candidates": 7,
+      "step": "real_cdse_discovery"
+    },
+    {
+      "cloud_cover": 2.43,
+      "datetime": "2024-03-30T04:56:59.024000Z",
+      "scene_id": "S2B_MSIL2A_20240330T045659_N0510_R119_T44PMV_20240330T072508",
+      "step": "real_scene_selection"
+    },
+    {
+      "bands": 12,
+      "elapsed_s": 7.24,
+      "grid": "139x142",
+      "step": "real_retrieval"
+    },
+    {
+      "is_complete_l2a": true,
+      "step": "harmonisation_12band",
+      "validity_mask_coverage": 1.0
+    },
+    {
+      "bands": [
+        "B04",
+        "B03",
+        "B02",
+        "B08"
+      ],
+      "excluded_bands": [
+        "B05",
+        "B06",
+        "B07",
+        "B8A",
+        "B11",
+        "B12",
+        "B01",
+        "B09"
+      ],
+      "shape": [
+        4,
+        142,
+        139
+      ],
+      "step": "rgbn_adapter"
+    },
+    {
+      "path": "/home/zangetsu/Documents/Projects/FRAME/experiments/final_demo/rgbn_input.tif",
+      "step": "rgbn_geotiff_written"
+    },
+    {
+      "step": "real_upload",
+      "upload_id": "27d078c566644d66971c5f53989d9c23"
+    },
+    {
+      "crs": "EPSG:32644",
+      "elapsed_s": 1.84,
+      "input_shape": [
+        4,
+        142,
+        139
+      ],
+      "job_id": "5a4c38cee58441d2a367a77f277e5f93",
+      "model": "lite",
+      "output_resolution_m": 2.5,
+      "output_shape": [
+        4,
+        568,
+        556
+      ],
+      "step": "real_sr_inference"
+    },
+    {
+      "analysis_id": "c8ccfe468df44bdf84ebde21d805973a",
+      "status": "COMPUTABLE",
+      "step": "real_ndvi_analysis"
+    },
+    {
+      "cog_available": true,
+      "cog_valid": true,
+      "status": "completed",
+      "step": "api_product_registration"
+    },
+    {
+      "problems": [],
+      "stac_id": "frame-sr-5a4c38cee58441d2a367a77f277e5f93",
+      "step": "stac_generation_and_validation",
+      "valid": true
+    },
+    {
+      "bytes": 4789861,
+      "driver_layout": true,
+      "is_valid_cog": true,
+      "path": "/home/zangetsu/Documents/Projects/FRAME/experiments/final_demo/downloaded_product.cog.tif",
+      "step": "cog_download_and_validation"
+    },
+    {
+      "bytes": 6324455,
+      "step": "stability_evidence_download"
+    },
+    {
+      "bytes": 72743,
+      "content_type": "image/png",
+      "note": "minimal in-process renderer, not titiler -- see frame.product.tiles",
+      "step": "tile_access"
+    },
+    {
+      "n_analyses": 1,
+      "step": "api_analysis_listing"
+    }
+  ],
+  "summary": {
+    "aoi_bbox": [
+      80.204,
+      13.006,
+      80.2168,
+      13.0188
+    ],
+    "asset_paths": {
+      "downloaded_cog": "/home/zangetsu/Documents/Projects/FRAME/experiments/final_demo/downloaded_product.cog.tif",
+      "rgbn_input": "/home/zangetsu/Documents/Projects/FRAME/experiments/final_demo/rgbn_input.tif"
+    },
+    "cog_valid": true,
+    "model": "lite",
+    "no_secrets_recorded": true,
+    "output_crs": "EPSG:32644",
+    "output_resolution_m": 2.5,
+    "output_shape": [
+      4,
+      568,
+      556
+    ],
+    "scale_factor": 4,
+    "scene_id": "S2B_MSIL2A_20240330T045659_N0510_R119_T44PMV_20240330T072508",
+    "stac_valid": true
+  }
+}

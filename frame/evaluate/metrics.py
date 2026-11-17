@@ -434,7 +434,8 @@ SELF_CONSISTENCY_DEFINITION = ("SR -> area-average downsample to the LR grid -> 
 
 
 def _disc(b) -> Dict[str, Any]:
-    return {"status": b.status.value, "n_samples": b.sample_count, "mae": b.mean_abs_error, "rmse": b.rmse, "max_abs_error": b.max_abs_error, "normalized_rmse": b.normalized_rmse}
+    return {"status": b.status.value, "n_samples": b.sample_count, "mae": b.mean_abs_error, "rmse": b.rmse, "max_abs_error": b.max_abs_error,
+            "normalized_rmse": b.normalized_rmse, "bias": b.bias, "correlation": b.correlation}
 
 
 def _idx(c) -> Dict[str, Any]:
@@ -442,7 +443,13 @@ def _idx(c) -> Dict[str, Any]:
 
 
 def self_consistency(lr: Array, sr: Array, lr_mask: Array, band_names: Sequence[str], scale: int) -> Dict[str, Any]:
-    """Downsample-consistency of ``sr`` against ``lr`` (frame.consistency): per band, pooled, NDVI and B08/B04 ratio. Uses the LR validity mask only."""
+    """Downsample-consistency of ``sr`` against ``lr`` (frame.consistency): per band, pooled, NDVI, NDWI and B08/B04 ratio. Uses the LR validity mask only.
+
+    NDVI and NDWI are the only indices computed here (not MNDWI/NDBI/BSI): both their bands (B04/B08 and
+    B03/B08) are RGBN, so both an "original" and an "SR-derived" value exist at the observation grid. The
+    other indices need SWIR B11, which no registered SR model produces, so there is no SR-derived value to
+    compare -- they are HR-reference-only (`index_metrics`), never approximated here.
+    """
     from frame.consistency import run_consistency_diagnostics
 
     d = run_consistency_diagnostics(torch.from_numpy(_np(lr, np.float32)), torch.from_numpy(_np(sr, np.float32)), _np(lr_mask).astype(bool),
@@ -450,7 +457,7 @@ def self_consistency(lr: Array, sr: Array, lr_mask: Array, band_names: Sequence[
     return {
         "definition": SELF_CONSISTENCY_DEFINITION, "downsample_method": d.downsample_consistency.downsample_method, "lr_valid_pixels": d.downsample_consistency.valid_pixel_count,
         "overall": _disc(d.downsample_consistency.overall), "per_band": {n: _disc(b) for n, b in d.downsample_consistency.per_band.items()},
-        "ndvi": _idx(d.ndvi_comparison), "b08_b04_ratio": _idx(d.b08_b04_ratio_comparison),
+        "ndvi": _idx(d.ndvi_comparison), "ndwi": _idx(d.ndwi_comparison), "b08_b04_ratio": _idx(d.b08_b04_ratio_comparison),
     }
 
 

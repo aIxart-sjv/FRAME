@@ -1,99 +1,146 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import * as api from '../client'
 import { ApiError } from '../types'
-import { jobResultFixture } from '../../test/fixtures'
+import { acquisitionSearchResponseFixture, sceneCandidateFixture } from '../../test/fixtures'
 
 function jsonResponse(body: unknown, status = 200): Response {
   return {
     ok: status >= 200 && status < 300,
     status,
+    statusText: status === 200 ? 'OK' : 'Error',
     json: async () => body,
     blob: async () => new Blob([JSON.stringify(body)]),
   } as unknown as Response
 }
 
-describe('api client', () => {
+describe('searchAcquisition', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
   })
 
-  it('returns parsed JSON on a successful GET', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse({ status: 'ok', api_version: '0.1.0', model_name: 'x', frame_version: null })))
-    const health = await api.getHealth()
-    expect(health.status).toBe('ok')
+  it('POSTs the request body verbatim to /acquisition/search', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(jsonResponse(acquisitionSearchResponseFixture))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const request = { bbox: [80.12, 12.85, 80.32, 13.15] as [number, number, number, number], start_date: '2024-01-01', end_date: '2024-04-01', max_cloud_cover: 20, max_results: 10 }
+    const result = await api.searchAcquisition(request)
+
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    const [url, init] = fetchMock.mock.calls[0]
+    expect(url).toContain('/acquisition/search')
+    expect(init.method).toBe('POST')
+    expect(JSON.parse(init.body)).toEqual(request)
+    expect(result).toEqual(acquisitionSearchResponseFixture)
   })
 
-  it('throws ApiError with the backend detail on a 4xx response', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue(jsonResponse({ error: 'upload_not_found', code: 'upload_not_found', detail: "No such upload (upload_id='x')" }, 404)),
-    )
-    await expect(api.getSrResult('unknown-job')).rejects.toMatchObject({
-      status: 404,
-      code: 'upload_not_found',
-      detail: "No such upload (upload_id='x')",
+  it('maps a real zero-result response without throwing (a genuine, non-error outcome)', async () => {
+    const emptyResult = { ...acquisitionSearchResponseFixture, scenes: [], scene_count: 0, note: 'No real Sentinel-2 scenes matched this AOI/date range/cloud threshold at search time.' }
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse(emptyResult)))
+
+    const result = await api.searchAcquisition({ bbox: [0, 0, 1, 1], start_date: '2024-01-01', end_date: '2024-01-02', max_cloud_cover: 100, max_results: 10 })
+
+    expect(result.scene_count).toBe(0)
+    expect(result.scenes).toEqual([])
+    expect(result.note).not.toBeNull()
+  })
+
+  it('throws a typed ApiError with the backend-provided code on a 503 provider outage', async () => {
+    const errorBody = { error: 'acquisition_provider_unavailable', code: 'acquisition_provider_unavailable', detail: 'CDSE STAC search failed: connection refused' }
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse(errorBody, 503)))
+
+    await expect(api.searchAcquisition({ bbox: [0, 0, 1, 1], start_date: '2024-01-01', end_date: '2024-01-02', max_cloud_cover: 100, max_results: 10 })).rejects.toMatchObject({
+      status: 503,
+      code: 'acquisition_provider_unavailable',
     })
   })
 
-  it('never surfaces a raw traceback -- only the backend detail string reaches ApiError', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse({ error: 'internal_error', code: 'internal_error', detail: 'An internal error occurred.' }, 500)))
+  it('throws a typed ApiError with the backend-provided code on a 400 invalid query', async () => {
+    const errorBody = { error: 'invalid_acquisition_query', code: 'invalid_acquisition_query', detail: 'bbox longitudes are not a valid, ordered range' }
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse(errorBody, 400)))
+
+    await expect(api.searchAcquisition({ bbox: [1, 0, 0, 1], start_date: '2024-01-01', end_date: '2024-01-02', max_cloud_cover: 100, max_results: 10 })).rejects.toBeInstanceOf(ApiError)
+  })
+
+  it('reports an unreachable backend distinctly, without a real HTTP status', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')))
+
     try {
-      await api.getSrResult('job-1')
-      throw new Error('expected rejection')
+      await api.searchAcquisition({ bbox: [0, 0, 1, 1], start_date: '2024-01-01', end_date: '2024-01-02', max_cloud_cover: 100, max_results: 10 })
+      expect.unreachable('should have thrown')
     } catch (error) {
       expect(error).toBeInstanceOf(ApiError)
-      const apiError = error as ApiError
-      expect(apiError.detail).not.toMatch(/Traceback|File "|line \d+, in /)
-      expect(apiError.status).toBe(500)
+      expect((error as ApiError).status).toBe(0)
+      expect((error as ApiError).message).toMatch(/Could not reach the FRAME API/)
     }
   })
+})
 
-  it('wraps a network failure (fetch rejecting) as an ApiError with a clear message', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')))
-    await expect(api.getHealth()).rejects.toMatchObject({ code: 'network_error' })
+describe('fetchAcquisitionScene', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
   })
 
-  it('uploadScene posts a FormData body with the file and input_scale', async () => {
-    const fetchMock = vi.fn().mockResolvedValue(jsonResponse({ upload_id: 'u1', filename: 'a.tif', valid: true, band_names: [], width: 1, height: 1, crs: null, resolution_m: null, input_scale: 'reflectance', validation_messages: [] }))
+  it('GETs the real scene record by search_id/scene_id', async () => {
+    const detail = { search_id: 'search-1', scene: sceneCandidateFixture, note: 'real asset hrefs are not returned here' }
+    const fetchMock = vi.fn().mockResolvedValue(jsonResponse(detail))
     vi.stubGlobal('fetch', fetchMock)
-    const file = new File(['data'], 'a.tif')
-    await api.uploadScene(file, 'reflectance')
 
-    const [url, init] = fetchMock.mock.calls[0]
-    expect(String(url)).toMatch(/\/upload$/)
-    expect(init.method).toBe('POST')
-    const form = init.body as FormData
-    expect(form.get('file')).toBe(file)
-    expect(form.get('input_scale')).toBe('reflectance')
+    const result = await api.fetchAcquisitionScene('search-1', sceneCandidateFixture.id)
+
+    const [url] = fetchMock.mock.calls[0]
+    expect(url).toContain(`/acquisition/scenes/search-1/${encodeURIComponent(sceneCandidateFixture.id)}`)
+    expect(result.scene).toEqual(sceneCandidateFixture)
   })
 
-  it('runSr posts the upload_id and optional seed as JSON', async () => {
-    const fetchMock = vi.fn().mockResolvedValue(jsonResponse(jobResultFixture))
+  it('surfaces a named 404 for an unknown scene id', async () => {
+    const errorBody = { error: 'acquisition_scene_not_found', code: 'acquisition_scene_not_found', detail: "Scene 'x' was not part of search 'search-1'." }
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse(errorBody, 404)))
+
+    await expect(api.fetchAcquisitionScene('search-1', 'x')).rejects.toMatchObject({ status: 404, code: 'acquisition_scene_not_found' })
+  })
+})
+
+describe('retrieveAcquisition', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('POSTs the retrieval request and maps real artifact download paths', async () => {
+    const response = {
+      retrieval_id: 'retrieval-1',
+      search_id: 'search-1',
+      scene_id: sceneCandidateFixture.id,
+      bands: ['B02', 'B03', 'B04', 'B08'],
+      band_native_resolution_m: { B02: 10, B03: 10, B04: 10, B08: 10 },
+      band_sources: { B02: 'copernicus-cdse-process-api', B03: 'copernicus-cdse-process-api', B04: 'copernicus-cdse-process-api', B08: 'copernicus-cdse-process-api' },
+      scl_included: true,
+      crs: 'EPSG:32644',
+      resolution_m: 10,
+      width: 64,
+      height: 64,
+      retrieval_provider: 'copernicus-cdse-process-api',
+      retrieval_endpoint: 'https://sh.dataspace.copernicus.eu/process/v1',
+      matched_acquisition_datetime: sceneCandidateFixture.datetime,
+      retrieved_at_utc: '2024-03-30T05:00:00Z',
+      warnings: [],
+      artifacts: { bands_geotiff: '/acquisition/download/retrieval-1/bands', scl_geotiff: '/acquisition/download/retrieval-1/scl' },
+      note: 'real reflectance, not an SR product',
+    }
+    const fetchMock = vi.fn().mockResolvedValue(jsonResponse(response))
     vi.stubGlobal('fetch', fetchMock)
-    await api.runSr('upload-1', 7)
-    const [, init] = fetchMock.mock.calls[0]
-    expect(JSON.parse(init.body as string)).toEqual({ upload_id: 'upload-1', seed: 7 })
+
+    const result = await api.retrieveAcquisition({ search_id: 'search-1', scene_id: sceneCandidateFixture.id, bands: ['B02', 'B03', 'B04', 'B08'], resolution_m: 10, include_scl: true })
+
+    expect(result.artifacts.bands_geotiff).toBe('/acquisition/download/retrieval-1/bands')
+    expect(api.acquisitionDownloadUrl(result.artifacts.bands_geotiff)).toBe(`${api.API_BASE_URL}/acquisition/download/retrieval-1/bands`)
   })
 
-  it('runSr posts the selected model when given', async () => {
-    const fetchMock = vi.fn().mockResolvedValue(jsonResponse(jobResultFixture))
-    vi.stubGlobal('fetch', fetchMock)
-    await api.runSr('upload-1', undefined, 'mamba')
-    const [, init] = fetchMock.mock.calls[0]
-    expect(JSON.parse(init.body as string)).toEqual({ upload_id: 'upload-1', model: 'mamba' })
-  })
+  it('surfaces an authentication failure distinctly from a generic provider outage', async () => {
+    const errorBody = { error: 'acquisition_authentication_failed', code: 'acquisition_authentication_failed', detail: 'CDSE rejected the configured credentials' }
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse(errorBody, 401)))
 
-  it('runSr omits seed and model when not given, so the backend defaults apply', async () => {
-    const fetchMock = vi.fn().mockResolvedValue(jsonResponse(jobResultFixture))
-    vi.stubGlobal('fetch', fetchMock)
-    await api.runSr('upload-1')
-    const [, init] = fetchMock.mock.calls[0]
-    expect(JSON.parse(init.body as string)).toEqual({ upload_id: 'upload-1' })
-  })
-
-  it('builds download URLs against the configured API base', () => {
-    expect(api.srDownloadUrl('job-1')).toBe(`${api.API_BASE_URL}/sr/download/job-1`)
-    expect(api.uncertaintyDownloadUrl('job-1')).toBe(`${api.API_BASE_URL}/uncertainty/download/job-1`)
-    expect(api.ndviDownloadUrl('analysis-1', 'native-ndvi')).toBe(`${api.API_BASE_URL}/analysis/download/analysis-1/native-ndvi`)
+    await expect(
+      api.retrieveAcquisition({ search_id: 'search-1', scene_id: sceneCandidateFixture.id, bands: ['B04'], resolution_m: 10, include_scl: false }),
+    ).rejects.toMatchObject({ status: 401, code: 'acquisition_authentication_failed' })
   })
 })

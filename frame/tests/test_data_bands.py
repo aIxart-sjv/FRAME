@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 import torch
 
-from frame.data.bands import L2A_BANDS, RGBN_BANDS, canonical_band, canonical_bands, select_bands
+from frame.data.bands import L2A_BANDS, L2A_NATIVE_RESOLUTION_M, RGBN_BANDS, canonical_band, canonical_bands, native_resolution_m, select_bands
 from frame.data.errors import ContractError
 
 
@@ -67,3 +67,26 @@ def test_a_band_the_sample_does_not_have_is_an_error_not_a_guess():
 def test_channel_count_must_match_the_band_list():
     with pytest.raises(ContractError, match="channel"):
         select_bands(torch.zeros(3, 2, 2), RGBN_BANDS, ["B04"])
+
+
+def test_every_l2a_band_has_a_native_resolution():
+    assert set(L2A_NATIVE_RESOLUTION_M) == set(L2A_BANDS)
+
+
+@pytest.mark.parametrize(
+    "band,expected_m",
+    [("B02", 10.0), ("B03", 10.0), ("B04", 10.0), ("B08", 10.0),
+     ("B05", 20.0), ("B06", 20.0), ("B07", 20.0), ("B8A", 20.0), ("B11", 20.0), ("B12", 20.0),
+     ("B01", 60.0), ("B09", 60.0)],
+)
+def test_native_resolution_m_matches_the_esa_product_spec(band, expected_m):
+    assert native_resolution_m(band) == expected_m
+
+
+def test_native_resolution_m_canonicalises_first():
+    assert native_resolution_m("b4") == 10.0
+
+
+def test_native_resolution_m_rejects_a_non_l2a_band():
+    with pytest.raises(ContractError, match="B10"):
+        native_resolution_m("B10")

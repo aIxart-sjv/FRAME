@@ -1,0 +1,297 @@
+24FPS: MULTI-VENDOR DVR/NVR
+FORENSIC ANALYSIS PLATFORM
+APPLIED DEEP LEARNING (PBL)
+A PROJECT REPORT
+Submitted by
+in partial fulfilment for the award of the degree of
+BACHELOR OF ENGINEERING
+in
+COMPUTER SCIENCE AND ENGINEERING
+(ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING)
+
+CHENNAI INSTITUTE OF TECHNOLOGY (AUTONOMOUS)
+(Affiliated to Anna University, Chennai)
+CHENNAI – 600 069
+
+ANNA UNIVERSITY: CHENNAI – 600 025
+SEPTEMBER – 2026
+
+
+Vision of the Institute
+Mission of the Institute
+
+Vision of the Department
+Mission of the Department
+CHENNAI INSTITUTE OF TECHNOLOGY
+An Autonomous Institution
+CHENNAI – 69
+ANNA UNIVERSITY: CHENNAI – 600 025
+BONAFIDE CERTIFICATE
+Certified that this project report “24FPS: Multi-Vendor DVR/NVR Forensic Analysis Platform” is the bonafide work of Sitti Jaivardhan (24AM0108) and Thirumurugan A (24AM0114) who carried out the project work under my supervision.
+Submitted for the project viva voce examination held on ………………………
+ACKNOWLEDGEMENT
+We express our gratitude to our Chairman Shri. P. SRIRAM and all trust members of Chennai Institute of Technology for providing the facilities and the opportunity to carry out this project as a part of our undergraduate course.
+We are grateful to our Principal Dr. A. RAMESH, M.E., Ph.D., for providing us with the facilities and encouragement during the course of our work.
+We express our sincere gratitude to our Dean, Dr. V. Srinivasa Rao, M.E., Ph.D., School of Computing, for providing the necessary facilities, continuous encouragement and valuable support throughout the course of this project.
+We sincerely thank our Head of the Department, Dr. R. Gowri, M.Tech., Ph.D., Department of Computer Science and Engineering (Artificial Intelligence and Machine Learning), for providing valuable guidance, resources and timely suggestions throughout our work.
+We sincerely thank our Project Guide, Mr. Udhayakumar J, M.E., Assistant Professor, Department of Computer Science and Engineering (Artificial Intelligence and Machine Learning), for providing valuable guidance, resources and timely suggestions throughout our work.
+We would like to extend our thanks to our Faculty Coordinators of the Department of Computer Science and Engineering (Artificial Intelligence and Machine Learning) for their valuable suggestions throughout this project.
+We wish to extend our sincere thanks to all Faculty Members of the Department of Computer Science and Engineering (Artificial Intelligence and Machine Learning) for their valuable suggestions and their kind cooperation in the successful completion of our project.
+We wish to acknowledge the help received from the Lab Instructors of the Department of Computer Science and Engineering (Artificial Intelligence and Machine Learning) and others for providing valuable suggestions and for the successful completion of this project.
+ABSTRACT
+24FPS is a multi-vendor DVR/NVR forensic analysis platform that helps investigators acquire, preserve, analyse and report on CCTV evidence whose recordings are stored in vendor-specific formats. Recorders from different manufacturers use proprietary containers, private indexing schemes and device-internal timestamps, so a single media player or a manufacturer’s viewer is rarely enough for evidential work. The platform addresses this with a preservation-first workflow built from vendor adapters, a layered recovery engine, timestamp normalization and a unified timeline.
+The backend is written in Python using FastAPI, SQLAlchemy, Alembic and SQLite, with FFmpeg and OpenCV for media handling. The frontend is a React and TypeScript single-page application built with Vite and Tailwind CSS. Every evidence item is hashed with SHA-256 and MD5 on intake, every action is written to a hash-chained audit trail, physical custody transfers use QR-based handoff, and case-level access control limits each officer to assigned cases. Optional blockchain anchoring commits only a digest of the audit state and never evidence content. Processing runs as tracked synchronous jobs: integrity check, device identification, recording enumeration, media extraction, vendor-aware recovery, timestamp normalization and timeline construction. Optional AI analytics use YOLOv8n object detection, ByteTrack tracking, YuNet face detection (detection only, never recognition), frame-differencing motion detection and a deterministic clothing-colour search. Findings are worded deliberately with hedged language, and reports are exported as JSON and PDF.
+The platform was validated on real recorder evidence: thirteen CP Plus .cpv segments (a proprietary ADIT container covering a 600-second export window, 189,533,184 bytes in total) and three clips exported from a Hikvision DS-7A04HQHI-K1 recorder. Validation through the real upload-to-report path exposed defects that idealised test fixtures had hidden, and these were corrected. The project ends with 1283 automated backend tests and 27 frontend tests. Support is limited to what has been validated; other vendors and native storage formats are documented as unvalidated rather than claimed.
+LIST OF TABLES
+Table 1. Backend Package Structure and Responsibilities	10
+Table 2. Software Requirements	11
+Table 3. Hardware Deployment Guidance (Specification, Not Benchmarked)	12
+Table 4. AI Analytics Components and Their Limits	18
+Table 5. Vendor Support and Validation Status	21
+Table 6. CP Plus Evidence Set Used for Validation	21
+Table 7. Hikvision Clips Tested (real evidence, read-only)	22
+Table 8. Defects Found by Real-Path Validation and Their Corrections	22
+Table 9. Verification Summary	23
+LIST OF FIGURES
+Figure 1. Architecture Diagram of 24FPS	9
+Figure 2. Block Diagram of 24FPS Processing Stages	10
+Figure 3. Project Workflow of 24FPS	14
+Figure 4. System Workflow for Case Processing with Vendor Dispatch	15
+Figure 5. Hash-Chained Audit Trail and Optional Anchoring	16
+Figure 6. Case Workspace Module Map (schematic)	20
+LIST OF SYMBOLS, ABBREVIATIONS AND NOMENCLATURES
+Abbreviations
+
+Technical Nomenclatures
+
+TABLE OF CONTENTS
+Chapter No.	Title	Page No.
+CHAPTER 1	INTRODUCTION	1
+1.1	Problem Statement	1
+1.2	Objective and Purpose	1
+1.3	Limitations of Existing System	2
+CHAPTER 2	LITERATURE REVIEW	4
+2.1	Review of Relevant Previous Work	4
+2.2	Gaps in the Literature	5
+2.3	Significance of Current Project	6
+CHAPTER 3	METHODOLOGY	7
+3.1	Approach Used to Solve the Problem	7
+3.2	System Architecture Overview	8
+3.3	Experimental Setup	11
+3.4	Proposed Method	12
+CHAPTER 4	IMPLEMENTATION AND RESULTS	20
+4.1	Findings from the Implemented System	20
+4.2	Analysis of Results	23
+CHAPTER 5	CONCLUSION	25
+5.1	Summary of Key Findings	25
+5.2	Future Scope or Recommendations	25
+REFERENCES	27
+
+
+INTRODUCTION
+Problem Statement
+Closed-circuit television (CCTV) footage is now one of the most frequently requested forms of digital evidence in criminal investigations. The footage is written by digital video recorders (DVRs) and network video recorders (NVRs) whose manufacturers each use their own container formats, indexing schemes, timestamp conventions and export tools [1, 2]. An investigator who receives an export from such a recorder faces several practical problems before any analytical question can be asked. The file may not open in a general-purpose player. Its declared frame rate and duration may be wrong. Its timestamps may be device-internal counters rather than calendar time. Unless the file is hashed on receipt, nothing later shows that it is unchanged.
+This project takes its problem statement from the Smart India Hackathon (SIH) problem SIH26150, which is associated with the requirements of the National Technical Research Organisation (NTRO). The task is to build one platform that can (i) acquire and preserve evidence from heterogeneous DVR/NVR sources, (ii) parse and, where possible, recover recordings held in proprietary formats, (iii) normalize timestamps and build a unified timeline across cameras, (iv) apply analytics to locate objects and events of interest, and (v) produce standardised, verifiable reports. The platform must also be able to show the integrity of the evidence and the sequence of every action taken on it.
+Objective and Purpose
+Objective
+The objectives of the 24FPS platform are to:
+preserve every evidence item unchanged and record SHA-256 and MD5 digests on intake, with re-verification on demand;
+identify the recorder vendor and container structure from the evidence itself, and dispatch to the correct vendor-specific parser instead of assuming a format;
+enumerate recordings, extract playable derivatives without altering the original, and expose each recording’s measured technical properties;
+recover fragmentary or truncated recordings through a layered strategy and attach an evidence-based confidence to each result;
+normalize timestamps to UTC while stating the source and verification status of each value, and build one timeline across cameras;
+offer optional, transparent AI analytics (object detection, tracking, face detection, motion detection and appearance-based search) that never claim to identify individuals;
+record every action in a tamper-evident audit trail, support QR-based custody handoff and enforce case-level access control;
+generate structured findings and standardised JSON and PDF reports in carefully hedged forensic language; and
+validate every claimed capability on real recorder evidence through the same path a user would follow.
+Purpose
+The purpose of the project is to shorten the distance between “a folder of recorder exports” and “a body of evidence that can be analysed and defended”. Today that distance is covered by manual, tool-by-tool work that depends on individual expertise. By gathering identification, preservation, recovery, timeline building, analytics and reporting into one auditable workflow, the platform reduces the specialist effort involved and makes each step reproducible.
+The project also serves the aims of the Applied Deep Learning course. It applies deep-learning models (YOLOv8n for detection and ByteTrack for tracking) inside a real forensic workflow, where the more important lesson is how such models should be used: on sampled frames, with recorded parameters, and with results presented as leads rather than as proof.
+Limitations of Existing System
+Investigators currently combine manufacturer software, general-purpose forensic suites and manual inspection. The following limitations motivate this work.
+Manufacturer viewers. Recorders usually ship a proprietary player with the export, often a Windows executable. These players display video but generally do not hash the export, log the actions taken, enumerate recordings, expose measured metadata or support automation.
+General-purpose forensic suites. These tools handle file systems and disk images well, but they typically do not parse the private recording indexes and containers used by DVR/NVR vendors. Video therefore appears as opaque data.
+Closed commercial video-forensics products. Commercial tools exist for parts of the problem, but they are proprietary, licence-restricted and hard to audit or adapt to locally deployed recorder brands.
+Unreliable container metadata. Declared values can be wrong. The Hikvision clips examined in this project declare average and real frame rates of 30 and 25 fps, while counting packets gives 15.00 fps (Chapter 4).
+Ambiguous timestamps. Recorder clocks can be mis-set, and some formats carry counters that do not decode to calendar time. Existing tools rarely record whether a normalized time is verified or merely assumed.
+Weak provenance. Hash-chained logs, structured chain of custody and case-level authorization are seldom part of the analysis tool itself.
+Over-confident analytics. Some tools present detections or similarity scores in a way that suggests identification. This creates a risk of misinterpretation in court.
+Fragmented effort. Separate tools for hashing, decoding, recovery, timeline building and reporting mean repeated manual steps and no single record of what was done.
+
+LITERATURE REVIEW
+Review of Relevant Previous Work
+The design of 24FPS draws on work in digital-evidence handling, file-system forensics, video coding, cryptographic integrity and computer vision. The main strands are summarised below.
+Digital video evidence and DVR examination. The Scientific Working Group on Digital Evidence (SWGDE) publishes best-practice guidance on data acquisition from digital video recorders [1]. In outline, it advises preserving original recorder data where possible, recording the recorder’s date, time and time-zone settings, and documenting any difference between recorder time and actual time rather than changing the recorder’s clock. It also warns that an export made through the recorder’s own function can lose metadata. ISO/IEC 27037 [2] sets general principles for identifying, collecting, acquiring and preserving digital evidence, and stresses auditability, repeatability and justifiability. Garfinkel [3] observes that the growing variety of evidence formats calls for tools that scale across them.
+File-system forensics and carving. Carrier [4] gives the foundation for reasoning about file systems and their metadata. Carving tools such as Scalpel [5] recover data from header and footer signatures without relying on file-system metadata. The same idea underlies the carving layer of 24FPS, and the length-prefixed open and close markers found in CP Plus recordings make them a natural carving target.
+Video coding and containers. Both vendors’ evidence in this project carries H.265/HEVC video [6]. The Hikvision exports are wrapped in an MPEG-2 Program Stream [7], and the CP Plus recordings use a private record format around Annex-B HEVC data. FFmpeg [8] is used for probing and remuxing, because a mature open decoder is preferable to a bespoke one.
+Integrity, hashing and chain of custody. SHA-256 [9] is the primary digest. MD5 [10] has known collision weaknesses but remains widely used in forensic tool output and export checksum files, so 24FPS records both. NIST SP 800-86 [11] and Casey [12] discuss the handling and documentation of digital evidence, including the need for a demonstrable custody record.
+Tamper-evident logging and time-stamping. Schneier and Kelsey [13] described audit logs whose entries are cryptographically linked so that later alteration is detectable. Haber and Stornetta [14] showed how linked hashes can time-stamp digital documents, and public blockchains [15] popularised anchoring digests in an external ledger. 24FPS applies these ideas at small scale: a hash-linked local audit trail, with an optional external anchor that carries only a digest.
+Object detection and tracking. The YOLO family [16] performs single-pass detection and is available through the Ultralytics implementation [17]. Tracking-by-detection methods such as SORT [18] and ByteTrack [19] associate detections across frames. ByteTrack also uses low-confidence detections in association, which helps continuity under partial occlusion, a common condition in CCTV scenes.
+Face detection versus recognition. Compact detectors such as YuNet [20] find faces without identifying them. Person re-identification research [21] shows that appearance-based retrieval is probabilistic and depends on conditions. For this reason 24FPS limits itself to detection and to appearance similarity presented with explicit caveats.
+Legal context. In India, electronic records are governed by the Bharatiya Sakshya Adhiniyam, 2023 [22], which replaced the Indian Evidence Act, 1872. Admissibility of electronic records turns on demonstrable integrity and provenance, which is what the hashing, audit and custody features of this project are intended to support. A legal assessment of any particular case is outside the scope of this report.
+Gaps in the Literature
+Guidance is mostly process-oriented. Few open, auditable implementations combine multi-vendor recording parsing with evidence handling in one workflow.
+Vendor container formats are largely undocumented, and public analyses are specific to a model and firmware. Generalising from one recorder to a brand is unsafe and must be avoided in tools and reports.
+Research on detection and tracking concentrates on benchmark accuracy. It says little about presenting results as evidence: recording sampling parameters, avoiding identity claims and using hedged wording.
+The reliability of DVR export timestamps is seldom treated as a first-class, machine-readable property with an explicit verification status.
+Integrity techniques (hashing, audit logs, custody records) are usually presented apart from the analysis pipeline instead of being applied to every step of it.
+Significance of Current Project
+24FPS responds to these gaps by making integrity, honesty about limits and reproducibility structural properties of the software instead of add-on documentation. Its main contributions are the following.
+A single workflow from upload to report that dispatches on the evidence’s own structure and states plainly when a structure is unsupported.
+Validated support for two real recorder families, with the validated scope written down (one recorder model and firmware for Hikvision) and not generalised.
+A layered recovery engine whose confidence values come only from measured factors.
+Timestamp normalization that keeps the raw source value, names its source and never upgrades an unverified time to a verified one.
+An audit chain, custody ledger and case-level access model that cover every action, with optional external anchoring of a digest.
+AI analytics that are opt-in, sampled, parameter-recorded and phrased as leads, with no face recognition and no identity claims.
+A validation method that drives the real user path against real evidence, which found and fixed defects that fixture-based tests did not.
+
+METHODOLOGY
+Approach Used to Solve the Problem
+The approach is to treat the problem as an evidence pipeline with strict rules about what each stage may assume and what it may claim. The following design principles govern every module.
+Preservation first. Evidence is stored once, never modified, and hashed on intake. Every derived file is a separate artifact linked to its source.
+Identify from the evidence. The vendor and format are established from the file’s own structure (signatures and headers). File names and sidecar files are corroboration, not proof.
+Vendor-aware dispatch. Extraction, recovery and timestamp classification branch on the recording’s persisted vendor metadata. One vendor’s pipeline never runs on another vendor’s evidence.
+Honest signals. When a structure is unsupported, enumeration returns no recordings and a finding says so. A stage that cannot do its work reports that fact instead of inventing output.
+Synchronous, tracked jobs. Each stage creates a job record, runs to completion inside the call and finishes with an honest terminal status. No fake asynchrony is introduced.
+Hedged forensic language. Descriptions of anomalies, detections and correlations avoid words such as “tampering”, “proves”, “guilt” and “identity”. Severity is never confused with certainty.
+Measured, not assumed, values. Frame rate, duration and start offset are measured from the media. Declared values are preserved beside them with a note where they disagree.
+Validation on real evidence through the real path. A capability counts as supported only after real evidence has passed through upload, processing, playback and reporting as a user would run it.
+System Architecture Overview
+24FPS follows a layered architecture in which each layer has a single responsibility and communicates only with its neighbours (Figure 1). A block-level view of the processing stages and the controls that cut across them is given in Figure 2.
+Presentation Layer: A React 19 and TypeScript single-page application built with Vite and styled with Tailwind CSS. It provides the landing and login pages, the officer dashboard, the case workspace with ten tabs (Overview, Evidence, Acquisition, Recovery, Timeline, AI, Integrity, Custody, Findings, Report) and an administrator console for users, access control, audit log and system monitoring.
+API Layer: FastAPI exposes more than sixty REST endpoints under /api/v1. Pydantic schemas validate requests and responses, and an authentication dependency resolves a bearer token to the current user. Case-scoped routes additionally depend on a case-access check, described in Section 3.4.8.
+Core Manager Layer: Managers hold the business rules and run each operation as a tracked job. Examples are the processing orchestrator, and the evidence, recording, recovery, timestamp, timeline, correlation, AI, validation, findings, notification, custody, provenance and report managers. Managers call domain engines but do not contain parsing or model code themselves.
+Domain Engines: Vendor adapters (CP Plus and Hikvision), the media layer over FFmpeg and ffprobe, the four-layer recovery engine, AI analytics (YOLOv8n, YuNet, ByteTrack and classical computer vision), hashing and integrity utilities, and the JSON and PDF report renderers.
+Persistence and Trust Layer: SQLite, managed by Alembic migrations, holds cases, evidence records, recordings, findings, custody transfers and audit events. Preserved evidence and derived artifacts live in separate file roots. The hash-chained audit trail and the optional anchor provider provide tamper evidence.
+
+Figure 1. Architecture Diagram of 24FPS
+
+Figure 2. Block Diagram of 24FPS Processing Stages
+Table 1 summarises the backend package structure and the responsibility of each package.
+Table 1. Backend Package Structure and Responsibilities
+
+Experimental Setup
+All development and validation were carried out on a single Linux workstation. Real recorder evidence was kept outside the repository, treated as read-only, and its SHA-256 digests were checked before and after each validation pass. A scratch data directory (database, evidence, artifact, report and model roots) was used for live runs so that development data was never touched. The software and hardware resources are listed below.
+Software Environment
+Table 2. Software Requirements
+
+Hardware Environment
+The AI models used (YOLOv8n and YuNet) are small enough to run on a CPU, so a GPU is optional. Table 3 states deployment specification guidance, derived from the software’s stated requirements and ordinary workstation sizing. It is not a benchmark: no throughput, latency or frame-processing rate was measured against these configurations, and none is claimed. The only measured performance figures in this report are the frame-rate and timing measurements in Chapter 4, which were taken on the single development workstation described in Section 3.3.
+Table 3. Hardware Deployment Guidance (Specification, Not Benchmarked)
+
+Proposed Method
+The proposed method processes a case as a fixed sequence of stages. The officer’s view of the workflow is shown in Figure 3, and the internal stage sequence with its vendor decision is shown in Figure 4. The stages are as follows.
+Evidence Intake: The officer uploads an export or segment file. It is stored under the evidence root and never modified.
+Integrity and Provenance: SHA-256 and MD5 digests are computed and stored, and the first audit event is recorded.
+Device and Format Identification: The file’s own signature or header identifies the vendor and container. A sidecar log, where present, corroborates it.
+Recording Enumeration: Recordings are discovered and stored with vendor-owned fields only.
+Extraction and Probing: ffprobe measures codec, frame rate, duration and start offset, and a playable preview artifact is produced.
+Layered Recovery: Index, vendor, carving and fragment layers are tried in order and each outcome is recorded.
+Timestamp Normalization: Source times are converted to UTC with source, method and verification status stored.
+Timeline and Correlation: Canonical events are built, and events from several cameras are correlated when applicable.
+AI Analytics (opt-in): Object detection, tracking, face detection and motion detection run over one sampled frame sequence.
+Findings and Notifications: Structured, deduplicated findings are created and officers are notified through an inbox.
+Custody and Access Control: Handoffs are recorded through authenticated QR transfers, and case access is enforced on every route.
+Report Generation: JSON and PDF reports are assembled from stored results, and the audit chain can be verified at any time.
+
+Figure 3. Project Workflow of 24FPS
+
+Figure 4. System Workflow for Case Processing with Vendor Dispatch
+Evidence Intake, Integrity and Provenance
+The upload endpoint stores each file under the evidence root as <evidence_id>_<original filename> and computes SHA-256 and MD5 digests by streaming, so large files are not loaded into memory. A verification operation recomputes the digests and compares them with the stored values. Acquisition manifests describe how each item was obtained.
+Every state-changing action is written as an audit event. Each event’s hash covers its own content and the previous event’s hash, so altering any earlier event changes every later hash (Figure 5). Verification recomputes the chain from the raw event content and does not trust stored hash columns.
+
+Figure 5. Hash-Chained Audit Trail and Optional Anchoring
+Optional blockchain anchoring builds a SHA-256 anchor hash from a canonical representation of the audit-chain state and submits it to a provider. Because the chain is recursive, the latest event’s hash commits to the whole ordered history. Only this digest leaves the system, never evidence content. The provider is an abstraction. The default is “none”, and a local offline test provider exists for testing. No public-network provider is implemented, so the platform makes no claim of public-chain anchoring and remains fully usable without any provider.
+Device and Format Identification
+Identification reads the evidence’s own structure. CP Plus recordings begin with the eight bytes ADIT 00 22 00 00, followed by a 1024-byte outer header and a sequence of length-delimited records opened by CPAV and closed by a lowercase cpav marker that repeats the length. Hikvision exports begin with a 24-byte header whose fourth-character code reads IMKH on disk (the HIK_MEDIAINFO structure with fourcc HKMI stored little-endian), followed by zero padding and a standard MPEG-2 Program Stream. Every field decoded from that header agreed with ffprobe’s independent reading of the payload (system format MPEG-PS, video HEVC, audio G.711 µ-law, mono, 8 kHz).
+The Hikvision header carries no timestamp, device identifier, model or serial number. The model and firmware are therefore asserted only when an export-log sidecar names an examiner-confirmed serial number. Otherwise the interface shows “Not available” and never a guessed model.
+Extraction and Media Probing
+Extraction uses ffprobe and FFmpeg to measure the recording and to remux it into a playable preview without re-encoding the source evidence. The frame rate is measured from the video packet count and stream duration, and the declared rates are stored beside it. The backend also measures the start offset of the preview’s video track so that the player can seek to the correct frame. Fields that extraction owns are written once and are not overwritten by later enumeration, a rule added after a real-path defect described in Chapter 4.
+Layered Recovery
+Recovery follows four layers in order: filesystem or index recovery, vendor-specific recovery, carving, and fragment reconstruction. The engine records an explicit outcome for every layer it considers and never falls through silently. Recovery confidence is a weighted combination of measured factors such as counter continuity, the presence of expected coded-video units and the validity of record footers and lengths. A factor that cannot be measured is excluded from the average instead of being counted as zero. For CP Plus, a truncated segment can be recognised from incomplete or invalid record structure, such as a record whose header or closing marker is cut short. For Hikvision exported clips, recovery is reported plainly as unsupported for exported media, with no fragments and no confidence value.
+Timestamp Normalization and Timeline
+For CP Plus, the start and end times come from the file name. The two counter fields in the outer header are preserved as raw values but are not used as time, because read as Unix seconds they decode to 22 June 2026 while the recordings were made on 28 August 2026. For Hikvision, the header contains no time, so the filename-derived start is used. During validation it was cross-checked by the examiner against the camera’s burned-in on-screen clock. Times are converted to UTC using the stated source time zone (Asia/Kolkata for the validated recorder). The status stays “unverified” unless a verified reference or offset exists. The recorder’s NTP setting is stored as configuration only and does not verify any individual timestamp.
+Normalized times feed a canonical timeline of events. When a case has several cameras, a correlation engine proposes candidate related events using a maximum time gap and an optional camera topology. Each candidate is stored as a separate correlated event linked to its source events, and the source events are never overwritten.
+AI Analytics
+AI analysis is opt-in. The default processing policy leaves it off. When enabled, one frame-sampling regime is chosen per job (a configured number of frames per second, every Nth frame, or all frames when explicitly requested) and the sampling parameters are stored with the job. All analyses in that job run over the same sampled frames. An optional redundancy check compares consecutive frames using the mean absolute grayscale difference and skips model inference for near-identical frames; skipped frames are still recorded and the source video is never touched. Table 4 lists the components.
+Table 4. AI Analytics Components and Their Limits
+
+Findings and Notifications
+The findings engine turns processing outcomes into structured findings. Finding type, severity, status and confidence come from closed vocabularies, duplicates are merged, and every description is written in hedged language. Findings flow into reports. A per-officer notification inbox points at findings. No event bus is used, in keeping with the synchronous design.
+Custody, Access Control and Reporting
+Physical custody is recorded as transfers between authenticated users. A handoff is initiated by the current custodian, who generates a QR code carrying an opaque, time-limited token (30 minutes by default). The recipient inspects the transfer and accepts or rejects it. The current custodian is always derived from the latest accepted transfer and never cached. Passwords are stored as bcrypt hashes, and sessions use opaque bearer tokens with a limited lifetime.
+Access control has two independent axes. A user’s role (administrator, officer or lab personnel) says what kind of user they are. A per-case grant says which cases they may open. Administrators have access to all cases. Officers and lab personnel need an active grant for each case, and grants and revocations are audited. This is enforced on the backend for every case-scoped route.
+Reports are built from stored results and rendered as JSON and PDF (ReportLab). They cover the case summary, evidence and hash entries, device details, recordings, recovery results, AI results, timeline and correlation events, validation metrics, anchor records, findings and processing events.
+
+IMPLEMENTATION AND RESULTS
+Findings from the Implemented System
+This chapter reports what was implemented and how it behaved on real evidence. Every figure quoted was measured on the evidence described, and no result is generalised beyond it.
+Implemented Modules and User Interface
+The backend comprises the packages listed in Table 1, with more than sixty REST endpoints and a database schema managed by Alembic migrations. The frontend provides the officer and administrator interfaces. The case workspace gathers all case activity into ten tabs (Figure 6). It shows the playable evidence with a detection overlay, the recording’s metadata (including any difference between declared and measured frame rate), timestamp status, recovery outcomes, findings, integrity information and custody history.
+
+Figure 6. Case Workspace Module Map (schematic)
+Vendor Support and Validation Status
+Table 5 states what 24FPS supports and how that support was established. Support is stated only where real evidence has been processed end to end.
+Table 5. Vendor Support and Validation Status
+
+CP Plus Evidence Validation
+The CP Plus evidence set was analysed read-only before any parser was written, and the parser was then validated on it. Table 6 summarises the set.
+Table 6. CP Plus Evidence Set Used for Validation
+
+Hikvision Evidence Validation
+Three clips exported from a Hikvision DS-7A04HQHI-K1 recorder (firmware V4.30.220, build 220216, four channels, H.265 main stream configured at 1920 × 1080) were uploaded through the real user workflow, processed, played, sought, analysed with AI and reported (Table 7). The container declares 30 fps (average) and 25 fps (real), yet counting packets gives 15.00 fps in every clip, matching the recorder’s configured 15 fps. The stored frame rate is the measured one, with the declared values kept and a visible discrepancy note.
+Table 7. Hikvision Clips Tested (real evidence, read-only)
+
+The camera’s own burned-in clock, read from the source files 20 seconds into each clip, showed 10:00:20 on 29-08-2026 and 08:00:20 on 31-08-2026 (twice). Each reading equals the filename-derived start plus 20 seconds, which independently corroborates the start time used. The SHA-256 digests of the three source files were verified as unchanged before and after every validation pass.
+Defects Found by Real-Path Validation
+The first Hikvision delivery passed its automated tests but did not work in the real application. Uploaded clips ended with no vendor recognised and no recordings, so nothing downstream ran. The tests had copied a clip under its original file name beside a sidecar file and registered it by path, whereas the interface uploads a single file stored as <evidence_id>_<original filename>. Driving the real HTTP and browser path exposed the defects in Table 8, which were then corrected.
+Table 8. Defects Found by Real-Path Validation and Their Corrections
+
+Automated Verification
+Table 9 summarises the automated and real-path checks that back the results above.
+Table 9. Verification Summary
+
+Analysis of Results
+The results support three conclusions. First, the vendor-aware, evidence-first design works on real recorder output: both CP Plus segments and Hikvision exports were identified from their own structure, enumerated, extracted, played and reported without modifying the source files. Second, measured values are essential. In the Hikvision clips both frame-rate fields in the container were wrong, so a tool that trusted them would have misreported frame counts and frame-to-time conversions. Third, testing on idealised fixtures is not enough. All eight defects in Table 8 were invisible to tests that placed a file where the parser expected it, and became visible only when the real upload path was driven.
+The results also show where the platform’s claims must stop. Hikvision support is validated for one recorder model and firmware. Native Hikvision disk or file-system parsing and recovery of deleted recordings were not validated because no such evidence was available. Timestamps remain “unverified” unless independently corroborated, even where an on-screen clock agrees. AI analytics are leads for an examiner, not identifications: the platform does not recognise faces, and clothing-colour search reports appearance similarity with an explicit caveat. Anchoring is offline and local, with no public-chain claim.
+Finally, the design choices that seemed conservative paid off in practice. Recording an explicit outcome for every recovery layer made the wrong-vendor recovery bug easy to see. Keeping declared values beside measured ones made the frame-rate discrepancy visible to the user. Scoping identifiers to evidence items removed a cross-case collision.
+
+CONCLUSION
+Summary of Key Findings
+24FPS demonstrates that a single, auditable platform can carry CCTV evidence from upload to report across more than one vendor while preserving the original evidence and being open about what it cannot do. The implementation covers hashing, hash-chained auditing, QR-based custody, case-level access control, vendor-aware enumeration and extraction, layered recovery, timestamp normalization, timeline correlation, opt-in AI analytics, hedged findings and JSON and PDF reporting.
+CP Plus proprietary .cpv recordings (13 segments, 600 s, 189,533,184 bytes) were parsed and processed, and the supplied checksums verified 14 of 14.
+Hikvision clips from a DS-7A04HQHI-K1 were processed end to end, and the true frame rate of 15.00 fps was recovered where the container declared 30 and 25 fps.
+Real-path validation found and fixed eight defects that passing fixture-based tests had not revealed.
+The project finished with 1283 backend tests and 27 frontend tests, and its supported scope is stated explicitly.
+Future Scope or Recommendations
+More vendors and formats. Extend validated support to further Hikvision export formats and firmware versions, and to Dahua, Uniview and other recorders, each only after real evidence is available.
+Native storage acquisition. Validate acquisition and parsing of raw recorder disks and forensic images, including recovery of deleted or overwritten recordings.
+Verified time. Add workflows that compare recorder time with a trusted reference captured at seizure, so that normalized times can be promoted to “verified” with documented evidence.
+Background processing. Introduce a real job queue for very large cases, keeping the honest-status convention.
+Public or private ledger anchoring. Implement a real anchor provider, such as a permissioned ledger, once a deployment choice is made.
+Richer analytics. Evaluate detectors and re-identification aids on labelled CCTV data using the validation module’s metrics, while keeping identity claims out of the product.
+Deployment and hardening. Package the platform for offline lab deployment and add operational monitoring, backup and retention policies.
+REFERENCES
+[1]	Scientific Working Group on Digital Evidence (SWGDE), “SWGDE Best Practices for Data Acquisition from Digital Video Recorders,” document 17-V-002, version 1.4, 21 Aug. 2025. [Online]. Available: https://www.swgde.org/documents/published-complete-listing/17-v-002-1-4/
+[2]	ISO/IEC 27037:2012, “Information technology — Security techniques — Guidelines for identification, collection, acquisition and preservation of digital evidence,” International Organization for Standardization, 2012.
+[3]	S. L. Garfinkel, “Digital forensics research: The next 10 years,” Digital Investigation, vol. 7, pp. S64–S73, Aug. 2010.
+[4]	B. Carrier, File System Forensic Analysis. Boston, MA, USA: Addison-Wesley, 2005.
+[5]	G. G. Richard III and V. Roussev, “Scalpel: A frugal, high performance file carver,” in Proc. Digital Forensic Research Workshop (DFRWS), New Orleans, LA, USA, 2005.
+[6]	G. J. Sullivan, J.-R. Ohm, W.-J. Han, and T. Wiegand, “Overview of the High Efficiency Video Coding (HEVC) standard,” IEEE Trans. Circuits Syst. Video Technol., vol. 22, no. 12, pp. 1649–1668, Dec. 2012.
+[7]	ISO/IEC 13818-1, “Information technology — Generic coding of moving pictures and associated audio information: Systems,” International Organization for Standardization.
+[8]	FFmpeg Developers, “FFmpeg multimedia framework.” [Online]. Available: https://ffmpeg.org
+[9]	National Institute of Standards and Technology, “Secure Hash Standard (SHS),” FIPS PUB 180-4, Aug. 2015.
+[10]	R. Rivest, “The MD5 message-digest algorithm,” RFC 1321, Internet Engineering Task Force, Apr. 1992.
+[11]	K. Kent, S. Chevalier, T. Grance, and H. Dang, “Guide to integrating forensic techniques into incident response,” NIST Special Publication 800-86, Aug. 2006.
+[12]	E. Casey, Digital Evidence and Computer Crime: Forensic Science, Computers and the Internet, 3rd ed. Waltham, MA, USA: Academic Press, 2011.
+[13]	B. Schneier and J. Kelsey, “Secure audit logs to support computer forensics,” ACM Trans. Inf. Syst. Secur., vol. 2, no. 2, pp. 159–176, May 1999.
+[14]	S. Haber and W. S. Stornetta, “How to time-stamp a digital document,” J. Cryptology, vol. 3, no. 2, pp. 99–111, 1991.
+[15]	S. Nakamoto, “Bitcoin: A peer-to-peer electronic cash system,” 2008. [Online]. Available: https://bitcoin.org/bitcoin.pdf
+[16]	J. Redmon, S. Divvala, R. Girshick, and A. Farhadi, “You only look once: Unified, real-time object detection,” in Proc. IEEE Conf. Computer Vision and Pattern Recognition (CVPR), Las Vegas, NV, USA, 2016, pp. 779–788.
+[17]	G. Jocher, A. Chaurasia, and J. Qiu, “Ultralytics YOLO (version 8),” 2023. [Online]. Available: https://github.com/ultralytics/ultralytics
+[18]	A. Bewley, Z. Ge, L. Ott, F. Ramos, and B. Upcroft, “Simple online and realtime tracking,” in Proc. IEEE Int. Conf. Image Processing (ICIP), Phoenix, AZ, USA, 2016, pp. 3464–3468.
+[19]	Y. Zhang et al., “ByteTrack: Multi-object tracking by associating every detection box,” in Proc. European Conf. Computer Vision (ECCV), 2022, pp. 1–21.
+[20]	W. Wu, H. Peng, and S. Yu, “YuNet: A tiny millisecond-level face detector,” Machine Intelligence Research, vol. 20, pp. 656–665, 2023.
+[21]	M. Ye, J. Shen, G. Lin, T. Xiang, L. Shao, and S. C. H. Hoi, “Deep learning for person re-identification: A survey and outlook,” IEEE Trans. Pattern Anal. Mach. Intell., vol. 44, no. 6, pp. 2872–2893, Jun. 2022.
+[22]	Government of India, “The Bharatiya Sakshya Adhiniyam, 2023 (Act No. 47 of 2023),” 2023.

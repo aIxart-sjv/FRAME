@@ -31,6 +31,7 @@ from frame.consistency.status import ComputationStatus
 DIVISION_EPSILON = 1e-6
 
 NDVI = "NDVI"
+NDWI = "NDWI"
 B08_B04_RATIO = "B08_B04_ratio"
 
 
@@ -44,6 +45,23 @@ class SpectralIndexComparison:
     max_abs_discrepancy: Optional[float]
 
 
+def compute_normalized_difference(a: np.ndarray, b: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    """Element-wise normalized difference (a - b) / (a + b), the shape shared by NDVI, NDWI, NDBI, MNDWI, ...
+
+    Returns (index, computable), with the same "not meaningful unless computable" contract as
+    `compute_simple_ratio`: this is the one safe-division implementation every normalized-difference
+    index in this package reuses, so it and `frame.evaluate.metrics`'s reference-based index metrics
+    never drift into two different floors or roundings for the same kind of division.
+    """
+    a64 = np.asarray(a, dtype=np.float64)
+    b64 = np.asarray(b, dtype=np.float64)
+    denom = a64 + b64
+    computable = np.abs(denom) > DIVISION_EPSILON
+    index = np.full(denom.shape, np.nan, dtype=np.float64)
+    index[computable] = (a64[computable] - b64[computable]) / denom[computable]
+    return index, computable
+
+
 def compute_ndvi(nir: np.ndarray, red: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     """Element-wise NDVI = (NIR - Red) / (NIR + Red).
 
@@ -52,13 +70,17 @@ def compute_ndvi(nir: np.ndarray, red: np.ndarray) -> Tuple[np.ndarray, np.ndarr
     those positions is not a meaningful value and must not be read without
     checking ``computable`` first.
     """
-    nir64 = np.asarray(nir, dtype=np.float64)
-    red64 = np.asarray(red, dtype=np.float64)
-    denom = nir64 + red64
-    computable = np.abs(denom) > DIVISION_EPSILON
-    ndvi = np.full(denom.shape, np.nan, dtype=np.float64)
-    ndvi[computable] = (nir64[computable] - red64[computable]) / denom[computable]
-    return ndvi, computable
+    return compute_normalized_difference(nir, red)
+
+
+def compute_ndwi(green: np.ndarray, nir: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    """Element-wise McFeeters NDWI = (Green - NIR) / (Green + NIR) (B03, B08 -- both RGBN, so this is
+    computable at the observation grid for every FRAME system, unlike MNDWI/NDBI/BSI which need SWIR
+    B11 and are HR-reference-only, see `frame.evaluate.metrics.index_metrics`).
+
+    Returns (ndwi, computable), same contract as `compute_ndvi`.
+    """
+    return compute_normalized_difference(green, nir)
 
 
 def compute_simple_ratio(numerator: np.ndarray, denominator: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
@@ -116,6 +138,21 @@ def compute_ndvi_comparison(
     sr_ndvi, sr_computable = compute_ndvi(sr_downsampled[nir_i], sr_downsampled[red_i])
 
     return _compare(NDVI, lr_ndvi, lr_computable, sr_ndvi, sr_computable, mask)
+
+
+def compute_ndwi_comparison(
+    lr: np.ndarray, sr_downsampled: np.ndarray, mask: np.ndarray, *, band_names: Sequence[str]
+) -> SpectralIndexComparison:
+    """Compare NDWI computed from ``lr`` against NDWI computed from ``sr_downsampled`` (both (bands,
+    H, W) arrays on the same LR grid) -- Requirements 142 Requirement 5/6's "original index vs
+    SR-derived index" comparison at the observation grid, for the one water index RGBN bands support."""
+    green_i = _band_index(band_names, "B03")
+    nir_i = _band_index(band_names, "B08")
+
+    lr_ndwi, lr_computable = compute_ndwi(lr[green_i], lr[nir_i])
+    sr_ndwi, sr_computable = compute_ndwi(sr_downsampled[green_i], sr_downsampled[nir_i])
+
+    return _compare(NDWI, lr_ndwi, lr_computable, sr_ndwi, sr_computable, mask)
 
 
 def compute_b08_b04_ratio_comparison(

@@ -1,0 +1,184 @@
+{
+  "A_tile_size_sensitivity": {
+    "by_tile_size": {
+      "128": {
+        "elapsed_seconds": 0.1675,
+        "n_tiles": 12,
+        "output_shape": [
+          4,
+          1200,
+          1600
+        ],
+        "overlap": 16,
+        "peak_rss_mib": 136.7,
+        "seam": {
+          "max_abs_difference": 0.29680824279785156,
+          "mean_abs_difference": 0.0077697139063962655,
+          "note": "Disagreement between adjacent tiles' predictions on their shared pixels, measured before blending. A tiling/seam consistency diagnostic, not an accuracy measure against any reference.",
+          "overlap_pixel_count": 484352,
+          "pair_count": 17,
+          "rmse": 0.019142362650554124,
+          "status": "COMPUTABLE"
+        },
+        "success": true,
+        "tile_size": 128
+      },
+      "256": {
+        "elapsed_seconds": 0.0664,
+        "overlap": 16,
+        "skip_reason": "RuntimeError: The size of tensor a (1024) must match the size of tensor b (512) at non-singleton dimension 3 -- the registered model's own hard-constraint mask is baked to a fixed 128x128 -> 512x512 shape (docs/REGISTRY.md); frame.tiling itself accepts any tile_size, but the model call inside it does not.",
+        "success": false,
+        "tile_size": 256
+      },
+      "64": {
+        "elapsed_seconds": 0.3038,
+        "overlap": 16,
+        "skip_reason": "RuntimeError: The size of tensor a (256) must match the size of tensor b (512) at non-singleton dimension 3 -- the registered model's own hard-constraint mask is baked to a fixed 128x128 -> 512x512 shape (docs/REGISTRY.md); frame.tiling itself accepts any tile_size, but the model call inside it does not.",
+        "success": false,
+        "tile_size": 64
+      }
+    },
+    "device": "cuda",
+    "scene_shape": [
+      300,
+      400
+    ]
+  },
+  "B_F_overlap_and_seam": {
+    "by_overlap": {
+      "0": {
+        "elapsed_seconds": 0.1147,
+        "n_tiles": 12,
+        "overlap": 0,
+        "seam": {
+          "max_abs_difference": null,
+          "mean_abs_difference": null,
+          "note": "No overlapping tiles (a single tile, or overlap = 0), so there is nothing to compare. Disagreement between adjacent tiles' predictions on their shared pixels, measured before blending. A tiling/seam consistency diagnostic, not an accuracy measure against any reference.",
+          "overlap_pixel_count": 0,
+          "pair_count": 0,
+          "rmse": null,
+          "status": "NOT_COMPUTABLE"
+        }
+      },
+      "16": {
+        "elapsed_seconds": 0.1328,
+        "n_tiles": 12,
+        "overlap": 16,
+        "seam": {
+          "max_abs_difference": 0.29680824279785156,
+          "mean_abs_difference": 0.0077697139063962655,
+          "note": "Disagreement between adjacent tiles' predictions on their shared pixels, measured before blending. A tiling/seam consistency diagnostic, not an accuracy measure against any reference.",
+          "overlap_pixel_count": 484352,
+          "pair_count": 17,
+          "rmse": 0.019142362650554124,
+          "status": "COMPUTABLE"
+        }
+      },
+      "32": {
+        "elapsed_seconds": 0.1512,
+        "n_tiles": 12,
+        "overlap": 32,
+        "seam": {
+          "max_abs_difference": 0.29134106636047363,
+          "mean_abs_difference": 0.0038670638855343264,
+          "note": "Disagreement between adjacent tiles' predictions on their shared pixels, measured before blending. A tiling/seam consistency diagnostic, not an accuracy measure against any reference.",
+          "overlap_pixel_count": 1067008,
+          "pair_count": 17,
+          "rmse": 0.013416107674845516,
+          "status": "COMPUTABLE"
+        }
+      },
+      "8": {
+        "elapsed_seconds": 0.1254,
+        "n_tiles": 12,
+        "overlap": 8,
+        "seam": {
+          "max_abs_difference": 0.30604273080825806,
+          "mean_abs_difference": 0.015227220541837262,
+          "note": "Disagreement between adjacent tiles' predictions on their shared pixels, measured before blending. A tiling/seam consistency diagnostic, not an accuracy measure against any reference.",
+          "overlap_pixel_count": 229888,
+          "pair_count": 17,
+          "rmse": 0.026771834603615284,
+          "status": "COMPUTABLE"
+        }
+      }
+    },
+    "device": "cuda",
+    "note": "Seam values come from frame.tiling's own no-reference seam diagnostic (overlapping tile predictions compared with each other), the same mechanism already measured for real Lite/Mamba scenes in experiments/tiling/run_validation.py.",
+    "scene_shape": [
+      300,
+      400
+    ]
+  },
+  "C_scaling": {
+    "by_scene_size": {
+      "128": {
+        "elapsed_seconds": 0.01,
+        "n_tiles": 1,
+        "scene_size": 128,
+        "seconds_per_tile": 0.01
+      },
+      "256": {
+        "elapsed_seconds": 0.093,
+        "n_tiles": 9,
+        "scene_size": 256,
+        "seconds_per_tile": 0.0103
+      },
+      "512": {
+        "elapsed_seconds": 0.293,
+        "n_tiles": 25,
+        "scene_size": 512,
+        "seconds_per_tile": 0.0117
+      },
+      "768": {
+        "elapsed_seconds": 0.5864,
+        "n_tiles": 49,
+        "scene_size": 768,
+        "seconds_per_tile": 0.012
+      }
+    },
+    "device": "cuda",
+    "note": "1024x1024 (the API's own MAX_INPUT_PIXELS cap) was not additionally tested here -- the trend from 128..768 already establishes the per-tile cost; extrapolating further is arithmetic, not a new measurement (see docs/REGISTRY.md Sec 3 for the existing Mamba 1024x1024 extrapolation, which uses the same method)."
+  },
+  "D_cpu_vs_gpu": {
+    "model": "lite",
+    "results": {
+      "cpu": {
+        "elapsed_seconds": 0.3687,
+        "n_tiles": 9
+      },
+      "cuda": {
+        "elapsed_seconds": 0.0996,
+        "n_tiles": 9,
+        "peak_vram_mib": 109.5
+      }
+    },
+    "scene_shape": [
+      256,
+      256
+    ]
+  },
+  "E_output_integrity": {
+    "all_passed": true,
+    "checks": {
+      "asset_reference_exists": true,
+      "band_count_correct": true,
+      "band_names_correct": true,
+      "bounds_sane": true,
+      "cog_valid": true,
+      "crs_present": true,
+      "dimensions_match_scale_factor": true,
+      "dtype_is_float32": true,
+      "no_nan": true,
+      "pixel_size_is_2_5m_in_output_crs": true,
+      "stac_valid": true,
+      "transform_present": true
+    },
+    "device": "cuda"
+  },
+  "created_at": "2026-09-28T02:30:20.120382+00:00",
+  "machine": {
+    "device_for_a_b_c_e": "cuda",
+    "gpu_used_mib_baseline": 841
+  }
+}

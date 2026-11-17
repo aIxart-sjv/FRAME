@@ -103,6 +103,7 @@ def process_upload(
     filename: str,
     input_scale: str,
     max_input_pixels: Optional[int] = None,
+    source_acquisition_retrieval_id: Optional[str] = None,
 ) -> UploadRecord:
     """Read and validate an uploaded Sentinel-2 L2A GeoTIFF. Does NOT run SR.
 
@@ -139,6 +140,7 @@ def process_upload(
         resolution_m=metadata.resolution_m,
         input_scale=input_scale,
         created_at=_now_iso(),
+        source_acquisition_retrieval_id=source_acquisition_retrieval_id,
     )
     store.put_upload(record)
     return record

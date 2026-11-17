@@ -1,0 +1,23 @@
+# ==============================================================================
+# FRAME Docker Compose GPU Overlay
+# Enables NVIDIA GPU hardware acceleration for PyTorch and SEN2SR-Mamba
+#
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up --build
+#
+# Requirements:
+#   - Arch Linux: NVIDIA proprietary drivers + nvidia-container-toolkit installed
+#   - Windows 11: NVIDIA Windows Driver installed + Docker Desktop WSL2 backend
+# ==============================================================================
+
+services:
+  backend:
+    environment:
+      - FRAME_API_DEVICE=cuda
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

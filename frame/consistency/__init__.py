@@ -17,9 +17,9 @@ Public API:
     compute_downsample_consistency, downsample_consistency_from_arrays,
         DownsampleConsistencyResult, BandDiscrepancy       (band_discrepancy.py)
     downsample_to_lr_grid, AREA_AVERAGE_POOL               (downsample.py)
-    compute_ndvi, compute_simple_ratio,
-    compute_ndvi_comparison, compute_b08_b04_ratio_comparison,
-        SpectralIndexComparison, NDVI, B08_B04_RATIO       (spectral_ratios.py)
+    compute_ndvi, compute_ndwi, compute_normalized_difference, compute_simple_ratio,
+    compute_ndvi_comparison, compute_ndwi_comparison, compute_b08_b04_ratio_comparison,
+        SpectralIndexComparison, NDVI, NDWI, B08_B04_RATIO (spectral_ratios.py)
     compare_tile_overlap, TileOverlapResult                (tiles.py)
     ComputationStatus                                      (status.py)
     Exceptions: ConsistencyError and its subclasses (see .errors)
@@ -43,10 +43,14 @@ from frame.consistency.report import ConsistencyDiagnostics, run_consistency_dia
 from frame.consistency.spectral_ratios import (
     B08_B04_RATIO,
     NDVI,
+    NDWI,
     SpectralIndexComparison,
     compute_b08_b04_ratio_comparison,
     compute_ndvi,
     compute_ndvi_comparison,
+    compute_ndwi,
+    compute_ndwi_comparison,
+    compute_normalized_difference,
     compute_simple_ratio,
 )
 from frame.consistency.status import ComputationStatus
@@ -62,11 +66,15 @@ __all__ = [
     "downsample_to_lr_grid",
     "AREA_AVERAGE_POOL",
     "compute_ndvi",
+    "compute_ndwi",
+    "compute_normalized_difference",
     "compute_simple_ratio",
     "compute_ndvi_comparison",
+    "compute_ndwi_comparison",
     "compute_b08_b04_ratio_comparison",
     "SpectralIndexComparison",
     "NDVI",
+    "NDWI",
     "B08_B04_RATIO",
     "compare_tile_overlap",
     "TileOverlapResult",

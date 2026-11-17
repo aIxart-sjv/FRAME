@@ -4,11 +4,19 @@ mapping onto HTTP status codes. Pure logic, no FastAPI app needed.
 
 import pytest
 
+from frame.acquisition.errors import (
+    AuthenticationError as AcquisitionAuthenticationError,
+    InvalidQueryError as AcquisitionInvalidQueryError,
+    ProviderUnavailableError as AcquisitionProviderUnavailableError,
+    RetrievalMismatchError,
+    SceneNotFoundError as AcquisitionSceneNotFoundError,
+)
 from frame.api.errors import (
     APIError,
     JobNotFoundError,
     UnsupportedFileError,
     ValidationFailedError,
+    acquisition_error_code,
     status_code_for,
 )
 from frame.consistency.errors import ShapeMismatchError as ConsistencyShapeMismatchError
@@ -54,3 +62,27 @@ def test_every_api_error_subclass_is_an_api_error():
     assert issubclass(JobNotFoundError, APIError)
     assert issubclass(UnsupportedFileError, APIError)
     assert issubclass(ValidationFailedError, APIError)
+
+
+@pytest.mark.parametrize(
+    "exc,expected_status,expected_code",
+    [
+        (AcquisitionInvalidQueryError("bad bbox"), 400, "invalid_acquisition_query"),
+        (AcquisitionProviderUnavailableError("down", provider="x"), 503, "acquisition_provider_unavailable"),
+        (AcquisitionAuthenticationError("bad creds", provider="x"), 401, "acquisition_authentication_failed"),
+        (AcquisitionSceneNotFoundError("no such scene"), 404, "acquisition_scene_not_found"),
+        (RetrievalMismatchError("datetime mismatch"), 502, "acquisition_retrieval_mismatch"),
+    ],
+)
+def test_acquisition_errors_map_to_distinct_status_and_code(exc, expected_status, expected_code):
+    assert status_code_for(exc) == expected_status
+    assert acquisition_error_code(exc) == expected_code
+
+
+def test_authentication_error_is_not_mistaken_for_generic_provider_unavailable():
+    # AuthenticationError subclasses ProviderUnavailableError -- the more specific
+    # mapping (401) must win, not the generic one (503).
+    exc = AcquisitionAuthenticationError("bad creds", provider="copernicus-cdse")
+    assert isinstance(exc, AcquisitionProviderUnavailableError)
+    assert status_code_for(exc) == 401
+    assert acquisition_error_code(exc) == "acquisition_authentication_failed"

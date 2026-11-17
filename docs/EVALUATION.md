@@ -94,7 +94,8 @@ whether it is right); `hf_relative_error` = rms(SR_hf − HR_hf) / rms(HR_hf), w
 direction / overshoot / where the reference has none), **omission** (the reference has detail and none was added) and **neutral**; plus `mse_skill_vs_baseline` = 1 − MSE_SR/MSE_bicubic. It uses no semantics and invents no
 labels; "unsupported" means "not confirmed by this reference", not "false". It is a quantitative, element-wise description; **no visual inspection was scored**.
 
-**Self-consistency** (`frame.consistency`): SR → area-average downsample → compare with the LR (per band, pooled, NDVI, B08/B04). **This is not accuracy against an HR reference**: a system can average back to the LR exactly and still be far from the
+**Self-consistency** (`frame.consistency`): SR → area-average downsample → compare with the LR (per band and pooled: MAE, RMSE, signed bias, Pearson correlation, normalized RMSE; plus NDVI, NDWI and B08/B04 index self-consistency --
+Step H added the bias/correlation fields and NDWI, since B03/B08 are both RGBN so a genuine SR-derived NDWI exists, unlike MNDWI/NDBI/BSI which need SWIR B11). **This is not accuracy against an HR reference**: a system can average back to the LR exactly and still be far from the
 reference (tested). It is reported in its own table and never combined with reference accuracy. **opensr-test native** values (reflectance / spectral / spatial consistency, synthesis, hallucination, omission, improvement) come from the
 installed package with its default config and are their own group; they take no mask, so they are computed only for fully valid references and otherwise recorded as `not_computed`.
 
@@ -473,7 +474,7 @@ Same tiles, same SR, the reference displaced by known whole HR pixels (`python -
 
 * **No absolute accuracy.** Every real reference is a different sensor with its own radiometry and a registration error of median 1-1.6 HR pixels (max 6.5); the numbers are comparisons against that reference, not errors against ground truth.
 * **Small and geographically narrow samples.** 28 SEN2NEON acquisitions (North America), OpenSR-Test's `spot` subset (9 scenes) and its Spanish subsets (5 and 4 source orthophotos). `spain_crops` and `spain_urban` have 5 and 4 source orthophotos: their numbers are descriptive. Tiles of one scene are correlated, so tile-level counts overstate the evidence.
-* **No Indian evidence at all.** There is no Indian HR reference in this evaluation and no claim about Indian landscapes (requirements §26).
+* **No Indian evidence at all in this layer.** There is no Indian HR reference in this evaluation and no claim about Indian landscapes (requirements §26). A separate, no-reference protocol (`frame.generalization`, Step H -- [`TRACEABILITY.md`](TRACEABILITY.md) §12) has since run against two real Indian Sentinel-2 scenes, but computes self-consistency and TTA stability only, never PSNR/SSIM/SAM/ERGAS, since no Indian HR reference exists for this layer's metrics to use.
 * **No downstream task.** Classification accuracy, area error and change detection (the rest of §27) were not evaluated.
 * **No calibrated uncertainty or OOD evaluation**, and no uncertainty-versus-error analysis: that is the next phase.
 * **RGBN ×4 only.** The full 12-band / 10-band cascade is not evaluated, so NDWI needs only B03/B08 but MNDWI, NDBI and BSI (which need B11) are not computed.
@@ -481,6 +482,7 @@ Same tiles, same SR, the reference displaced by known whole HR pixels (`python -
 * **One harmonisation of OpenSR-Test.** The harmonised `HRharm` reference (the benchmark default) was used; the raw `HR` was not evaluated. The tile size, overlap, padding and blending were fixed by the Phase 2 defaults (128 / 32 / reflect / linear) and not varied here.
 * **Mamba** was evaluated with its constraint only, and locally only for inference. No Mamba ablation, no Mamba fine-tuning.
 * **Working tree not committed** at the time of the runs; the git revision in the record is the parent commit plus a dirty flag.
+* **LDSR-S2 was not evaluated.** Step G verified it is genuinely executable (real checkpoint, real forward pass on real Sentinel-2 data — [`REGISTRY.md`](REGISTRY.md) §1a) but it is not deployable on the project's declared dev GPU and is not selectable via `/sr/run`, so no PSNR/SSIM/RMSE/SAM/ERGAS numbers exist for it here; none are claimed. The `GET /models` capability registry (`frame.models.selection`) now records each model's real input/output bands, resolution and scale factor as a fixed contract this layer's metrics groups already assume, ahead of any future evaluation of a third model.
 
 ## 10. SEN2NAIPv2 acquisition decision
 
@@ -499,6 +501,8 @@ sen2sr_venv/bin/python -m frame.evaluate shift experiments/evaluation/configs/be
 ```
 
 Tests: `TMPDIR=~/.cache/frame_tmp sen2sr_venv/bin/python -m pytest frame/tests/test_evaluate_*.py --basetemp=~/.cache/frame_pytest_tmp` (none needs the GPU; `test_evaluate_real.py` skips itself if the real data are absent). Set `FRAME_DATA_ROOT` for the data location.
+
+**Step I note:** this layer's own metrics/records are unchanged. A completed `/sr/run` job's output can now separately be packaged as a real, validated Cloud Optimized GeoTIFF and a STAC Item (`frame.product`, [`OPERATIONAL_DELIVERY.md`](OPERATIONAL_DELIVERY.md)) -- that packaging carries no evaluation metric with it; a STAC item's presence is not evidence of accuracy.
 
 ## 12. Downstream analytical utility (Phase 7)
 

@@ -1,0 +1,38 @@
+name: frame
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: frame-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - FRAME_API_DEVICE=auto
+      - FRAME_API_WORKSPACE_DIR=/app/workspace
+      - FRAME_MAMBA_PYTHON=/opt/sen2sr_mamba_venv/bin/python
+      - FRAME_MAMBA_WEIGHTS_DIR=/app/models/SEN2SR
+      - SEN2SR_BASELINE_WEIGHTS_DIR=/app/models/SEN2SRLite_RGBN
+      - FRAME_API_CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://localhost:8000,http://127.0.0.1:8000
+    volumes:
+      - ./models:/app/models
+      - ./workspace:/app/workspace
+      - ./cache:/root/.cache
+    env_file:
+      - path: .env
+        required: false
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_FRAME_API_URL=http://localhost:8000
+    container_name: frame-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend

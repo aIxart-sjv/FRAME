@@ -11,8 +11,20 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from frame.models.config import LITE_MODEL_NAME
 from frame.tiling import DEFAULT_OVERLAP
+
+# Loads the repo-root .env (FRAME_CDSE_CLIENT_ID/SECRET, FRAME_CDSE_STAC_URL,
+# FRAME_CDSE_PROCESS_URL, FRAME_CDSE_TOKEN_URL -- see frame.acquisition) into
+# the process environment, regardless of the server's current working
+# directory. Never overrides a variable already set in the real environment
+# (python-dotenv's default), and the file itself stays git-ignored -- see
+# .env.example for the blank-secret template. Missing entirely is not an
+# error: frame.acquisition.providers.cdse.CDSEAuth.configured() reports that
+# honestly at the point of use instead.
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 API_VERSION = "0.1.0"
 

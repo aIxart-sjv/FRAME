@@ -190,3 +190,10 @@ experiments/uncertainty/runs/**/*.tif
 # missing from a clean clone (the frontend would not build). Re-include them explicitly.
 !frontend/src/components/downloads/
 !frontend/src/lib/
+
+
+#credentials
+# Environment / secrets
+.env
+.env.*
+!.env.example

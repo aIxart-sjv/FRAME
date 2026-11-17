@@ -272,10 +272,12 @@ def test_health_lists_both_models_and_the_default(env, monkeypatch):
     body = client.get("/health").json()
     assert body["default_model"] == "lite"
     assert body["model_name"] == models_cfg.LITE_MODEL_NAME  # backward compatible field
-    assert [m["id"] for m in body["available_models"]] == ["lite", "mamba"]
+    assert [m["id"] for m in body["available_models"]] == ["lite", "mamba", "ldsrs2"]
     labels = {m["id"]: m["label"] for m in body["available_models"]}
-    assert labels == {"lite": "SEN2SR-Lite", "mamba": "SEN2SR-Mamba"}
+    assert labels == {"lite": "SEN2SR-Lite", "mamba": "SEN2SR-Mamba", "ldsrs2": "LDSR-S2"}
     assert next(m for m in body["available_models"] if m["id"] == "lite")["available"] is True
+    # LDSR-S2 is real and verified (Step G) but not selectable via /sr/run -- always unavailable here.
+    assert next(m for m in body["available_models"] if m["id"] == "ldsrs2")["available"] is False
 
 
 def test_health_reports_mamba_unavailable_with_a_user_safe_reason(env, monkeypatch):

@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom/vitest'
 
 // jsdom does not implement matchMedia -- provide a default (no-preference)
-// stub so components calling `useReducedMotion` don't throw during tests.
-// Individual tests override `window.matchMedia` to exercise the
-// reduced-motion branch explicitly.
+// stub so components calling `useReducedMotion`-style hooks don't throw
+// during tests. Individual tests override `window.matchMedia` to exercise
+// the reduced-motion branch explicitly.
 if (!window.matchMedia) {
   window.matchMedia = (query: string) => ({
     matches: false,
@@ -24,3 +24,11 @@ if (!window.matchMedia) {
 if (!HTMLCanvasElement.prototype.getContext) {
   HTMLCanvasElement.prototype.getContext = (() => null) as typeof HTMLCanvasElement.prototype.getContext
 }
+
+// jsdom has no WebGL context at all, which MapLibre GL JS requires to
+// initialise a real map. Components that mount a MapLibre map are
+// deliberately NOT unit-tested by rendering them in jsdom (see
+// docs/ACQUISITION.md / this session's frontend report) -- their pure logic
+// (AOI geometry, request construction, response mapping, selection state)
+// is unit-tested directly instead, and the map itself is verified live in a
+// real browser against the real backend.

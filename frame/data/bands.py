@@ -24,7 +24,26 @@ from frame.preprocessing import RGBN_BANDS
 #: table); frame/tests/test_data_bands.py asserts the two never drift apart.
 L2A_BANDS: Tuple[str, ...] = ("B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B09", "B11", "B12")
 
-__all__ = ["L2A_BANDS", "RGBN_BANDS", "canonical_band", "canonical_bands", "select_bands"]
+#: Each L2A band's true native ground sample distance in metres (ESA's own
+#: product spec) -- B01/B09 at 60 m, the six red-edge/SWIR bands at 20 m, the
+#: four RGBN bands at 10 m. Used by frame.acquisition to fetch/label each
+#: band at the resolution it was actually acquired at, never a resampled
+#: value silently presented as native.
+L2A_NATIVE_RESOLUTION_M: dict = {
+    "B01": 60.0, "B09": 60.0,
+    "B05": 20.0, "B06": 20.0, "B07": 20.0, "B8A": 20.0, "B11": 20.0, "B12": 20.0,
+    "B02": 10.0, "B03": 10.0, "B04": 10.0, "B08": 10.0,
+}
+
+__all__ = [
+    "L2A_BANDS",
+    "L2A_NATIVE_RESOLUTION_M",
+    "RGBN_BANDS",
+    "canonical_band",
+    "canonical_bands",
+    "native_resolution_m",
+    "select_bands",
+]
 
 _BAND = re.compile(r"[Bb]0*(\d{1,2})([Aa]?)")
 
@@ -44,6 +63,17 @@ def canonical_band(name: str) -> str:
     if not 1 <= number <= 12:
         raise ContractError(f"Sentinel-2 band number out of range in {name!r}.")
     return f"B{number:02d}"
+
+
+def native_resolution_m(name: str) -> float:
+    """The true native ground sample distance (metres) of an L2A band. Raises
+    `ContractError` for a non-L2A band name (e.g. B10, or SCL -- SCL has no
+    single native resolution of its own; callers know which resampling of it
+    they asked for)."""
+    band = canonical_band(name)
+    if band not in L2A_NATIVE_RESOLUTION_M:
+        raise ContractError(f"{band!r} has no defined L2A native resolution (B10 is excluded from L2A).")
+    return L2A_NATIVE_RESOLUTION_M[band]
 
 
 def canonical_bands(names: Sequence[str]) -> Tuple[str, ...]:

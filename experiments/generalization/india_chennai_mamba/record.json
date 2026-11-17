@@ -1,0 +1,74 @@
+{
+  "cloud_cover": 2.43,
+  "device": "cuda",
+  "excluded_bands": [
+    "B05",
+    "B06",
+    "B07",
+    "B8A",
+    "B11",
+    "B12",
+    "B01",
+    "B09"
+  ],
+  "inference_seconds": 42.78838753700256,
+  "input_shape": [
+    4,
+    142,
+    139
+  ],
+  "ndvi_self_consistency": {
+    "max_abs_discrepancy": 0.18367248582547935,
+    "mean_abs_discrepancy": 0.018402013162555964,
+    "n_valid": 19738,
+    "rmse": 0.026290036436981856,
+    "status": "COMPUTABLE"
+  },
+  "ndwi_self_consistency": {
+    "max_abs_discrepancy": 0.15441412300403462,
+    "mean_abs_discrepancy": 0.01486630981650981,
+    "n_valid": 19738,
+    "rmse": 0.021034946377571504,
+    "status": "COMPUTABLE"
+  },
+  "output_shape": [
+    4,
+    568,
+    556
+  ],
+  "protocol": {
+    "geographic_separation": true,
+    "geographic_separation_note": "The test scene is Indian; the reference datasets this project has real evidence from (SEN2NEON: North America; OpenSR-Test: Spain/SPOT) are geographically disjoint from it. This establishes geographic separation of the EVIDENCE datasets, not of the deployed model's unknown training set (see training_domain_known).",
+    "hr_reference_note": "No Indian HR reference (Cartosat, Resourcesat, AVIRIS-NG or otherwise) has been obtained or validated by this project (docs/TRACEABILITY.md Sec 9). Reference-based accuracy (PSNR/SSIM/RMSE/SAM/ERGAS) is therefore not computed for this scene -- not omitted by oversight, structurally unavailable. Substituting a non-Indian HR reference here would misrepresent it as Indian-reference evidence, which Requirements 142 explicitly forbids.",
+    "hr_reference_status": "unavailable",
+    "land_cover_note": "not established -- no land-cover label exists for this scene (see frame.data.adapters.india_holdout)",
+    "metrics": [
+      "self_consistency",
+      "ndvi_self_consistency",
+      "ndwi_self_consistency",
+      "tta_stability"
+    ],
+    "model_id": "mamba",
+    "protocol_id": "india_holdout/S2B_MSIL2A_20240330T045659_N0510_R119_T44PMV_20240330T072508",
+    "stability_method": "TTA stability -- reconstruction-variation diagnostic (uncalibrated; see docs/RELIABILITY.md)",
+    "temporal_note": "acquisition_datetime='2024-03-30T04:56:59.024000Z'",
+    "test_domain": "Real Sentinel-2 L2A over India, scene S2B_MSIL2A_20240330T045659_N0510_R119_T44PMV_20240330T072508, bbox (80.204, 13.006, 80.2168, 13.0188)",
+    "training_domain": "The deployed SEN2SR-Lite/Mamba weights are third-party (tacofoundation/sen2sr); their original training data and geography are not documented in the artifact manifest FRAME inspected (docs/REGISTRY.md Sec 1) and are not established here. FRAME's own training work (docs/TRAINING.md) never touched these weights -- it trained a separate, small synthetic-data smoke model only. Naming a training domain for the model actually serving /sr/run would be a fabricated claim.",
+    "training_domain_known": false
+  },
+  "provider": "copernicus-cdse-process-api",
+  "scene_id": "S2B_MSIL2A_20240330T045659_N0510_R119_T44PMV_20240330T072508",
+  "seed": 0,
+  "self_consistency_overall": {
+    "bias": -1.3182223251219493e-05,
+    "correlation": 0.9979060866045649,
+    "mae": 0.0036545895090144913,
+    "n_samples": 78952,
+    "normalized_rmse": 0.03501882763159043,
+    "rmse": 0.005207000276318156,
+    "status": "COMPUTABLE"
+  },
+  "stability_definition": "Mean per-pixel standard deviation across the TTA ensemble, averaged over bands. A relative model-stability proxy, not a calibrated confidence value.",
+  "stability_scalar_summary": 0.0019462253645111834,
+  "valid_pixel_fraction": 1.0
+}

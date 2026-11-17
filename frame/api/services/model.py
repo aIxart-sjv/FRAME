@@ -29,7 +29,7 @@ from frame.api import config
 from frame.models import config as models_cfg
 from frame.models.errors import ModelError, ModelLoadError, ModelUnavailableError
 from frame.models.mamba_client import MambaWorkerClient, check_mamba_availability
-from frame.models.selection import MODEL_SPECS, normalize_model_name
+from frame.models.selection import CAPABILITY_ONLY_SPECS, MODEL_SPECS, normalize_model_name
 
 _model_cache: Dict[Tuple[str, str], Any] = {}
 _cache_lock = threading.Lock()
@@ -121,19 +121,91 @@ def get_model(
         return _model_cache[key]
 
 
+def _availability(spec, model_id: str, mamba) -> Tuple[bool, Optional[str]]:
+    """Shared verdict for `list_models`/`list_model_capabilities`: a model with a fixed
+    `always_unavailable_reason` (Step G Section 7 -- verified but not deployable here, e.g.
+    LDSR-S2) is always unavailable regardless of device; Mamba is gated by its real per-request
+    CUDA check; every other selectable model has no gate."""
+    if spec.always_unavailable_reason is not None:
+        return False, spec.always_unavailable_reason
+    if model_id == models_cfg.MODEL_MAMBA:
+        return mamba.available, (None if mamba.available else mamba.message)
+    return True, None
+
+
 def list_models(device: Optional[str] = None) -> List[Dict[str, Any]]:
     """Every selectable model with a user-facing availability verdict (does
     not load or start anything)."""
     resolved_device = resolve_device(device or config.DEVICE)
     mamba = check_mamba_availability(resolved_device)
     entries = []
-    for model_id, spec in MODEL_SPECS.items():
-        available = mamba.available if model_id == models_cfg.MODEL_MAMBA else True
-        reason = None if available else mamba.message
+    for model_id, spec in {**MODEL_SPECS, **CAPABILITY_ONLY_SPECS}.items():
+        available, reason = _availability(spec, model_id, mamba)
         entries.append(
             {"id": model_id, "label": spec.label, "model_name": spec.model_name, "available": available, "reason": reason}
         )
     return entries
+
+
+def list_model_capabilities(device: Optional[str] = None) -> List[Dict[str, Any]]:
+    """Every model's real, verified capability metadata (Step G, Requirements 142 Requirement 4)
+    -- `GET /models`. Includes models that are not selectable via `/sr/run`
+    (`frame.models.selection.CAPABILITY_ONLY_SPECS`), always reported unavailable with an honest
+    reason, so real capability is visible without pretending it is deployable. Reuses the exact
+    same availability check as `list_models`/`GET /health`; this is a richer view of the same real
+    facts, not a second source of truth. Loads/starts nothing.
+    """
+    resolved_device = resolve_device(device or config.DEVICE)
+    mamba = check_mamba_availability(resolved_device)
+    entries = []
+    for model_id, spec in {**MODEL_SPECS, **CAPABILITY_ONLY_SPECS}.items():
+        available, reason = _availability(spec, model_id, mamba)
+        entries.append(
+            {
+                "id": model_id,
+                "label": spec.label,
+                "model_name": spec.model_name,
+                "description": spec.description,
+                "architecture": spec.architecture,
+                "input_bands": list(spec.input_bands),
+                "output_bands": list(spec.output_bands),
+                "input_resolution_m": spec.input_resolution_m,
+                "output_resolution_m": spec.output_resolution_m,
+                "scale_factor": spec.scale_factor,
+                "uncertainty": spec.uncertainty,
+                "uncertainty_method": spec.uncertainty_method,
+                "parameter_count": spec.parameter_count,
+                "environment": spec.environment,
+                "available": available,
+                "reason": reason,
+            }
+        )
+    return entries
+
+
+def checkpoint_sha256(model_id: str) -> Optional[str]:
+    """The real SHA-256 of the model's weight file on disk, or ``None`` if it is not (yet)
+    cached there -- computed from the actual file each call (Step I, Requirements 142
+    Requirement 11's "checkpoint hash where available"), never a value copied from documentation.
+    Mamba's hash is normally read from its own worker's `describe()` at inference time instead
+    (frame.api.services.pipeline); this function exists for the cases -- STAC/product metadata
+    built after the fact, or for Lite, which does not self-describe -- that need it independently.
+    """
+    if model_id == models_cfg.MODEL_LITE:
+        path = config.MODEL_WEIGHTS_CACHE_DIR / "model.safetensor"
+    elif model_id == models_cfg.MODEL_MAMBA:
+        path = models_cfg.MAMBA_WEIGHTS_DIR / "sr_model.safetensor"
+    else:
+        return None
+    if not path.exists():
+        return None
+    import hashlib
+
+    digest = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def clear_cache() -> None:

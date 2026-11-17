@@ -106,7 +106,9 @@ The gate is the reason this phase can be trusted at all: Phase 6 measured that m
   in the repository has one: the only label is the NEON land-cover superclass of a **whole tile** (it says what the tile mostly is, not what a 10 m region is), OpenSR-Test carries none, and SEN2NAIPv2 was assessed from
   metadata only (Phase 5). The thresholded NDVI decision is a *vegetation proxy*; its agreement with the HR reference is **not** a classification accuracy against labels, and no land-cover performance is claimed. No further
   dataset was downloaded to obtain one.
-* **Indian regions: `india_downstream_validation_unavailable`.** There is no Indian HR reference and no Indian downstream label in the repository. No synthetic "Indian truth" was created and no Indian claim is made.
+* **Indian regions: `india_downstream_validation_unavailable`.** There is no Indian HR reference and no Indian downstream label in the repository. No synthetic "Indian truth" was created and no Indian claim is made. Step H's
+  `frame.generalization` package (docs/TRACEABILITY.md §12) computes NDVI/NDWI **self-consistency** (SR downsampled vs. the original Sentinel-2 observation) on a real Indian scene -- that is not this layer's downstream task
+  (region NDVI vs. an HR reference, decision agreement, risk-coverage) and does not weaken this deferral: it is a different, no-reference diagnostic, not downstream validation.
 
 ## 8. Results (measured, descriptive, non-causal; nothing is ranked)
 
@@ -315,6 +317,7 @@ because two overlapping intervals of separate means cannot answer "does the stab
 * **Multiplicity.** The tables contain many intervals (2 models × 4 datasets × 2 targets × several statistics); none is corrected. A few "significant" cells are expected by chance.
 * **Confounding is reduced, not removed.** Texture and added detail were controlled by partial rank correlation; brightness, land-cover type and sensor differences were not.
 * **Two-pass run and a dirty working tree.** See §8; commit before quoting the git revision.
+* **Step I packaging note.** `GET /products/{job_id}/analysis` (docs/OPERATIONAL_DELIVERY.md §5) lists whatever NDVI analyses `POST /analysis/ndvi` already ran for a job; it computes nothing new and does not change any result in this document.
 
 ## 10. Tests and how to reproduce
 
