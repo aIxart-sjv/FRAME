@@ -50,6 +50,7 @@ testpaths = ["tests"]
 addopts = "-m 'not integration'"
 markers = [
     "integration: real end-to-end FRAME API test against the actual cached model weights (frame/tests/test_api_integration.py); auto-skips if the weights cache is absent rather than downloading. Excluded by default via addopts -- run explicitly with `pytest -m integration`.",
+    "live_cdse: a real, network-touching test against the live Copernicus Data Space Ecosystem API (frame/tests/test_acquisition_live.py and similar); self-skips via pytest.mark.skipif without FRAME_CDSE_CLIENT_ID/SECRET, so it is NOT excluded by addopts -- frame/tests/conftest.py exempts marked tests from its usual CDSE-credential-stripping fixture, since these specifically need the real credentials.",
 ]
 
 [tool.ruff]

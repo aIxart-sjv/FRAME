@@ -18,7 +18,7 @@ lossless choice for this phase.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Tuple, Union
+from typing import Optional, Tuple, Union
 
 import numpy as np
 import rasterio
@@ -75,15 +75,70 @@ def write_geotiff(path: Union[str, Path], array: np.ndarray, metadata: RasterMet
         dst.write(array)
         for i, name in enumerate(metadata.band_names, start=1):
             dst.set_band_description(i, name)
+        dst.update_tags(**_provenance_tags(metadata))
 
-        tags = {_TAG_PIPELINE: _PIPELINE_TAG_VALUE}
-        if metadata.sr_variant is not None:
-            tags[_TAG_SR_VARIANT] = metadata.sr_variant
-        if metadata.acquisition_timestamp is not None:
-            tags[_TAG_ACQUISITION_TIMESTAMP] = metadata.acquisition_timestamp
-        if metadata.cloud_mask_coverage is not None:
-            tags[_TAG_CLOUD_MASK_COVERAGE] = repr(metadata.cloud_mask_coverage)
-        dst.update_tags(**tags)
+
+def _provenance_tags(metadata: RasterMetadata) -> dict:
+    tags = {_TAG_PIPELINE: _PIPELINE_TAG_VALUE}
+    if metadata.sr_variant is not None:
+        tags[_TAG_SR_VARIANT] = metadata.sr_variant
+    if metadata.acquisition_timestamp is not None:
+        tags[_TAG_ACQUISITION_TIMESTAMP] = metadata.acquisition_timestamp
+    if metadata.cloud_mask_coverage is not None:
+        tags[_TAG_CLOUD_MASK_COVERAGE] = repr(metadata.cloud_mask_coverage)
+    return tags
+
+
+#: GDAL's COG driver (3.1+) creation options for this project's float32 reflectance rasters.
+#: DEFLATE + a floating-point predictor is lossless (unlike JPEG) -- required, since these are
+#: scientific values, not display imagery. BLOCKSIZE=512 is only the internal tile size GDAL
+#: uses to lay out the file; whether it actually adds overviews depends on the raster's size
+#: (OVERVIEWS="AUTO", GDAL's own default) -- a small SR tile legitimately gets none, and
+#: `frame.geospatial.cog.validate_cog` reports that rather than treating it as a defect.
+COG_CREATION_OPTIONS = {"COMPRESS": "DEFLATE", "PREDICTOR": "3", "BLOCKSIZE": "512", "OVERVIEWS": "AUTO"}
+
+
+def write_cog(path: Union[str, Path], array: np.ndarray, metadata: RasterMetadata, *, extra_tags: Optional[dict] = None) -> None:
+    """Write ``array`` as a Cloud Optimized GeoTIFF (Requirements 142 Requirement 11).
+
+    Same validation, shape contract and provenance tags as `write_geotiff` (this is the same
+    product, packaged differently) -- reuses GDAL's own COG driver (bundled in this project's
+    rasterio, GDAL >= 3.1) rather than hand-rolling tiling/overview logic. ``extra_tags`` adds
+    further string tags (e.g. model id, checkpoint hash, source scene id) beyond the fixed
+    provenance set `write_geotiff` already writes -- see `frame.product.stac` for how those are
+    chosen; this function does not decide what belongs in them.
+    """
+    validate_geospatial_completeness(metadata)
+
+    array = np.asarray(array, dtype="float32")
+    bands, height, width = array.shape
+    if bands != len(metadata.band_names) or height != metadata.height or width != metadata.width:
+        raise ValueError(
+            f"Array shape {array.shape} does not match metadata "
+            f"(bands={len(metadata.band_names)}, height={metadata.height}, width={metadata.width})."
+        )
+
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    with rasterio.open(
+        path,
+        "w",
+        driver="COG",
+        height=height,
+        width=width,
+        count=bands,
+        dtype="float32",
+        crs=metadata.crs,
+        transform=Affine(*metadata.transform),
+        nodata=metadata.nodata_value,
+        **COG_CREATION_OPTIONS,
+    ) as dst:
+        dst.write(array)
+        for i, name in enumerate(metadata.band_names, start=1):
+            dst.set_band_description(i, name)
+        tags = {**_provenance_tags(metadata), **(extra_tags or {})}
+        dst.update_tags(**{k: str(v) for k, v in tags.items()})
 
 
 def _open(path: Union[str, Path]):

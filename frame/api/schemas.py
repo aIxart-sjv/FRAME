@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from frame.models import config as models_cfg
 from frame.models.selection import normalize_model_name
@@ -84,6 +84,35 @@ class ModelAvailability(BaseModel):
     reason: Optional[str] = Field(None, description="User-facing explanation when available is false")
 
 
+class ModelCapability(BaseModel):
+    """Real, verified capability metadata for one selectable SR model (Step G, Requirements 142
+    Requirement 4) -- GET /models. Every field is a fact about the actual checkpoint/executable
+    (frame.models.selection.MODEL_SPECS), never an aspiration: no model here claims a 12-band
+    input/output or a resolution finer than 2.5 m unless a real, verified model and weights
+    support that exact contract (see docs/CLAIMS.md)."""
+
+    model_config = ConfigDict(protected_namespaces=())
+
+    id: str
+    label: str
+    model_name: str
+    description: str
+    architecture: str
+    input_bands: List[str]
+    output_bands: List[str]
+    input_resolution_m: Optional[float]
+    output_resolution_m: Optional[float]
+    scale_factor: Optional[int]
+    uncertainty: bool
+    uncertainty_method: Optional[str] = Field(
+        None, description="What the uncertainty signal actually is, in this project's own honest terms -- never 'calibrated'."
+    )
+    parameter_count: Optional[int] = None
+    environment: str = Field(description="'main' (loaded in-process) or 'isolated:<worker-module>' (a separate environment/process).")
+    available: bool
+    reason: Optional[str] = Field(None, description="User-facing explanation when available is false")
+
+
 class HealthResponse(BaseModel):
     status: str
     frame_version: Optional[str]
@@ -123,6 +152,157 @@ class AOIPreviewResponse(BaseModel):
         "imagery. Use /upload with a real Sentinel-2 L2A GeoTIFF to run the "
         "actual pipeline."
     )
+
+
+# ---------------------------------------------------------------------------
+# POST /acquisition/search, GET /acquisition/scenes/{search_id}/{scene_id},
+# POST /acquisition/retrieve, GET /acquisition/download/{retrieval_id}/{bands,scl}
+#
+# Real Sentinel-2 discovery (frame.acquisition.search, CDSE STAC) and
+# retrieval (frame.acquisition.retrieve, CDSE Process API primary /
+# Planetary Computer fallback) -- see docs/ACQUISITION.md. Distinct from
+# /aoi/preview above (which never fetches real imagery): every field here
+# is copied from a real provider response, never fabricated. This endpoint
+# set does not yet feed a retrieved scene into /sr/run (see docs/ACQUISITION.md
+# §5) and does not yet claim 12-band SR.
+# ---------------------------------------------------------------------------
+
+ACQUISITION_RETRIEVAL_NOTE = (
+    "These are real retrieved reflectance bands for this scene and AOI, harmonised onto one grid. "
+    "They are not yet wired into POST /sr/run -- SR models here only ever accept the 4-band RGBN "
+    "input POST /upload validates, and none of them are trained on or claim to produce a genuine "
+    "12-band 2.5 m reconstruction. See docs/ACQUISITION.md and docs/CLAIMS.md."
+)
+
+
+class AcquisitionSearchRequest(BaseModel):
+    bbox: Optional[List[float]] = Field(
+        None, min_length=4, max_length=4, description="[min_lon, min_lat, max_lon, max_lat], EPSG:4326"
+    )
+    aoi_geojson: Optional[Dict[str, Any]] = Field(
+        None,
+        description="A GeoJSON Feature/Polygon/MultiPolygon. Reduced to its bounding box for search "
+        "(true polygon-intersection filtering is not implemented -- see docs/ACQUISITION.md). "
+        "Provide this or bbox, not neither.",
+    )
+    start_date: str = Field(..., description="YYYY-MM-DD or full ISO 8601")
+    end_date: str = Field(..., description="YYYY-MM-DD or full ISO 8601")
+    max_cloud_cover: float = Field(100.0, ge=0.0, le=100.0)
+    max_results: int = Field(10, ge=1, le=50)
+
+    @model_validator(mode="after")
+    def _one_of_bbox_or_geojson(self) -> "AcquisitionSearchRequest":
+        if self.bbox is None and self.aoi_geojson is None:
+            raise ValueError("Provide either 'bbox' or 'aoi_geojson' to define the search AOI.")
+        return self
+
+
+class SceneCandidateSchema(BaseModel):
+    id: str
+    provider: str
+    collection: str
+    datetime: str
+    cloud_cover: Optional[float]
+    bbox: List[float]
+    geometry: Optional[Dict[str, Any]] = None
+    mgrs_tile: Optional[str] = None
+    platform: Optional[str] = None
+    processing_baseline: Optional[str] = None
+    asset_count: int = Field(0, description="Number of real STAC asset hrefs this scene has (not returned in full -- see the scene-detail endpoint's note).")
+
+
+class AcquisitionSearchResponse(BaseModel):
+    search_id: str
+    query: AcquisitionSearchRequest
+    provider: str
+    stac_endpoint: str
+    scenes: List[SceneCandidateSchema]
+    scene_count: int
+    note: Optional[str] = None
+
+
+class AcquisitionSceneDetailResponse(BaseModel):
+    search_id: str
+    scene: SceneCandidateSchema
+    note: str = (
+        "Real per-resolution asset references (asset_hrefs) point at CDSE's own s3://eodata/... "
+        "objects, which require separate S3 credentials this server does not use. Real pixels are "
+        "retrieved via POST /acquisition/retrieve (Sentinel Hub Process API, or Planetary Computer "
+        "as a disclosed fallback), not by fetching those hrefs directly."
+    )
+
+
+class AcquisitionRetrieveRequest(BaseModel):
+    search_id: str
+    scene_id: str
+    bands: List[str] = Field(default_factory=lambda: ["B02", "B03", "B04", "B08"], min_length=1, max_length=12)
+    resolution_m: float = Field(10.0, ge=1.0, le=100.0, description="A sane bound, not a scientific one: real L2A bands are native at 10/20/60 m.")
+    include_scl: bool = True
+
+
+class AcquisitionRetrieveResponse(BaseModel):
+    retrieval_id: str
+    search_id: str
+    scene_id: str
+    bands: List[str]
+    band_native_resolution_m: Dict[str, float]
+    band_sources: Dict[str, str]
+    band_radiometric_method: Dict[str, str] = Field(
+        default_factory=dict,
+        description="Per band, the real radiometric conversion its actual source provider applied "
+        "(frame.acquisition.harmonise) -- never a single assumed formula for the whole stack.",
+    )
+    is_complete_l2a: bool = Field(
+        False, description="Whether this retrieval's bands cover all 12 required Sentinel-2 L2A bands (B10 excluded)."
+    )
+    validity_mask_coverage: Optional[float] = Field(
+        None, description="Fraction of pixels the real SCL-derived validity mask marks valid (null if SCL was not retrieved).",
+    )
+    scl_included: bool
+    crs: str
+    resolution_m: float
+    width: int
+    height: int
+    retrieval_provider: str
+    retrieval_endpoint: str
+    matched_acquisition_datetime: str
+    retrieved_at_utc: str
+    warnings: List[str]
+    artifacts: Dict[str, str]
+    note: str = ACQUISITION_RETRIEVAL_NOTE
+
+
+# ---------------------------------------------------------------------------
+# POST /acquisition/retrieve/{retrieval_id}/prepare-sr-input
+#
+# Step E: the one adapter between a real acquisition retrieval and the
+# existing, unmodified /sr/run. Shaped like UploadResponse (same first block
+# of fields) plus real acquisition provenance, so the frontend can drop the
+# first block straight into the same state a manual /upload response fills.
+# ---------------------------------------------------------------------------
+
+class AcquisitionSrInputResponse(BaseModel):
+    upload_id: str
+    filename: str
+    valid: bool
+    band_names: List[str]
+    width: int
+    height: int
+    crs: Optional[str]
+    resolution_m: Optional[float]
+    input_scale: str
+    validation_messages: List[str]
+    retrieval_id: str
+    search_id: str
+    scene_id: str
+    provider: str
+    matched_acquisition_datetime: str
+    excluded_bands: List[str] = Field(
+        default_factory=list,
+        description="Real bands this retrieval had beyond the RGBN set /sr/run uses -- preserved in the "
+        "retrieval's own bands GeoTIFF, never discarded, not used for this SR run.",
+    )
+    note: str
 
 
 # ---------------------------------------------------------------------------
@@ -243,3 +423,46 @@ class NDVIAnalysisResponse(BaseModel):
     metadata: Dict[str, Any]
     artifacts: Dict[str, str]
     created_at: str
+
+
+# ---------------------------------------------------------------------------
+# Products (Requirements 142 Requirement 11, Step I) -- a GIS-ready view of an
+# already-completed SR job. product_id == job_id: there is no second identity
+# space, see frame.api.services.product's module docstring.
+# ---------------------------------------------------------------------------
+
+class CogValidationSummary(BaseModel):
+    is_valid_cog: bool
+    reasons: List[str]
+    driver_reports_cog_layout: bool
+    is_tiled: bool
+    compression: Optional[str]
+    overview_factors: List[int]
+    has_crs: bool
+    has_transform: bool
+    dtype: str
+    band_count: int
+    width: int
+    height: int
+
+
+class AsyncJobResponse(BaseModel):
+    """A minimal local background-job status (Step I Section 6) -- not a durable queue, see
+    frame.api.services.async_jobs's module docstring. ``sr_job_id`` is set once ``status`` is
+    "completed"; poll `GET /sr/result/{sr_job_id}` or `GET /products/{sr_job_id}` next."""
+
+    async_job_id: str
+    status: str  # "queued" | "running" | "completed" | "failed"
+    sr_job_id: Optional[str] = None
+    error: Optional[str] = None
+    created_at: str
+
+
+class ProductResponse(BaseModel):
+    job_id: str
+    status: str
+    cog_available: bool
+    cog_validation: Optional[CogValidationSummary] = None
+    evidence_assets: Dict[str, str] = Field(default_factory=dict)
+    analyses: List[Dict[str, Any]] = Field(default_factory=list)
+    stac_url: Optional[str] = None

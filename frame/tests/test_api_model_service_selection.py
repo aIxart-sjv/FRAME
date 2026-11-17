@@ -147,8 +147,9 @@ def test_default_mamba_loader_refuses_cleanly_when_there_is_no_gpu():
 
 def test_list_models_reports_both_models_without_loading_anything():
     models = model_service.list_models("cpu")
-    assert [m["id"] for m in models] == ["lite", "mamba"]
-    lite, mamba = models
+    assert [m["id"] for m in models] == ["lite", "mamba", "ldsrs2"]
+    lite, mamba, ldsrs2 = models
     assert lite["available"] is True and lite["reason"] is None
     assert mamba["available"] is False and "CUDA" in mamba["reason"]
+    assert ldsrs2["available"] is False and ldsrs2["reason"]  # verified real, not deployable here (Step G)
     assert model_service._model_cache == {}  # listing never starts a worker

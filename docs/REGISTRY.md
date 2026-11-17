@@ -8,7 +8,9 @@ disagreement is left visible. Read [`CLAIMS.md`](CLAIMS.md) before using any of 
 
 Two models are selectable (`POST /sr/run {"model": "lite" | "mamba"}`, default `lite`). Both are **RGBN, 10 m → 2.5 m pixel grid (×4)**, take exactly **128 × 128** input tiles (scenes of any size are cut into
 tiles by `frame.tiling`), use the channel order **B04, B03, B02, B08**, and expect **surface reflectance as a fraction** (the API converts raw digital numbers by ÷ 10000 only when the caller says so).
-Neither is trained, fine-tuned or modified by FRAME; `sen2sr/` has no diff. There is no third model and no fallback between them.
+Neither is trained, fine-tuned or modified by FRAME; `sen2sr/` has no diff. **No selectable model has a fallback**: an unavailable model is a 503, never a silent substitution.
+
+A third model, **LDSR-S2**, was verified end-to-end with real weights and real Sentinel-2 data (Step G — §1a) but is **not selectable**: `GET /models` and `GET /health` report it honestly as `available: false` with the reason; `/sr/run` does not recognise its id at all.
 
 | | SEN2SR-Lite | SEN2SR-Mamba |
 |---|---|---|
@@ -32,10 +34,28 @@ Neither is trained, fine-tuned or modified by FRAME; `sen2sr/` has no diff. Ther
 * *Mamba.* The artifact's `mlm.json` says `Swin2SR` (that is its primary 10-band cascade component); the RGBN stage that FRAME runs is `MambaSR` (13,759,444 parameters, not the manifest's 12,894,526). FRAME records both labels
   (`executable_architecture: "MambaSR"`, `artifact_metadata_label: "Swin2SR"`). Details: [`MAMBA_INTEGRATION.md`](MAMBA_INTEGRATION.md).
 * *Neither manifest was modified, and neither URL is pinned to a revision (`…/resolve/main/…`).* The SHA-256 values above are what every Phase 5–8 record ran. A later re-download could differ; compare hashes before comparing results.
-* *Not integrated:* the 10-band cascade (`model.safetensor`, `f2_*` in `models/SEN2SR/`), LDSR-S2, any GAN / Swin / diffusion model. `ldsrs2_venv/` in the repository root is an unused exploratory environment (Python 3.14); nothing in `frame/` imports it.
+* *Not integrated, still:* the 10-band cascade (`model.safetensor`, `f2_*` in `models/SEN2SR/`); any GAN / Swin / diffusion family other than LDSR-S2. LDSR-S2 itself **is now verified** — see §1a — but remains undeployed, for reasons measured there, not because it was left uninspected.
 
 The **weights of the evaluated product** are therefore exactly the two rows above. The tiny CNN of Phase 4 (`frame.train.models.tiny_cnn`, 47 k parameters, trained for 600 steps on synthetic data) and the Mamba fine-tune smoke checkpoint are
 **not** part of the product; they exist to test the training loop (§4).
+
+### 1a. LDSR-S2 — verified, not deployed (Step G)
+
+`ldsrs2_venv/` (Python 3.14, its own torch 2.14 build, isolated from `sen2sr_venv` and `sen2sr_mamba_venv`) holds a real, installed `opensr-model` v1.1.1. This is not a placeholder: the package's own docstring says
+"Latent diffusion model trained in RGBN optical remote sensing imagery" — RGBN-only, from the source itself, before FRAME inspected anything further.
+
+| | LDSR-S2 |
+|---|---|
+| Executable class | `opensr_model.srmodel.SRLatentDiffusion` — a VAE autoencoder (`first_stage_config`: 4 in / 4 out channels) plus a DDIM denoising UNet (`cond_stage_config`: 8 in channels, image size 128, 100 default sampling steps, eps-parameterisation); config at `ldsrs2_venv/.../opensr_model/configs/config_10m.yaml` |
+| Parameters (measured) | **168,955,116** total (the UNet alone: 113.63 M) |
+| Checkpoint | `opensr-ldsrs2_v1_0_0.ckpt`, downloaded from `huggingface.co/simon-donike/RS-SR-LTDF`, **1,130,715,795 bytes**; loads `strict=True` (0 missing, 0 unexpected) in 0.3–0.4 s |
+| Verified I/O contract | Output is exactly **4× input in height and width** — the identical scale FRAME already uses. Confirmed twice: (a) random weights, synthetic 128×128 input, CPU → 512×512; (b) **real weights + real Sentinel-2 data** (scene `S2B_MSIL2A_20240330T045659_N0510_R119_T44PMV_20240330T072508`, a 71×70 px RGBN crop, reflectance 0.0385–0.5587) → **284×280** output, 20.8 s for a 20-step DDIM forward pass on CPU; output mean 0.1581 against an input mean of 0.1581 (`histogram_matching=True` folds the result back toward the LR statistics) |
+| Uncertainty | `uncertainty_map()`: several independent full DDIM samples, per-pixel std across them — a genuinely different mechanism from FRAME's 6-view TTA. Real run: 4 variations × 5 steps, 74.9 s, mean spread 0.0120 (reflectance units). No calibration code exists in the package; never described as calibrated |
+| GPU memory, this machine | **`torch.OutOfMemoryError`** on the RTX 3050 (4 GB) even at the 70×71 px input above (1024 MiB requested, 121 MiB free, 2.95 GiB already allocated). Cause: `_tensor_encode` bilinear-upsamples the LR input by 4× *before* VAE-encoding it as the diffusion conditioning signal, so a 71×70 input becomes a ≈ 284×280 VAE self-attention operation — too large for the ≈ 3.4–3.7 GiB actually usable on this GPU alongside the loaded weights. `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True` did not help |
+| CPU fallback | Completes (the numbers above), but at roughly **60–100× the per-tile latency** of Lite/Mamba's combined ≈ 1–2 s for a 128×128 tile — for a patch smaller than one FRAME tile. Impractical for the synchronous `/sr/run` pipeline; no isolated worker (the `mamba_client` / `mamba_worker` pattern) was built for it |
+| Registry status | `frame.models.selection.CAPABILITY_ONLY_SPECS["ldsrs2"]`. Reported by `GET /models` and `GET /health` with `available: false` and the reason above. **Not** in `MODEL_SPECS`: `/sr/run` does not recognise `"ldsrs2"` as a model id (`UnknownModelError`, HTTP 422) — there is no code path by which a request could silently fall through to Lite or Mamba |
+
+This satisfies Requirements 142 Requirement 4 §7's branching instruction directly: LDSR-S2 is genuinely executable (a real forward pass, with real weights and real data, was completed), so its verified capability is integrated into the registry — but it is not deployable on this project's declared development GPU, so it is left unavailable there, with the reason recorded rather than asserted.
 
 ### The API and what it records about a run
 

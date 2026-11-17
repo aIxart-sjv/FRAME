@@ -385,6 +385,16 @@ def test_an_sr_that_reduces_exactly_to_the_lr_is_perfectly_self_consistent():
     sr = np.repeat(np.repeat(lr, 4, axis=1), 4, axis=2)
     sc = M.self_consistency(lr, sr, np.ones((16, 16), bool), BANDS, 4)
     assert sc["overall"]["mae"] == pytest.approx(0.0, abs=1e-7) and sc["ndvi"]["mae"] == pytest.approx(0.0, abs=1e-6)
+    assert sc["ndwi"]["mae"] == pytest.approx(0.0, abs=1e-6)  # B03/B08 are both RGBN: NDWI is observation-grid computable too
+    assert sc["overall"]["bias"] == pytest.approx(0.0, abs=1e-7)
+
+
+def test_self_consistency_bias_carries_sign_that_mae_discards():
+    lr = smooth_field(size=16)
+    sr = np.repeat(np.repeat(lr, 4, axis=1), 4, axis=2) - 0.03  # SR systematically LOWER than LR
+    sc = M.self_consistency(lr, sr, np.ones((16, 16), bool), BANDS, 4)
+    assert sc["overall"]["mae"] == pytest.approx(0.03, abs=1e-6)
+    assert sc["overall"]["bias"] == pytest.approx(-0.03, abs=1e-6)
 
 
 def test_self_consistency_measures_a_radiometric_shift_against_the_lr_only():

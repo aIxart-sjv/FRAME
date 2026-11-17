@@ -1,0 +1,35 @@
+# Git and IDE
+.git
+.gitignore
+.gitattributes
+.claude
+.codemap
+.vscode
+.idea
+
+# Python virtual environments (CRITICAL: large multi-gigabyte directories)
+sen2sr_venv*
+sen2sr_mamba_venv*
+ldsrs2_venv*
+venv*
+.venv*
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache
+.coverage
+htmlcov
+
+# Node / Frontend build outputs
+frontend/node_modules
+frontend/dist
+Frontend-refrence
+
+# Secrets and local configurations (injected at runtime via docker-compose)
+.env
+.env.local
+
+# Large temporary documents
+*.docx
+*.log

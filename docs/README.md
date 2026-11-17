@@ -66,6 +66,8 @@ So "Phase 6" in `frame/analysis` (the NDVI demonstration) and "Phase 6" in `RELI
 | [`RELIABILITY.md`](RELIABILITY.md) | the reference gate and whether the stability informs about error | roadmap 6 |
 | [`DOWNSTREAM.md`](DOWNSTREAM.md) | an NDVI decision task with the same gate | roadmap 7 |
 | [`REGISTRY.md`](REGISTRY.md) · [`CLAIMS.md`](CLAIMS.md) · [`TRACEABILITY.md`](TRACEABILITY.md) · [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) · [`DEMO_RUNBOOK.md`](DEMO_RUNBOOK.md) · [`RELEASE_READINESS.md`](RELEASE_READINESS.md) | the consolidation: artifacts and evidence, claims, requirements, reproduction, the demo, readiness | roadmap 8 |
+| [`ACQUISITION.md`](ACQUISITION.md) | `frame/acquisition/`: real CDSE/Planetary-Computer search and retrieval, a real map-first frontend, the handoff into the existing SR pipeline, and 12-band L2A harmonisation (validity mask, radiometric provenance, RGBN adapter) | requirements-recovery |
+| [`OPERATIONAL_DELIVERY.md`](OPERATIONAL_DELIVERY.md) | `frame/product/`, `frame.geospatial.cog`: real COG/STAC generation and validation, the product registry API, a minimal tile renderer and background-job path, a real end-to-end demonstration, and the conservative Requirements 1–12 closure matrix | requirements-recovery |
 
 **Which document wins.** For *what may be claimed*: `CLAIMS.md`. For *what a run measured*: the run's own record under `experiments/` and the roadmap document that describes it. For *how a module behaves*: its package README and tests.
 The design spec's tags describe understanding at the time; each experiment README and package README is the authoritative record of what was actually built and verified for its scope. The repository's root `README.md` is the upstream `sen2sr` project's and is unchanged.

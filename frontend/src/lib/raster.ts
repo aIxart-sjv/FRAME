@@ -1,130 +1,98 @@
 /**
- * Canvas drawing routines. Each function fills a 2D rendering context with
- * pixels derived from already-decoded band arrays (src/lib/geotiff.ts) via
- * a display-only color transform (src/lib/colormap.ts). No geospatial
- * reprojection, tiling, or basemap -- see frame/api/README.md's "Scope"
- * note; this is a raster preview, not a GIS viewer.
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NDVI_DIFF_HIGH, NDVI_DIFF_LOW, UNCERTAINTY_HIGH, UNCERTAINTY_LOW, ndviColor, normalize, percentileRange, sequentialColor, type RGB } from './colormap'
+/**
+ * Canvas rendering of a decoded raster (src/lib/geotiff.ts) -- a percentile-stretched RGB composite, a single-band
+ * sequential heatmap (stability, |NDVI difference|), and an NDVI diverging map. Display only; no analysis.
+ */
 
-function ensureCanvasSize(canvas: HTMLCanvasElement, width: number, height: number): void {
-  if (canvas.width !== width) canvas.width = width
-  if (canvas.height !== height) canvas.height = height
+import { normalize, ndviColor, percentileRange, sequentialColor } from './colormap';
+import type { DecodedRaster } from './geotiff';
+import { BAND_INDEX } from './geotiff';
+
+function setCanvasSize(canvas: HTMLCanvasElement, width: number, height: number): CanvasRenderingContext2D {
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('2D canvas context is not available.');
+  return ctx;
 }
 
-export interface RgbBands {
-  red: Float32Array
-  green: Float32Array
-  blue: Float32Array
-}
-
-/** Percentile-stretched true-color composite -- the same 2/98 stretch
- * convention `experiments/*`'s own preview scripts use, reimplemented here
- * only as a rendering step (raw reflectance floats have no display range
- * of their own). */
-export function renderRgbComposite(canvas: HTMLCanvasElement, width: number, height: number, bands: RgbBands): void {
-  ensureCanvasSize(canvas, width, height)
-  const ctx = canvas.getContext('2d')
-  if (!ctx) return
-
-  const [rLo, rHi] = percentileRange(bands.red)
-  const [gLo, gHi] = percentileRange(bands.green)
-  const [bLo, bHi] = percentileRange(bands.blue)
-
-  const image = ctx.createImageData(width, height)
-  for (let i = 0; i < width * height; i++) {
-    const r = normalize(bands.red[i], rLo, rHi)
-    const g = normalize(bands.green[i], gLo, gHi)
-    const b = normalize(bands.blue[i], bLo, bHi)
-    image.data[i * 4] = Math.round(r * 255)
-    image.data[i * 4 + 1] = Math.round(g * 255)
-    image.data[i * 4 + 2] = Math.round(b * 255)
-    image.data[i * 4 + 3] = 255
+/** A natural-colour composite from the raster's B04/B03/B02 bands, each independently percentile-stretched.
+ * `bandIndices` says which decoded band is which -- it defaults to the canonical RGBN order the backend always
+ * writes for its own outputs, but a user's own uploaded file can store its bands in any order (the API is
+ * explicitly "order-independent"), so the caller must pass the real mapping (from the upload response's
+ * `band_names`) when rendering that file directly in the browser. */
+export function renderRgbComposite(canvas: HTMLCanvasElement, raster: DecodedRaster, bandIndices: { red: number; green: number; blue: number } = { red: BAND_INDEX.RED, green: BAND_INDEX.GREEN, blue: BAND_INDEX.BLUE }): void {
+  const { width, height } = raster;
+  const ctx = setCanvasSize(canvas, width, height);
+  const image = ctx.createImageData(width, height);
+  const red = raster.bands[bandIndices.red];
+  const green = raster.bands[bandIndices.green];
+  const blue = raster.bands[bandIndices.blue];
+  const [rLo, rHi] = percentileRange(red);
+  const [gLo, gHi] = percentileRange(green);
+  const [bLo, bHi] = percentileRange(blue);
+  for (let i = 0; i < width * height; i += 1) {
+    const alpha = Number.isFinite(red[i]) && Number.isFinite(green[i]) && Number.isFinite(blue[i]) ? 255 : 0;
+    image.data[i * 4] = Math.round(normalize(red[i], rLo, rHi) * 255);
+    image.data[i * 4 + 1] = Math.round(normalize(green[i], gLo, gHi) * 255);
+    image.data[i * 4 + 2] = Math.round(normalize(blue[i], bLo, bHi) * 255);
+    image.data[i * 4 + 3] = alpha;
   }
-  ctx.putImageData(image, 0, 0)
+  ctx.putImageData(image, 0, 0);
 }
 
-export type SequentialKind = 'uncertainty' | 'ndvi-diff'
-
-const SEQUENTIAL_RAMPS: Record<SequentialKind, { low: RGB; high: RGB }> = {
-  uncertainty: { low: UNCERTAINTY_LOW, high: UNCERTAINTY_HIGH },
-  'ndvi-diff': { low: NDVI_DIFF_LOW, high: NDVI_DIFF_HIGH },
-}
-
-/** Single-hue magnitude heatmap (uncertainty, or |NDVI difference|),
- * percentile-scaled so the ramp uses the full range this particular scene
- * actually produced. Returns the [lo, hi] range used, so a legend can
- * display it. */
-export function renderSequentialHeatmap(canvas: HTMLCanvasElement, width: number, height: number, band: Float32Array, kind: SequentialKind): [number, number] {
-  ensureCanvasSize(canvas, width, height)
-  const ctx = canvas.getContext('2d')
-  const [lo, hi] = percentileRange(band, 2, 98)
-  if (!ctx) return [lo, hi]
-
-  const ramp = SEQUENTIAL_RAMPS[kind]
-  const image = ctx.createImageData(width, height)
-  for (let i = 0; i < width * height; i++) {
-    const t = normalize(band[i], lo, hi)
-    const [r, g, b] = sequentialColor(t, ramp.low, ramp.high)
-    image.data[i * 4] = Math.round(r)
-    image.data[i * 4 + 1] = Math.round(g)
-    image.data[i * 4 + 2] = Math.round(b)
-    image.data[i * 4 + 3] = Number.isFinite(band[i]) ? 255 : 0
+/** A single band rendered as a sequential heatmap (dark -> gold), percentile-stretched. Returns the [lo, hi] range used, for a legend. */
+export function renderSequentialBand(canvas: HTMLCanvasElement, band: Float32Array, width: number, height: number): [number, number] {
+  const ctx = setCanvasSize(canvas, width, height);
+  const image = ctx.createImageData(width, height);
+  const [lo, hi] = percentileRange(band);
+  for (let i = 0; i < width * height; i += 1) {
+    const finite = Number.isFinite(band[i]);
+    const [r, g, b] = sequentialColor(normalize(band[i], lo, hi));
+    image.data[i * 4] = r;
+    image.data[i * 4 + 1] = g;
+    image.data[i * 4 + 2] = b;
+    image.data[i * 4 + 3] = finite ? 255 : 0;
   }
-  ctx.putImageData(image, 0, 0)
-  return [lo, hi]
+  ctx.putImageData(image, 0, 0);
+  return [lo, hi];
 }
 
-/** Fixed-domain NDVI vegetation ramp -- see colormap.ts for why the domain
- * is fixed rather than per-image stretched. */
-export function renderNdvi(canvas: HTMLCanvasElement, width: number, height: number, band: Float32Array): void {
-  ensureCanvasSize(canvas, width, height)
-  const ctx = canvas.getContext('2d')
-  if (!ctx) return
-
-  const image = ctx.createImageData(width, height)
-  for (let i = 0; i < width * height; i++) {
-    const value = band[i]
-    const [r, g, b] = ndviColor(value)
-    image.data[i * 4] = Math.round(r)
-    image.data[i * 4 + 1] = Math.round(g)
-    image.data[i * 4 + 2] = Math.round(b)
-    image.data[i * 4 + 3] = Number.isFinite(value) ? 255 : 0
+/** A single NDVI band ([-1, 1]) rendered with the app's red/gold/green ramp. */
+export function renderNdviBand(canvas: HTMLCanvasElement, band: Float32Array, width: number, height: number): void {
+  const ctx = setCanvasSize(canvas, width, height);
+  const image = ctx.createImageData(width, height);
+  for (let i = 0; i < width * height; i += 1) {
+    const finite = Number.isFinite(band[i]);
+    const [r, g, b] = ndviColor(finite ? band[i] : 0);
+    image.data[i * 4] = r;
+    image.data[i * 4 + 1] = g;
+    image.data[i * 4 + 2] = b;
+    image.data[i * 4 + 3] = finite ? 255 : 0;
   }
-  ctx.putImageData(image, 0, 0)
+  ctx.putImageData(image, 0, 0);
 }
 
-/** RGB base image with a semi-transparent uncertainty overlay -- alpha is
- * modulated per-pixel by the normalized uncertainty value itself (low
- * uncertainty -> the base image shows through clean; high uncertainty ->
- * the amber overlay dominates). This is what makes "uncertainty is
- * spatially localized" visually obvious, without a binary mask. */
-export function renderUncertaintyOverlay(canvas: HTMLCanvasElement, width: number, height: number, bands: RgbBands, uncertaintyBand: Float32Array, maxOverlayAlpha = 0.85): [number, number] {
-  ensureCanvasSize(canvas, width, height)
-  const ctx = canvas.getContext('2d')
-  const [uLo, uHi] = percentileRange(uncertaintyBand, 2, 98)
-  if (!ctx) return [uLo, uHi]
+/** The real reflectance value of every band at a canvas-space click, mapped back to raster pixel coordinates (canvas is drawn 1:1 with the raster's own width/height, scaled by CSS only). */
+export function samplePixel(raster: DecodedRaster, canvas: HTMLCanvasElement, clientX: number, clientY: number): { x: number; y: number; values: number[] } | null {
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.floor(((clientX - rect.left) / rect.width) * raster.width);
+  const y = Math.floor(((clientY - rect.top) / rect.height) * raster.height);
+  if (x < 0 || y < 0 || x >= raster.width || y >= raster.height) return null;
+  const idx = y * raster.width + x;
+  return { x, y, values: raster.bands.map((band) => band[idx]) };
+}
 
-  const [rLo, rHi] = percentileRange(bands.red)
-  const [gLo, gHi] = percentileRange(bands.green)
-  const [bLo, bHi] = percentileRange(bands.blue)
-
-  const image = ctx.createImageData(width, height)
-  for (let i = 0; i < width * height; i++) {
-    const baseR = normalize(bands.red[i], rLo, rHi) * 255
-    const baseG = normalize(bands.green[i], gLo, gHi) * 255
-    const baseB = normalize(bands.blue[i], bLo, bHi) * 255
-
-    const t = normalize(uncertaintyBand[i], uLo, uHi)
-    const alpha = t * maxOverlayAlpha
-    const [or_, og, ob] = sequentialColor(t, UNCERTAINTY_LOW, UNCERTAINTY_HIGH)
-
-    image.data[i * 4] = Math.round(baseR * (1 - alpha) + or_ * alpha)
-    image.data[i * 4 + 1] = Math.round(baseG * (1 - alpha) + og * alpha)
-    image.data[i * 4 + 2] = Math.round(baseB * (1 - alpha) + ob * alpha)
-    image.data[i * 4 + 3] = 255
-  }
-  ctx.putImageData(image, 0, 0)
-  return [uLo, uHi]
+/** NDVI = (NIR - Red) / (NIR + Red), the exact formula the backend uses (frame.consistency / frame.analysis). `null` where the denominator is not usably away from zero. */
+export function ndviAt(values: number[]): number | null {
+  const red = values[BAND_INDEX.RED];
+  const nir = values[BAND_INDEX.NIR];
+  if (!Number.isFinite(red) || !Number.isFinite(nir)) return null;
+  const denom = nir + red;
+  if (Math.abs(denom) < 1e-6) return null;
+  return (nir - red) / denom;
 }

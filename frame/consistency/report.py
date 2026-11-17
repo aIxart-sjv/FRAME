@@ -35,6 +35,7 @@ from frame.consistency.spectral_ratios import (
     SpectralIndexComparison,
     compute_b08_b04_ratio_comparison,
     compute_ndvi_comparison,
+    compute_ndwi_comparison,
 )
 from frame.consistency.tiles import TileOverlapResult
 
@@ -50,6 +51,7 @@ class ConsistencyDiagnostics:
 
     downsample_consistency: DownsampleConsistencyResult
     ndvi_comparison: SpectralIndexComparison
+    ndwi_comparison: SpectralIndexComparison
     b08_b04_ratio_comparison: SpectralIndexComparison
     cross_tile: Optional[TileOverlapResult]
     parameters: Dict[str, Any]
@@ -72,7 +74,7 @@ def run_consistency_diagnostics(
         mask: Boolean validity mask, shape (H, W) -- see
             `frame.preprocessing.ValidityMask.array`.
         band_names: Name of each band along axis 0, in order (must include
-            "B04" and "B08" for the spectral-index comparisons).
+            "B04" and "B08" for NDVI/the ratio, and "B03" for NDWI).
         scale_factor: The SR model's upscaling factor.
         cross_tile: An optional, separately-computed
             `frame.consistency.tiles.TileOverlapResult`, attached as-is if
@@ -95,6 +97,7 @@ def run_consistency_diagnostics(
         lr_np, sr_down_np, mask_np, band_names=band_names, scale_factor=int(scale_factor)
     )
     ndvi_result = compute_ndvi_comparison(lr_np, sr_down_np, mask_np, band_names=band_names)
+    ndwi_result = compute_ndwi_comparison(lr_np, sr_down_np, mask_np, band_names=band_names)
     ratio_result = compute_b08_b04_ratio_comparison(lr_np, sr_down_np, mask_np, band_names=band_names)
 
     parameters: Dict[str, Any] = {
@@ -112,6 +115,7 @@ def run_consistency_diagnostics(
     return ConsistencyDiagnostics(
         downsample_consistency=downsample_result,
         ndvi_comparison=ndvi_result,
+        ndwi_comparison=ndwi_result,
         b08_b04_ratio_comparison=ratio_result,
         cross_tile=cross_tile,
         parameters=parameters,

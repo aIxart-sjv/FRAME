@@ -263,7 +263,9 @@ def run_smoke(
         progress("health")
         health = _timed(timings, "health_s", lambda: client.get("/health"))
         listed = {m["id"]: m for m in health.json().get("available_models", [])} if health.status_code == 200 else {}
-        rec.check("health_ok_and_lists_both_models", health.status_code == 200 and set(listed) == {"lite", "mamba"}, f"status {health.status_code}, models {sorted(listed)}")
+        # >= rather than == : GET /health also lists real-but-not-deployable capability-only
+        # models (e.g. "ldsrs2", Step G Section 7) alongside the two selectable ones.
+        rec.check("health_ok_and_lists_both_models", health.status_code == 200 and {"lite", "mamba"} <= set(listed), f"status {health.status_code}, models {sorted(listed)}")
         if model == "mamba" and not listed.get("mamba", {}).get("available", False):
             raise SmokeUnavailable(f"SEN2SR-Mamba is unavailable here: {listed.get('mamba', {}).get('reason')}")
 

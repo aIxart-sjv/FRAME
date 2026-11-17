@@ -1,0 +1,6 @@
+{
+  "name": "FRAME — Geospatial Super-Resolution & Validation Engine",
+  "description": "Scientific geospatial super-resolution and analytical evidence engine transforming Sentinel-2 imagery into 2.5m analysis-ready products with spectral, spatial, and stability validation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

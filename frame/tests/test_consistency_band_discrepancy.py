@@ -78,6 +78,36 @@ def test_all_invalid_input_is_not_computable():
     assert result.per_band["B04"].mean_abs_error is None
 
 
+def test_bias_is_signed_and_matches_the_known_direction():
+    # SR is systematically higher than LR by exactly 0.3 -- bias must carry the sign (unlike MAE).
+    lr, sr = _lr_sr_pair(0.2, 0.5)
+    mask = np.ones((2, 2), dtype=bool)
+    result = compute_downsample_consistency(lr, sr, mask, band_names=["B04"], scale_factor=4)
+    assert result.overall.bias == pytest.approx(0.3, abs=1e-6)
+
+    lr2, sr2 = _lr_sr_pair(0.5, 0.2)
+    result2 = compute_downsample_consistency(lr2, sr2, mask, band_names=["B04"], scale_factor=4)
+    assert result2.overall.bias == pytest.approx(-0.3, abs=1e-6)
+
+
+def test_correlation_is_none_for_a_constant_tile():
+    # A constant LR/SR tile has no variance to correlate -- must be None, not a fabricated 0 or 1.
+    lr, sr = _lr_sr_pair(0.2, 0.5)
+    mask = np.ones((2, 2), dtype=bool)
+    result = compute_downsample_consistency(lr, sr, mask, band_names=["B04"], scale_factor=4)
+    assert result.overall.correlation is None
+
+
+def test_correlation_is_high_when_sr_downsample_tracks_lr_variation():
+    lr = torch.tensor([[[0.1, 0.2], [0.3, 0.4]]])
+    sr = torch.zeros(1, 8, 8)
+    sr[:, 0:4, 0:4], sr[:, 0:4, 4:8], sr[:, 4:8, 0:4], sr[:, 4:8, 4:8] = 0.15, 0.25, 0.35, 0.45  # +0.05 everywhere: perfectly correlated, not perfectly equal
+    mask = np.ones((2, 2), dtype=bool)
+    result = compute_downsample_consistency(lr, sr, mask, band_names=["B04"], scale_factor=4)
+    assert result.overall.correlation == pytest.approx(1.0, abs=1e-6)
+    assert result.overall.bias == pytest.approx(0.05, abs=1e-6)  # correlation alone would miss this offset
+
+
 def test_normalized_rmse_is_none_when_lr_mean_is_zero():
     lr, sr = _lr_sr_pair(0.0, 0.3)
     mask = np.ones((2, 2), dtype=bool)

@@ -227,7 +227,7 @@ responses.
   size are handled *in front of* the model by the tile engine (Phase 2, [`TILING.md`](TILING.md)); a
   non-128 × 128 tensor handed directly to the model is still rejected.
 * The output is a **2.5 m reconstructed grid** (SR-derived), not native resolution.
-* The **full 10-band cascade is not integrated**; nor LDSR-S2.
+* The **full 10-band cascade is not integrated**. LDSR-S2 *is* verified (real checkpoint, real forward pass on real Sentinel-2 data) but is not deployable on this project's dev GPU and is not selectable here -- see [`REGISTRY.md`](REGISTRY.md) §1a.
 * **No training/fine-tuning**; the shipped weights are used as-is.
 * **No accuracy validation** against reference imagery for this model, **no Indian-region
   generalisation** evaluation, **no uncertainty calibration** (self-consistency and ensemble stability

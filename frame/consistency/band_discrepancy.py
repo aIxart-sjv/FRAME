@@ -17,6 +17,7 @@ absolute sense. No numeric pass/fail threshold is applied here; see
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import Dict, Optional, Sequence, Tuple
 
@@ -50,6 +51,11 @@ class BandDiscrepancy:
     rmse: Optional[float]
     max_abs_error: Optional[float]
     normalized_rmse: Optional[float]
+    #: Signed mean error (SR-downsampled minus LR): direction of any systematic drift, not just its
+    #: size. Requirements 142 Requirement 5/6's observation-consistency "bias" alongside MAE/RMSE.
+    bias: Optional[float] = None
+    #: Pearson r between the LR observation and the SR-downsampled values over the same valid samples.
+    correlation: Optional[float] = None
 
 
 @dataclass(frozen=True)
@@ -64,14 +70,24 @@ class DownsampleConsistencyResult:
     per_band: Dict[str, BandDiscrepancy]
 
 
-def _stats(errors: np.ndarray, lr_values: np.ndarray) -> Tuple[float, float, float, Optional[float]]:
+def _stats(errors: np.ndarray, lr_values: np.ndarray) -> Tuple[float, float, float, Optional[float], float]:
     abs_errors = np.abs(errors)
     mean_abs = float(abs_errors.mean())
     rmse = float(np.sqrt(np.mean(errors**2)))
     max_abs = float(abs_errors.max())
     lr_mean_abs = float(np.abs(lr_values).mean())
     normalized_rmse = float(rmse / lr_mean_abs) if lr_mean_abs > 0 else None
-    return mean_abs, rmse, max_abs, normalized_rmse
+    bias = float(errors.mean())
+    return mean_abs, rmse, max_abs, normalized_rmse, bias
+
+
+def _correlation(lr_values: np.ndarray, sr_down_values: np.ndarray) -> Optional[float]:
+    """Pearson r, or None where it is not meaningful (fewer than 2 samples, or either side constant --
+    a constant tile has no variance to correlate, not a correlation of exactly 0 or 1)."""
+    if lr_values.size < 2 or float(lr_values.std()) == 0.0 or float(sr_down_values.std()) == 0.0:
+        return None
+    r = float(np.corrcoef(lr_values, sr_down_values)[0, 1])
+    return r if math.isfinite(r) else None
 
 
 def _band_discrepancy(
@@ -81,12 +97,15 @@ def _band_discrepancy(
     mask-selected sample arrays (1-D)."""
     sample_count = int(lr_values.size)
     if sample_count == 0:
-        return BandDiscrepancy(band_name, ComputationStatus.NOT_COMPUTABLE, valid_pixel_count, 0, None, None, None, None)
+        return BandDiscrepancy(band_name, ComputationStatus.NOT_COMPUTABLE, valid_pixel_count, 0, None, None, None, None, None, None)
 
-    errors = sr_down_values.astype(np.float64) - lr_values.astype(np.float64)
-    mean_abs, rmse, max_abs, normalized_rmse = _stats(errors, lr_values.astype(np.float64))
+    lr64 = lr_values.astype(np.float64)
+    sr64 = sr_down_values.astype(np.float64)
+    errors = sr64 - lr64
+    mean_abs, rmse, max_abs, normalized_rmse, bias = _stats(errors, lr64)
+    correlation = _correlation(lr64, sr64)
     return BandDiscrepancy(
-        band_name, ComputationStatus.COMPUTABLE, valid_pixel_count, sample_count, mean_abs, rmse, max_abs, normalized_rmse
+        band_name, ComputationStatus.COMPUTABLE, valid_pixel_count, sample_count, mean_abs, rmse, max_abs, normalized_rmse, bias, correlation
     )
 
 

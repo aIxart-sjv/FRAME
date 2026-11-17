@@ -11,6 +11,8 @@ from frame.consistency.spectral_ratios import (
     compute_b08_b04_ratio_comparison,
     compute_ndvi,
     compute_ndvi_comparison,
+    compute_ndwi,
+    compute_ndwi_comparison,
     compute_simple_ratio,
 )
 from frame.consistency.status import ComputationStatus
@@ -35,6 +37,21 @@ def test_ndvi_handles_divide_by_zero_safely():
     assert not computable[0, 0]
     # the array must not silently carry inf/garbage into downstream stats
     assert not np.isfinite(ndvi[0, 0]) or computable[0, 0] is False
+
+
+def test_ndwi_matches_known_formula():
+    green = np.array([[0.3]])
+    nir = np.array([[0.1]])
+    ndwi, computable = compute_ndwi(green, nir)
+    assert computable[0, 0]
+    assert ndwi[0, 0] == pytest.approx((0.3 - 0.1) / (0.3 + 0.1))
+
+
+def test_ndwi_handles_divide_by_zero_safely():
+    green = np.array([[0.0]])
+    nir = np.array([[0.0]])
+    _, computable = compute_ndwi(green, nir)
+    assert not computable[0, 0]
 
 
 def test_simple_ratio_matches_known_formula():
@@ -74,6 +91,39 @@ def test_ndvi_comparison_detects_a_known_discrepancy():
     mask = np.ones((2, 2), dtype=bool)
     result = compute_ndvi_comparison(lr, sr_down, mask, band_names=RGBN)
     assert result.mean_abs_discrepancy == pytest.approx(0.5, abs=1e-6)
+
+
+def test_ndwi_comparison_is_zero_when_lr_and_sr_agree():
+    lr = _bands(0.1, 0.2, 0.05, 0.5)
+    sr_down = _bands(0.1, 0.2, 0.05, 0.5)
+    mask = np.ones((2, 2), dtype=bool)
+    result = compute_ndwi_comparison(lr, sr_down, mask, band_names=RGBN)
+    assert result.status == ComputationStatus.COMPUTABLE
+    assert result.mean_abs_discrepancy == pytest.approx(0.0, abs=1e-6)
+
+
+def test_ndwi_comparison_detects_a_known_discrepancy():
+    lr = _bands(red=0.0, green=0.3, blue=0.0, nir=0.1)  # NDWI = (0.3-0.1)/(0.4) = 0.5
+    sr_down = _bands(red=0.0, green=0.3, blue=0.0, nir=0.3)  # NDWI = 0 / 0.6 = 0.0
+    mask = np.ones((2, 2), dtype=bool)
+    result = compute_ndwi_comparison(lr, sr_down, mask, band_names=RGBN)
+    assert result.mean_abs_discrepancy == pytest.approx(0.5, abs=1e-6)
+
+
+def test_ndwi_comparison_reports_index_name():
+    lr = _bands(0.0, 0.3, 0.0, 0.1)
+    sr_down = _bands(0.0, 0.3, 0.0, 0.1)
+    mask = np.ones((2, 2), dtype=bool)
+    result = compute_ndwi_comparison(lr, sr_down, mask, band_names=RGBN)
+    assert result.index_name == "NDWI"
+
+
+def test_ndwi_comparison_requires_band03_and_band08():
+    lr = _bands(0.1, 0.0, 0.0, 0.3)
+    sr_down = _bands(0.1, 0.0, 0.0, 0.3)
+    mask = np.ones((2, 2), dtype=bool)
+    with pytest.raises(MissingBandError):
+        compute_ndwi_comparison(lr, sr_down, mask, band_names=["B02", "B04", "B05", "B06"])
 
 
 def test_b08_b04_ratio_comparison_is_zero_when_lr_and_sr_agree():

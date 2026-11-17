@@ -385,3 +385,15 @@ sen2sr_venv/bin/python -m frame.reliability scene experiments/uncertainty/config
 
 The eligibility gate is reused **unchanged** by the downstream layer; three small, tested additions make that reuse explicit and did not change any Phase 6 result: `frame.reliability.eligibility.GATE_VERSION` (`frame-reliability-gate/1`, recorded in every gate result),
 `frame.reliability.runner.run_tta_for_tile` (the single-tile TTA step of the runner made public, with the same failure taxonomy; `_run_tta` now calls it), and three public aliases in `frame.reliability.analysis` (`aggregate_over_units`, `across_unit_association`, `unit_bootstrap`) for the statistics the downstream association reuses. The gate counts reproduced by the downstream `check` command are identical to the ones above (12 / 6 / 21 / 13 eligible tiles).
+
+## 12. A real Indian TTA-stability measurement (Step H) -- descriptive, not new evidence about the diagnostic
+
+Nothing in `frame/reliability` changed for Step H. `frame.generalization` (a new, separate package -- [`TRACEABILITY.md`](TRACEABILITY.md) §12) reused this layer's own TTA-stability scalar (`frame.uncertainty.run_stochastic_uncertainty`'s `scalar_summary`, the exact
+quantity described in §1) on one real Indian Sentinel-2 scene with no HR reference: **0.00133** (Lite) and **0.00195** (Mamba), both small and of the same order as the SEN2NEON/OpenSR-Test values elsewhere in this document. Because there is no Indian HR reference, this number
+cannot be checked against error the way §6 checks it against SEN2NEON/OpenSR-Test error -- it says only that the diagnostic *runs* and returns a plausible-looking value on real Indian pixels, nothing about whether it is informative there. It does not change, extend or contradict
+any finding in §6-§9: the diagnostic is still an uncalibrated, weakly-informative, texture-confounded quantity, and this one number does not establish otherwise for India.
+
+## 13. Exposure via the product API (Step I) -- packaging, not new evidence
+
+`GET /products/{job_id}/stability` (docs/OPERATIONAL_DELIVERY.md §5) serves the identical stability GeoTIFF `/uncertainty/download/{job_id}` already did, and the minimal tile renderer's `stability` layer (§6 of that document) renders the same `overall_std` band as a PNG for map display.
+Neither adds, changes or recalibrates anything this layer measures -- they are new ways to *retrieve* the same real diagnostic, not a new claim about what it means.

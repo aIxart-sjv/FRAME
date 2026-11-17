@@ -36,6 +36,8 @@ def test_run_consistency_diagnostics_on_a_perfectly_consistent_scene():
     assert result.downsample_consistency.overall.mean_abs_error == pytest.approx(0.0, abs=1e-6)
     assert result.ndvi_comparison.status == ComputationStatus.COMPUTABLE
     assert result.ndvi_comparison.mean_abs_discrepancy == pytest.approx(0.0, abs=1e-6)
+    assert result.ndwi_comparison.status == ComputationStatus.COMPUTABLE
+    assert result.ndwi_comparison.mean_abs_discrepancy == pytest.approx(0.0, abs=1e-6)
     assert result.b08_b04_ratio_comparison.status == ComputationStatus.COMPUTABLE
     assert result.cross_tile is None  # not supplied -- see module docstring
 
